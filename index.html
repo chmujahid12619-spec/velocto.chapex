@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Velocto Chapex | CHAPEX NEXUS — Global AI Business Command Center</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tactical: {
+              950: "#050706",
+              900: "#080B09",
+              800: "#0C100D",
+              700: "#141A13",
+              600: "#182017",
+              500: "#3B4733",
+              400: "#4D5D43",
+              300: "#6B825E",
+              200: "#8EA885",
+              100: "#A6C49B"
+            },
+            gold: "#C4A468"
+          },
+          fontFamily: {
+            arabic: ["Noto Sans Arabic", "sans-serif"],
+            display: ["Space Grotesk", "Noto Sans Arabic", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #080B09;
+      color: #E2E8F0;
+      font-family: "Noto Sans Arabic", sans-serif;
+    }
+
+    .font-display {
+      font-family: "Space Grotesk", "Noto Sans Arabic", sans-serif;
+    }
+
+    .glass {
+      background: rgba(12, 16, 13, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .tactical-glow {
+      box-shadow:
+        0 0 40px -15px rgba(142, 168, 133, .28),
+        inset 0 0 30px rgba(255,255,255,.015);
+    }
+
+    .military-card {
+      transition: .3s ease;
+    }
+
+    .military-card:hover {
+      transform: translateY(-3px);
+      border-color: #4D5D43;
+      box-shadow: 0 0 30px -10px rgba(77, 93, 67, .55);
+    }
+
+    .scanline {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scanline::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(
+          transparent 0%,
+          rgba(142,168,133,.025) 50%,
+          transparent 100%
+        );
+      background-size: 100% 8px;
+      opacity: .4;
+    }
+
+    .pulse-dot {
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: .45; }
+      50% { opacity: 1; }
+    }
+
+    .ticker {
+      animation: ticker 18s linear infinite;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ========================================================= -->
+<!-- TOP SYSTEM STATUS -->
+<!-- ========================================================= -->
+
+<div class="border-b border-[#182017] bg-[#050706] overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 py-2">
+    <div class="flex gap-8 whitespace-nowrap text-[11px] font-mono text-[#8EA885] ticker">
+
+      <span>● NEXUS CORE: OPERATIONAL</span>
+      <span>● SUPABASE: CONNECTED</span>
+      <span>● AI ORCHESTRATOR: READY</span>
+      <span>● SECURITY LAYER: MONITORED</span>
+      <span>● GLOBAL NETWORK: ONLINE</span>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- NAVIGATION -->
+<!-- ========================================================= -->
+
+<nav class="sticky top-0 z-50 border-b border-[#182017] bg-[#080B09]/90 backdrop-blur-xl">
+
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-4">
+
+    <div class="flex justify-between items-center gap-4">
+
+      <a href="#top" class="flex items-center gap-3 shrink-0">
+
+        <div class="w-10 h-10 rounded-xl border border-[#4D5D43]
+                    bg-[#141A13] flex items-center justify-center text-xl">
+          🛡️
+        </div>
+
+        <div>
+          <div class="font-display font-black text-lg md:text-xl text-[#8EA885]">
+            VELOCTO CHAPEX
+          </div>
+
+          <div class="text-[9px] font-mono text-[#64748B] tracking-widest">
+            CHAPEX NEXUS
+          </div>
+        </div>
+
+      </a>
+
+
+      <div class="hidden lg:flex items-center gap-7 text-sm font-bold text-[#A3AED0]">
+
+        <a href="#command" class="hover:text-[#8EA885] transition">
+          کمانڈ
+        </a>
+
+        <a href="#capabilities" class="hover:text-[#8EA885] transition">
+          صلاحیتیں
+        </a>
+
+        <a href="#ecosystem" class="hover:text-[#8EA885] transition">
+          NEXUS
+        </a>
+
+        <a href="#pricing" class="hover:text-[#8EA885] transition">
+          پلانز
+        </a>
+
+        <a href="#founder" class="hover:text-[#8EA885] transition">
+          ہیڈکوارٹر
+        </a>
+
+      </div>
+
+
+      <a
+        href="https://wa.me/923269447550"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-[#3B4733] border border-[#5C6E51]
+               px-4 md:px-5 py-2.5 rounded-xl
+               font-bold text-sm hover:bg-[#4D5D43] transition"
+      >
+        ڈیمو رابطہ
+      </a>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- ========================================================= -->
+<!-- HERO -->
+<!-- ========================================================= -->
+
+<header id="top" class="relative overflow-hidden">
+
+  <div class="absolute inset-0 pointer-events-none">
+
+    <div class="absolute top-10 left-1/2 -translate-x-1/2
+                w-[700px] h-[700px]
+                bg-[#4D5D43]/10 blur-[180px] rounded-full">
+    </div>
+
+  </div>
+
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-6
+              pt-24 md:pt-32 pb-20 text-center">
+
+    <div class="inline-flex items-center gap-2
+                bg-[#141A13] border border-[#3B4733]
+                text-[#8EA885] text-xs font-bold
+                px-4 py-2 rounded-full
+                tracking-widest uppercase font-mono">
+
+      <span class="pulse-dot">●</span>
+
+      GLOBAL AI BUSINESS COMMAND CENTER
+
+    </div>
+
+
+    <h1 class="mt-8 text-5xl md:text-7xl lg:text-8xl
+               font-black text-white leading-tight">
+
+      اپنے پورے بزنس مشن کو
+
+      <span class="block bg-gradient-to-r
+                   from-[#8EA885] via-[#A6C49B] to-[#C4A468]
+                   bg-clip-text text-transparent">
+
+        AI کمانڈ سینٹر دیں
+
+      </span>
+
+    </h1>
+
+
+    <p class="mt-8 max-w-4xl mx-auto
+              text-lg md:text-2xl
+              text-[#A3AED0] leading-relaxed">
+
+      Velocto Chapex اور CHAPEX NEXUS
+      ایک متحد AI-native ecosystem کے ذریعے
+      business، professional networking، projects،
+      talent، automation، software اور AI agents
+      کو ایک command center میں جوڑتے ہیں۔
+
+    </p>
+
+
+    <div class="mt-12 flex flex-col sm:flex-row
+                justify-center gap-4">
+
+      <a
+        href="#command"
+        class="bg-[#4D5D43] border border-[#6B825E]
+               text-white px-9 py-4 rounded-xl
+               font-black text-lg
+               hover:bg-[#5C6E51] transition
+               shadow-2xl"
+      >
+        کمانڈ سینٹر کھولیں
+      </a>
+
+
+      <a
+        href="https://wa.me/923269447550"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-[#111412] border border-[#232B20]
+               text-[#E2E8F0]
+               px-9 py-4 rounded-xl
+               font-bold text-lg
+               hover:bg-[#192019] transition"
+      >
+        فاؤنڈر سے رابطہ
+      </a>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ========================================================= -->
+<!-- COMMAND CENTER -->
+<!-- ========================================================= -->
+
+<section id="command" class="max-w-7xl mx-auto px-5 md:px-6 pb-28">
+
+  <div class="glass scanline
+              border border-[#212B1E]
+              rounded-3xl p-4 md:p-6
+              tactical-glow">
+
+    <div class="bg-[#080B09]
+                rounded-2xl border border-[#161D14]
+                p-5 md:p-8">
+
+      <div class="flex flex-col md:flex-row
+                  justify-between gap-4
+                  items-start md:items-center
+                  border-b border-[#1A2318]
+                  pb-5 mb-6">
+
+        <div>
+
+          <div class="text-xs font-mono text-[#64748B]">
+            NEXUS COMMAND INTERFACE
+          </div>
+
+          <h2 class="text-2xl md:text-3xl
+                     font-black text-white mt-1">
+
+            Tactical Business Control
+
+          </h2>
+
+        </div>
+
+
+        <div class="flex items-center gap-2
+                    text-xs font-mono text-[#8EA885]">
+
+          <span class="w-2 h-2 rounded-full
+                       bg-[#8EA885] pulse-dot">
+          </span>
+
+          SYSTEM READY
+
+        </div>
+
+      </div>
+
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <div class="bg-[#0C100D] p-5 rounded-xl
+                    border border-[#182017]">
+
+          <p class="text-xs text-[#64748B]">
+            COMMANDER
+          </p>
+
+          <p class="text-lg font-black text-white mt-2">
+            Ch Mujahid Hussain
+          </p>
+
+        </div>
+
+
+        <div class="bg-[#0C100D] p-5 rounded-xl
+                    border border-[#182017]">
+
+          <p class="text-xs text-[#64748B]">
+            AI ORCHESTRATOR
+          </p>
+
+          <p class="text-xl font-black
+                    text-[#8EA885] mt-2">
+            READY
+          </p>
+
+        </div>
+
+
+        <div class="bg-[#0C100D] p-5 rounded-xl
+                    border border-[#182017]">
+
+          <p class="text-xs text-[#64748B]">
+            SUPABASE
+          </p>
+
+          <p class="text-xl font-black
+                    text-[#8EA885] mt-2">
+            CONNECTED
+          </p>
+
+        </div>
+
+
+        <div class="bg-[#0C100D] p-5 rounded-xl
+                    border border-[#182017]">
+
+          <p class="text-xs text-[#64748B]">
+            SECURITY
+          </p>
+
+          <p class="text-xl font-black
+                    text-[#C4A468] mt-2">
+            MONITORED
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- COMMAND TERMINAL -->
+
+      <div class="mt-6 bg-[#040605]
+                  rounded-xl p-5
+                  border border-[#131A12]
+                  font-mono text-xs text-left"
+           dir="ltr">
+
+        <p class="text-[#8EA885]">
+          &gt; CHAPEX NEXUS AI CORE initialized
+        </p>
+
+        <p class="text-[#6B825E]">
+          &gt; Supabase data layer available
+        </p>
+
+        <p class="text-[#6B825E]">
+          &gt; Agent orchestration layer ready
+        </p>
+
+        <p class="text-[#6B825E]">
+          &gt; Human authorization gates enabled
+        </p>
+
+        <p class="text-[#64748B]">
+          &gt; Awaiting command...
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- CAPABILITIES -->
+<!-- ========================================================= -->
+
+<section id="capabilities"
+         class="border-t border-[#151D14]
+                max-w-7xl mx-auto px-5 md:px-6 py-28">
+
+  <div class="text-center max-w-3xl mx-auto mb-16">
+
+    <span class="text-xs font-mono
+                 text-[#8EA885] tracking-widest">
+      NEXUS CAPABILITY MATRIX
+    </span>
+
+    <h2 class="mt-4 text-4xl md:text-6xl
+               font-black text-white">
+
+      ایک پلیٹ فارم،
+      متعدد عالمی صلاحیتیں
+
+    </h2>
+
+    <p class="mt-5 text-[#A3AED0] text-lg">
+      CHAPEX NEXUS کا مقصد professional،
+      business اور AI workflows کو ایک connected
+      ecosystem میں لانا ہے۔
+    </p>
+
+  </div>
+
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">🤖</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        AI Command Center
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        Natural-language commands، AI orchestration،
+        memory، knowledge اور specialist agents۔
+      </p>
+
+    </div>
+
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">🌐</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        Global Professional Network
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        Professionals، companies، jobs، projects،
+        services اور business opportunities۔
+      </p>
+
+    </div>
+
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">💼</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        Freelance & Jobs
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        Projects، bids، proposals، contracts،
+        milestones اور delivery workflows۔
+      </p>
+
+    </div>
+
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">🧠</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        AI Agent Network
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        Research، coding، CRM، design، analytics،
+        automation اور enterprise agents۔
+      </p>
+
+    </div>
+
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">🏢</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        Business Operating System
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        CRM، leads، projects، teams، tasks،
+        proposals، analytics اور automation۔
+      </p>
+
+    </div>
+
+
+    <div class="military-card bg-[#0C100D]
+                p-7 rounded-2xl border border-[#182017]">
+
+      <div class="text-3xl mb-5">⚙️</div>
+
+      <h3 class="text-2xl font-bold text-white">
+        AI Software Factory
+      </h3>
+
+      <p class="mt-3 text-sm
+                text-[#A3AED0] leading-relaxed">
+        Idea سے architecture، code، database،
+        testing اور deployment workflow تک۔
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- NEXUS ECOSYSTEM -->
+<!-- ========================================================= -->
+
+<section id="ecosystem"
+         class="bg-[#050706]
+                border-y border-[#151D14]
+                py-28">
+
+  <div class="max-w-7xl mx-auto px-5 md:px-6">
+
+    <div class="text-center mb-16">
+
+      <span class="text-xs font-mono text-[#C4A468] tracking-widest">
+        NEXUS GRAPH
+      </span>
+
+      <h2 class="mt-4 text-4xl md:text-6xl
+                 font-black text-white">
+        ہر چیز ایک دوسرے سے منسلک
+      </h2>
+
+    </div>
+
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        👤
+        <div class="mt-3 font-bold">People</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        🏢
+        <div class="mt-3 font-bold">Companies</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        💼
+        <div class="mt-3 font-bold">Projects</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        🧑‍💻
+        <div class="mt-3 font-bold">Talent</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        🤖
+        <div class="mt-3 font-bold">AI Agents</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        📚
+        <div class="mt-3 font-bold">Knowledge</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        📈
+        <div class="mt-3 font-bold">Opportunities</div>
+      </div>
+
+      <div class="p-6 rounded-xl border border-[#182017]
+                  bg-[#0C100D] text-center">
+        ⚡
+        <div class="mt-3 font-bold">Automation</div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- SECURITY -->
+<!-- ========================================================= -->
+
+<section class="max-w-7xl mx-auto px-5 md:px-6 py-28">
+
+  <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+    <div>
+
+      <span class="text-xs font-mono text-[#8EA885] tracking-widest">
+        TRUST & GOVERNANCE
+      </span>
+
+      <h2 class="mt-4 text-4xl md:text-6xl
+                 font-black text-white">
+
+        Security by Architecture
+
+      </h2>
+
+      <p class="mt-6 text-[#A3AED0] leading-relaxed">
+
+        Security کو صرف screen پر دکھانے کے بجائے
+        backend authorization، database policies،
+        audit logging اور human approval workflows
+        کے ذریعے architecture کا حصہ بنایا جائے۔
+
+      </p>
+
+    </div>
+
+
+    <div class="grid sm:grid-cols-2 gap-4">
+
+      <div class="bg-[#0C100D] border border-[#182017]
+                  rounded-xl p-6">
+        🔐
+        <h3 class="font-bold text-white mt-3">
+          Authentication
+        </h3>
+      </div>
+
+      <div class="bg-[#0C100D] border border-[#182017]
+                  rounded-xl p-6">
+        🛡️
+        <h3 class="font-bold text-white mt-3">
+          RLS & Authorization
+        </h3>
+      </div>
+
+      <div class="bg-[#0C100D] border border-[#182017]
+                  rounded-xl p-6">
+        📋
+        <h3 class="font-bold text-white mt-3">
+          Audit Logs
+        </h3>
+      </div>
+
+      <div class="bg-[#0C100D] border border-[#182017]
+                  rounded-xl p-6">
+        👤
+        <h3 class="font-bold text-white mt-3">
+          Human Approval
+        </h3>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- PRICING -->
+<!-- ========================================================= -->
+
+<section id="pricing"
+         class="bg-[#050706]
+                border-y border-[#151D14]
+                py-28">
+
+  <div class="max-w-6xl mx-auto px-5 md:px-6">
+
+    <div class="text-center mb-16">
+
+      <h2 class="text-4xl md:text-6xl
+                 font-black text-white">
+        شفاف اور قابلِ توسیع پلانز
+      </h2>
+
+      <p class="mt-4 text-[#A3AED0]">
+        اصل billing integration فعال ہونے کے بعد
+        plans کو production subscriptions سے connect کیا جا سکتا ہے۔
+      </p>
+
+    </div>
+
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+      <div class="bg-[#0C100D]
+                  border border-[#182017]
+                  rounded-2xl p-8">
+
+        <h3 class="text-2xl font-bold text-white">
+          Tactical Starter
+        </h3>
+
+        <div class="mt-5 text-5xl
+                    font-black text-[#8EA885] font-display">
+          $19
+          <span class="text-sm text-[#64748B]">
+            / month
+          </span>
+        </div>
+
+        <ul class="mt-8 space-y-3
+                   text-sm text-[#A3AED0]">
+
+          <li>✓ Core workspace</li>
+          <li>✓ Basic analytics</li>
+          <li>✓ Professional profile</li>
+          <li>✓ Selected AI capabilities</li>
+          <li>✓ Secure account controls</li>
+
+        </ul>
+
+        <a href="#founder"
+           class="block text-center mt-8
+                  border border-[#3B4733]
+                  rounded-xl py-3
+                  font-bold hover:bg-[#141A13]">
+          مشن شروع کریں
+        </a>
+
+      </div>
+
+
+      <div class="bg-[#0C100D]
+                  border border-[#4D5D43]
+                  rounded-2xl p-8
+                  tactical-glow">
+
+        <div class="text-xs text-[#C4A468]
+                    font-bold tracking-widest">
+          PROFESSIONAL
+        </div>
+
+        <h3 class="text-2xl font-bold text-white mt-2">
+          Ultimate Command
+        </h3>
+
+        <div class="mt-5 text-5xl
+                    font-black text-[#C4A468] font-display">
+          $49
+          <span class="text-sm text-[#64748B]">
+            / month
+          </span>
+        </div>
+
+        <ul class="mt-8 space-y-3
+                   text-sm text-[#A3AED0]">
+
+          <li>✓ Advanced AI workspace</li>
+          <li>✓ AI agent capabilities</li>
+          <li>✓ Business workflows</li>
+          <li>✓ Advanced analytics</li>
+          <li>✓ Priority support</li>
+
+        </ul>
+
+        <a href="#founder"
+           class="block text-center mt-8
+                  bg-[#4D5D43]
+                  rounded-xl py-3
+                  font-bold hover:bg-[#5C6E51]">
+          Command Trial
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- FOUNDER -->
+<!-- ========================================================= -->
+
+<section id="founder"
+         class="max-w-5xl mx-auto px-5 md:px-6
+                py-28 text-center">
+
+  <div class="w-20 h-20 mx-auto rounded-2xl
+              bg-[#141A13]
+              border border-[#4D5D43]
+              flex items-center justify-center
+              text-3xl">
+    👤
+  </div>
+
+  <h2 class="mt-6 text-3xl md:text-5xl
+             font-black text-white">
+
+    Ch Mujahid Hussain
+
+  </h2>
+
+  <p class="mt-3 text-[#8EA885]
+            font-bold">
+
+    Founder & Chief Executive Officer
+
+  </p>
+
+  <div class="mt-8 space-y-3
+              text-[#A3AED0]">
+
+    <p>
+      📧 chmujahid12619@gmail.com
+    </p>
+
+    <p>
+      📞 +92 326 9447550
+    </p>
+
+    <a
+      href="https://wa.me/923269447550"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block mt-4
+             bg-[#3B4733]
+             border border-[#5C6E51]
+             px-7 py-3
+             rounded-xl font-bold
+             hover:bg-[#4D5D43]"
+    >
+      WhatsApp Headquarters
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- FOOTER -->
+<!-- ========================================================= -->
+
+<footer class="border-t border-[#182017]
+               bg-[#050706]">
+
+  <div class="max-w-7xl mx-auto
+              px-5 md:px-6 py-10">
+
+    <div class="flex flex-col md:flex-row
+                justify-between gap-6">
+
+      <div>
+
+        <div class="font-display
+                    font-black text-xl
+                    text-[#8EA885]">
+
+          🛡️ VELOCTO CHAPEX
+
+        </div>
+
+        <p class="text-xs text-[#64748B] mt-2">
+          CHAPEX NEXUS Global AI Business Ecosystem
+        </p>
+
+      </div>
+
+
+      <div class="text-xs text-[#64748B] md:text-right">
+
+        <p>
+          AI-native • Secure • Scalable • Global
+        </p>
+
+        <p class="mt-2">
+          © 2026 Velocto Chapex / CHAPEX NEXUS
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
