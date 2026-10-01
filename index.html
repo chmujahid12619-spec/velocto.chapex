@@ -1,110 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELOCTO CHAPEX - Tactical Military-Grade Business Core Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Space Grotesk', sans-serif; background: #0A110A; color: #ffffff; }
-       .tactical-glow { box-shadow: 0 0 40px -10px rgba(142, 168, 133, 0.15); }
-       .military-card:hover { box-shadow: 0 0 30px -5px rgba(77, 93, 67, 0.3); transform: translateY(-2px); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELOCTO CHAPEX - Tactical Business Core Engine</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+<style>body{font-family:'Space Grotesk',sans-serif;background:#0A110A;color:#fff}</style>
 </head>
-<body class="min-h-screen overflow-x-hidden pb-20 bg-[#0A110A]">
+<body class="min-h-screen pb-20">
 
-    <nav class="border-b border-[#182017] bg-[#0A110A]/95 backdrop-blur-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-xl sm:text-2xl font-black text-[#8EA885] tracking-wider flex items-center gap-2">
-                <span class="animate-pulse">🛡️</span> Velocto Chapex
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-bold text-[#A3AED0]">
-                <a href="#features" class="hover:text-[#8EA885]">Command Features (کمانڈ فیچرز)</a>
-                <a href="#dashboard" class="hover:text-[#8EA885]">Control Panel (کنٹرول پینل)</a>
-                <a href="#pricing" class="hover:text-[#8EA885]">Pricing (پلانز)</a>
-            </div>
-            <div>
-                <a href="https://wa.me/923269447550" target="_blank" class="bg-[#3B4733] border border-[#5C6E51] text-[#E2E8F0] px-5 py-2 rounded-xl font-bold text-sm hover:bg-[#4D5D43]">Live Demo (سسٹم ڈیمو)</a>
-            </div>
-        </div>
-    </nav>
+<nav class="border-b border-[#1A2318] bg-[#0A110A]/90 backdrop-blur-xl sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="text-xl font-black text-[#8EA885]">🛡️ Velocto Chapex</div>
+    <a href="https://wa.me/923269447550" target="_blank" class="bg-[#3B4733] border border-[#5C6E51] text-white px-5 py-2 rounded-xl font-bold text-sm">Live Demo</a>
+  </div>
+</nav>
 
-    <header class="relative max-w-7xl mx-auto px-6 pt-24 pb-20 text-center">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#4D5D43]/10 blur-[180px] rounded-full pointer-events-none"></div>
-        <span class="inline-flex items-center gap-2 bg-[#141A13] border border-[#3B4733] text-[#8EA885] text-xs font-bold px-4 py-2 rounded-full mb-8 uppercase tracking-widest font-mono">
-            🪖 Tactical Business Core Engine v4.0 • Cloud Secure
-        </span>
-        <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-white leading-[1.15] tracking-tight max-w-6xl mx-auto">
-            Empower Your Business Mission with <span class="bg-gradient-to-r from-[#8EA885] via-[#A6C49B] to-[#C4A468] bg-clip-text text-transparent">ناقابلِ تسخیر خودکاری</span>
-        </h1>
-        <p class="mt-8 text-lg sm:text-xl text-[#A3AED0] max-w-4xl mx-auto leading-relaxed">
-            کاروبار کو سنبھالنا اب کوئی سر درد نہیں۔ Velocto Chapex brings high-speed data command, military-grade encryption, and seamless cloud operations.
-        </p>
-        <div class="mt-14 flex flex-col sm:flex-row justify-center items-center gap-5">
-            <button onclick="syncLiveDatabase()" class="w-full sm:w-auto bg-[#4D5D43] border border-[#6B825E] text-white px-10 py-5 rounded-xl font-black text-xl hover:bg-[#5C6E51] shadow-2xl">
-                Launch Free Signup (فری سائن اپ)
-            </button>
-            <a href="tel:+923269447550" class="w-full sm:w-auto bg-[#111412] border border-[#232B20] text-[#E2E8F0] px-10 py-5 rounded-xl font-bold text-xl hover:bg-[#192019] flex items-center justify-center gap-3">
-                📞 Direct Founder Line
-            </a>
-        </div>
+<header class="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
+  <span class="inline-block bg-[#141A13] border border-[#3B4733] text-[#8EA885] text-xs font-bold px-4 py-2 rounded-full mb-8 tracking-widest">TACTICAL BUSINESS CORE ENGINE V4.0 • CLOUD SECURE</span>
+  <h1 class="text-5xl md:text-7xl font-black leading-tight">Empower Your Business Mission with <span class="text-[#8EA885]">ناقابلِ تسخیر خودکاری</span></h1>
+  <p class="mt-6 text-[#A3AED0] text-lg max-w-3xl mx-auto">کاروبار کو سنبھالنا اب کوئی سر درد نہیں۔ Velocto Chapex brings high-speed data command, military-grade encryption, and seamless cloud operations.</p>
+  <div class="mt-10 flex justify-center gap-4">
+    <button onclick="handleSignup()" class="bg-[#4D5D43] border border-[#6B825E] text-white px-8 py-4 rounded-xl font-black text-lg">Launch Free Signup</button>
+    <a href="tel:+923269447550" class="bg-[#111412] border border-[#232B20] text-white px-8 py-4 rounded-xl font-bold">📞 Direct Line</a>
+  </div>
 
-        <div id="dashboard" class="mt-24 bg-[#111512] border border-[#212B1E] rounded-3xl p-5 max-w-6xl mx-auto shadow-2xl tactical-glow text-left">
-            <div class="bg-[#080B09] rounded-2xl border border-[#161D14] p-6 md:p-8">
-                <div class="flex justify-between items-center border-b border-[#1A2318] pb-5 mb-6">
-                    <div class="flex gap-2"><span class="w-3 h-3 rounded-full bg-[#E57373]"></span><span class="w-3 h-3 rounded-full bg-[#FFB74D]"></span><span class="w-3 h-3 rounded-full bg-[#8EA885]"></span></div>
-                    <div class="text-xs font-bold text-[#64748B] tracking-widest font-mono">SUPABASE CLOUD SYNC ACTIVE</div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
-                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]"><p class="text-xs font-bold text-[#64748B] uppercase">Commander-in-Chief</p><p class="text-lg font-black text-white mt-2">Ch Mujahid Hussain</p></div>
-                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]"><p class="text-xs font-bold text-[#64748B] uppercase">Network Latency</p><p class="text-3xl font-black text-[#8EA885] mt-2 font-mono">0.01ms</p></div>
-                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]"><p class="text-xs font-bold text-[#64748B] uppercase">Protection Level</p><p class="text-3xl font-black text-[#C4A468] mt-2 font-mono">MIL-SPEC</p></div>
-                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]"><p class="text-xs font-bold text-[#64748B] uppercase">Cloud Server Link</p><p class="text-3xl font-black text-emerald-500 mt-2 font-mono">ONLINE</p></div>
-                </div>
-                </div>
-        </div>
-    </header>
+  <div class="mt-16 bg-[#111512] border border-[#212B1E] rounded-2xl p-6 max-w-5xl mx-auto text-left">
+    <div class="flex justify-between items-center border-b border-[#1A2318] pb-4 mb-5">
+      <div class="flex gap-2"><span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-green-400"></span></div>
+      <span class="text-xs font-mono text-[#64748B]">SUPABASE CLOUD SYNC: ONLINE</span>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-[#0C100D] p-4 rounded-xl border border-[#182017]"><p class="text-xs text-[#64748B]">CEO</p><p class="font-black mt-1">Ch Mujahid Hussain</p></div>
+      <div class="bg-[#0C100D] p-4 rounded-xl border border-[#182017]"><p class="text-xs text-[#64748B]">LATENCY</p><p class="text-2xl font-black text-[#8EA885] mt-1">0.01ms</p></div>
+      <div class="bg-[#0C100D] p-4 rounded-xl border border-[#182017]"><p class="text-xs text-[#64748B]">SECURITY</p><p class="text-2xl font-black text-[#C4A468] mt-1">MIL-SPEC</p></div>
+      <div class="bg-[#0C100D] p-4 rounded-xl border border-[#182017]"><p class="text-xs text-[#64748B]">STATUS</p><p class="text-xl font-black text-emerald-400 mt-1" id="dbStatus">CONNECTING...</p></div>
+    </div>
+  </div>
+</header>
 
-    <section id="features" class="max-w-7xl mx-auto px-6 py-28 border-t border-[#151D14]">
-        <div class="text-center max-w-3xl mx-auto mb-24">
-            <h2 class="text-4xl md:text-6xl font-black text-white">Tactical Command Systems</h2>
-            <p class="mt-4 text-[#A3AED0] text-lg">وہ تمام جدید فیچرز جو آپ کے کاروبار کو مارکیٹ میں ہمیشہ 10 گنا آگے رکھیں گے۔</p>
-        </div>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition"><div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">🤖</div><h3 class="text-2xl font-bold text-white mb-3">AI Smart Operations</h3><p class="text-[#A3AED0] text-sm">سافٹ ویئر کا اپنا ذہین برین خودکار طور پر ڈیٹا کا تجزیہ کرتا ہے۔</p></div>
-            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition"><div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">🔒</div><h3 class="text-2xl font-bold text-white mb-3">Military-Grade Security</h3><p class="text-[#A3AED0] text-sm">کمرشل فائر والز اور ملٹی کلاؤڈ بیک اپ ماڈیولز۔</p></div>
-            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition"><div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">📊</div><h3 class="text-2xl font-bold text-white mb-3">Real-Time Analytics</h3><p class="text-[#A3AED0] text-sm">آمدنی، نقصانات، اور ٹیم کے اہداف کا لائیو گرافکل ویو۔</p></div>
-        </div>
-    </section>
+<footer class="border-t border-[#151D14] py-10 text-center text-[#64748B] text-xs">© 2026 Velocto Chapex | Ch Mujahid Hussain | All Rights Reserved</footer>
 
-    <section id="pricing" class="bg-[#050706] border-t border-[#151D14] py-28">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-[#0C100D] p-10 rounded-2xl border border-[#182017]"><h4 class="text-2xl font-bold text-white">Tactical Starter Mission</h4><div class="mt-4 text-5xl font-black text-[#8EA885] font-mono">$19 <span class="text-sm font-normal text-[#64748B]">/ month</span></div><ul class="mt-8 space-y-4 text-sm text-[#A3AED0]"><li>✔ 5 User Login Accounts</li><li>✔ 50GB Encrypted Cloud Storage</li><li>✔ Basic Business Reports</li></ul><button onclick="alert('Starter Mission Selected!')" class="mt-8 w-full bg-[#182017] border border-[#2A3825] text-white py-4 rounded-xl font-bold">Start Mission</button></div>
-                <div class="bg-[#0C100D] p-10 rounded-2xl border border-[#3B4733] relative"><span class="absolute -top-3 right-8 bg-[#8EA885] text-[#080B09] text-xs font-black px-3 py-1 rounded-full uppercase">Most Recommended</span><h4 class="text-2xl font-bold text-white">Pro Ultimate Command Plus</h4><div class="mt-4 text-5xl font-black text-[#C4A468] font-mono">$49 <span class="text-sm font-normal text-[#64748B]">/ month</span></div><ul class="mt-8 space-y-4 text-sm text-[#A3AED0]"><li>✔ Unlimited User Accounts</li><li>✔ 1TB Military-Grade Cloud Server</li><li>✔ Full AI Automation</li><li>✔ 24/7 Founder Hotline</li></ul><button onclick="alert('Pro Ultimate Mission Selected!')" class="mt-8 w-full bg-[#4D5D43] text-white py-4 rounded-xl font-bold">Launch Trial</button></div>
-            </div>
-        </div>
-    </section>
+<script>
+// --- SUPABASE CONFIG ---
+const SUPABASE_URL = 'https://xldpegqeefvgqieibnjk.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZHBlZ3FlZWZ2Z3FpZWlibmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MDA0MzgsImV4cCI6MjEwNjM3NjQzOH0.m14cxVMzyx_J0OCjhiQXmjL6HMdrjscE8d47ZxAu1F0';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    <footer id="founder" class="border-t border-[#151D14] py-16 text-center"><div class="max-w-4xl mx-auto px-6"><p class="text-xl font-black text-white">Ch Mujahid Hussain</p><p class="text-sm text-[#8EA885] mt-1">Founder & CEO</p><p class="text-sm text-[#A3AED0] mt-3 font-mono">📞 +92 326 9447550</p><div class="mt-8 pt-8 border-t border-[#151D14] text-xs text-[#64748B]">© 2026 Velocto Chapex • All Rights Reserved</div></div></footer>
+// Check connection on load
+(async () => {
+  const { error } = await supabaseClient.from('posts').select('id').limit(1);
+  document.getElementById('dbStatus').textContent = error ? 'OFFLINE' : 'ONLINE';
+  document.getElementById('dbStatus').className = error ? 'text-xl font-black text-red-400 mt-1' : 'text-xl font-black text-emerald-400 mt-1';
+})();
 
-    <script>
-        const SUPABASE_URL = 'https://xldpegqeefvgqieibnjk.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZHBlZ3FlZWZ2Z3FpZWlibmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MDA0MzgsImV4cCI6MjEwNjM3NjQzOH0.m14cxVMzyx_J0OCjhiQXmjL6HMdrjscE8d47ZxAu1F0';
-        let supabaseClient = null;
-        try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch(e) {}
-        async function syncLiveDatabase() {
-            let clientName = prompt('Enter your name (اپنا نام درج کریں):');
-            if(!clientName) return;
-            if(supabaseClient) {
-                try {
-                    const { error } = await supabaseClient.from('posts').insert([{ content: 'New signup mission from: ' + clientName, author: clientName, location: 'Lahore, Pakistan' }]);
-                    if(error) { alert('Database Note: ' + error.message); } else { alert('Mission successfully synced!'); }
-                } catch(err) { alert('Connection Error: ' + err); }
-            }
-        }
-    </script>
+async function handleSignup(){
+  const name = prompt('Apna naam likhein:');
+  if(!name) return;
+  const { error } = await supabaseClient.from('posts').insert([{ content: 'New mission: '+name, author: name, location: 'Lahore, PK' }]);
+  if(error) alert('Error: '+error.message);
+  else alert('Mubarak ho! Aapka mission cloud pe sync ho gaya hai ✅');
+}
+</script>
 </body>
 </html>
