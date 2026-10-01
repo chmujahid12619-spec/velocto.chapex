@@ -1,1634 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#030712">
-<title>CHAPEX NEXUS — Global AI Business Command Center</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{box-sizing:border-box}
-
-html{scroll-behavior:smooth}
-
-body{
-margin:0;
-color:#fff;
-font-family:Arial,Helvetica,sans-serif;
-min-height:100vh;
-background:
-radial-gradient(circle at 10% 5%,rgba(99,102,241,.30),transparent 30%),
-radial-gradient(circle at 90% 10%,rgba(34,211,238,.20),transparent 28%),
-radial-gradient(circle at 50% 100%,rgba(0,255,102,.08),transparent 35%),
-#030712;
-}
-
-body:after{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:-1;
-background:
-repeating-linear-gradient(
-0deg,
-transparent,
-transparent 3px,
-rgba(255,255,255,.008) 4px
-);
-}
-
-.glass{
-background:rgba(7,13,29,.75);
-border:1px solid rgba(99,102,241,.28);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
-box-shadow:
-0 20px 60px rgba(0,0,0,.35),
-inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.card{
-background:
-linear-gradient(
-145deg,
-rgba(99,102,241,.12),
-rgba(34,211,238,.04),
-rgba(3,7,18,.82)
-);
-border:1px solid rgba(99,102,241,.27);
-transition:.25s ease;
-}
-
-.card:hover{
-transform:translateY(-3px);
-border-color:rgba(34,211,238,.55);
-box-shadow:0 0 35px rgba(34,211,238,.10);
-}
-
-.cyan{
-color:#22D3EE;
-text-shadow:0 0 12px rgba(34,211,238,.55);
-}
-
-.green{
-color:#00FF66;
-text-shadow:0 0 12px rgba(0,255,102,.50);
-}
-
-.indigo{
-color:#6366F1;
-text-shadow:0 0 12px rgba(99,102,241,.55);
-}
-
-.primary{
-color:#fff;
-font-weight:800;
-background:linear-gradient(135deg,#6366F1,#22D3EE);
-box-shadow:0 0 30px rgba(99,102,241,.25);
-}
-
-.primary:hover{
-box-shadow:
-0 0 40px rgba(34,211,238,.30),
-0 0 70px rgba(99,102,241,.18);
-transform:translateY(-2px);
-}
-
-button{
-transition:.2s ease;
-cursor:pointer;
-}
-
-button:hover{
-transform:translateY(-2px);
-}
-
-input,
-textarea{
-color:#fff;
-background:rgba(3,7,18,.78);
-border:1px solid rgba(99,102,241,.35);
-outline:none;
-}
-
-input:focus,
-textarea:focus{
-border-color:#22D3EE;
-box-shadow:0 0 25px rgba(34,211,238,.12);
-}
-
-.terminal{
-font-family:monospace;
-color:#00FF66;
-text-shadow:0 0 7px rgba(0,255,102,.35);
-}
-
-.view-hidden{
-display:none!important;
-}
-
-.nav-active{
-color:#22D3EE!important;
-text-shadow:0 0 12px rgba(34,211,238,.55);
-}
-
-.dot{
-display:inline-block;
-width:8px;
-height:8px;
-border-radius:50%;
-background:#00FF66;
-box-shadow:0 0 12px #00FF66;
-margin-right:5px;
-}
-
-::-webkit-scrollbar{
-width:7px;
-}
-
-::-webkit-scrollbar-track{
-background:#030712;
-}
-
-::-webkit-scrollbar-thumb{
-background:#6366F1;
-border-radius:20px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOCTO CHAPEX - Tactical Military-Grade Business Core Engine</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase SDK CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background: #080B09; color: #ffffff; }
+        .tactical-glow { box-shadow: 0 0 40px -10px rgba(142, 168, 133, 0.15); }
+        .military-card:hover { box-shadow: 0 0 30px -5px rgba(77, 93, 67, 0.3); }
+    </style>
 </head>
-
-<body>
-
-<!-- =====================================================
-     HEADER
-====================================================== -->
-
-<header class="sticky top-0 z-50 glass border-b border-indigo-500/20">
-
-<div class="max-w-7xl mx-auto px-4 py-3">
-
-<div class="flex items-center justify-between gap-4">
-
-<div>
-<div class="text-[9px] tracking-[.45em] text-slate-500">
-VELOCTO CHAPEX
-</div>
-
-<div class="text-xl md:text-2xl font-black tracking-wider">
-CHAPEX <span class="cyan">NEXUS</span>
-</div>
-
-<div class="text-[9px] text-slate-500">
-GLOBAL AI BUSINESS COMMAND CENTER
-</div>
-</div>
-
-<div class="hidden md:flex items-center gap-5 text-xs">
-
-<button id="nav-home"
-onclick="openView('home')">
-NEXUS
-</button>
-
-<button id="nav-network"
-onclick="openView('network')">
-NETWORK
-</button>
-
-<button id="nav-jobs"
-onclick="openView('jobs')">
-JOBS
-</button>
-
-<button id="nav-ai"
-onclick="openView('ai')">
-AI COMMAND
-</button>
-
-<button id="nav-crm"
-onclick="openView('crm')">
-CRM
-</button>
-
-<button id="nav-chat"
-onclick="openView('chat')">
-MESSAGES
-</button>
-
-</div>
-
-<div class="text-right">
-
-<div id="connection"
-class="text-[10px] text-yellow-400">
-CONNECTING...
-</div>
-
-<div id="account"
-class="text-[10px] text-slate-500">
-GUEST NODE
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</header>
-
-
-<!-- =====================================================
-     MAIN
-====================================================== -->
-
-<main class="max-w-7xl mx-auto px-4 py-8 pb-28">
-
-
-<!-- =====================================================
-     HOME
-====================================================== -->
-
-<section id="view-home">
-
-<div class="grid lg:grid-cols-3 gap-5">
-
-<div class="lg:col-span-2 glass rounded-3xl p-7 md:p-10">
-
-<div class="text-xs tracking-[.4em] green mb-4">
-GLOBAL INTELLIGENCE NETWORK
-</div>
-
-<h1 class="text-4xl md:text-6xl font-black leading-tight">
-
-BUILD.
-<span class="cyan">CONNECT.</span>
-
-<br>
-
-<span class="indigo">AUTOMATE.</span>
-
-</h1>
-
-<p class="text-slate-400 mt-6 max-w-2xl leading-7">
-
-CHAPEX NEXUS is a unified AI business ecosystem for
-professionals, companies, projects, jobs, automation,
-intelligent agents, knowledge and digital operations.
-
-</p>
-
-<div class="flex flex-wrap gap-3 mt-7">
-
-<button
-onclick="openView('ai')"
-class="primary px-6 py-3 rounded-xl">
-
-OPEN AI COMMAND
-
-</button>
-
-<button
-onclick="openView('network')"
-class="px-6 py-3 rounded-xl border border-indigo-500/40">
-
-GLOBAL NETWORK
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- SYSTEM STATUS -->
-
-<div class="glass rounded-3xl p-6">
-
-<div class="text-xs text-slate-500 tracking-widest mb-5">
-NEXUS SYSTEM STATUS
-</div>
-
-<div class="space-y-5 text-sm">
-
-<div class="flex justify-between">
-<span>SUPABASE</span>
-<span id="supabaseStatus" class="green">
-CHECKING
-</span>
-</div>
-
-<div class="flex justify-between">
-<span>AUTH</span>
-<span id="authStatus" class="cyan">
-READY
-</span>
-</div>
-
-<div class="flex justify-between">
-<span>AI ORCHESTRATOR</span>
-<span class="green">READY</span>
-</div>
-
-<div class="flex justify-between">
-<span>GLOBAL NETWORK</span>
-<span class="green">ONLINE</span>
-</div>
-
-<div class="flex justify-between">
-<span>SECURITY</span>
-<span class="cyan">RLS</span>
-</div>
-
-</div>
-
-<div class="terminal bg-black/40 rounded-2xl p-5 mt-7 text-xs leading-6">
-
-&gt; NEXUS_CORE initialized<br>
-&gt; SUPABASE channel detected<br>
-&gt; AUTH layer ready<br>
-&gt; AI orchestration ready<br>
-&gt; awaiting operator...
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- METRICS -->
-
-<div class="grid md:grid-cols-4 gap-4 mt-5">
-
-<div class="card rounded-2xl p-5">
-<div class="text-3xl font-black cyan">36+</div>
-<div class="text-xs text-slate-500 mt-2">
-AI SPECIALIST AGENTS
-</div>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-3xl font-black indigo">
-GLOBAL
-</div>
-<div class="text-xs text-slate-500 mt-2">
-B2B NETWORK
-</div>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-3xl font-black green">
-24/7
-</div>
-<div class="text-xs text-slate-500 mt-2">
-AUTOMATION
-</div>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-3xl font-black cyan">
-AI
-</div>
-<div class="text-xs text-slate-500 mt-2">
-COMMAND CENTER
-</div>
-</div>
-
-</div>
-
-
-<!-- CAPABILITIES -->
-
-<div class="mt-10">
-
-<div class="text-xs tracking-widest cyan">
-CORE CAPABILITIES
-</div>
-
-<h2 class="text-3xl font-black mt-2">
-NEXUS ECOSYSTEM
-</h2>
-
-<div class="grid md:grid-cols-3 gap-4 mt-5">
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-AI Command Center
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Natural language commands, planning,
-agent routing and automation.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Professional Network
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Profiles, skills, portfolios, opportunities
-and business connections.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-AI Software Factory
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Architecture, development, testing and
-deployment workflows.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Business OS
-</div>
-<p class="text-slate-500 text-sm mt-2">
-CRM, leads, projects, teams and
-automation.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Freelance Exchange
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Jobs, proposals, bids, services and
-project collaboration.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Knowledge Engine
-</div>
-<p class="text-slate-500 text-sm mt-2">
-AI memory, documents, retrieval and
-knowledge architecture.
-</p>
-</div>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     NETWORK
-====================================================== -->
-
-<section id="view-network" class="view-hidden">
-
-<div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-
-<div>
-<div class="text-xs tracking-widest green">
-GLOBAL NETWORK
-</div>
-
-<h2 class="text-3xl font-black">
-Live Business Feed
-</h2>
-</div>
-
-<button
-onclick="createPost()"
-class="primary px-5 py-3 rounded-xl">
-
-+ CREATE NODE
-
-</button>
-
-</div>
-
-<div id="feed">
-
-<div class="glass rounded-2xl p-6 text-slate-500">
-Loading network...
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     JOBS
-====================================================== -->
-
-<section id="view-jobs" class="view-hidden">
-
-<div class="mb-6">
-
-<div class="text-xs tracking-widest cyan">
-OPPORTUNITY EXCHANGE
-</div>
-
-<h2 class="text-3xl font-black">
-Jobs & Bids
-</h2>
-
-</div>
-
-<div id="jobsList"
-class="grid lg:grid-cols-2 gap-4">
-
-<div class="glass rounded-2xl p-6 text-slate-500">
-Loading opportunities...
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     AI COMMAND
-====================================================== -->
-
-<section id="view-ai" class="view-hidden">
-
-<div class="glass rounded-3xl p-6 md:p-8">
-
-<div class="text-xs tracking-widest green">
-AI COMMAND CENTER
-</div>
-
-<h2 class="text-3xl font-black mt-2">
-Nexus Intelligence
-</h2>
-
-<p class="text-slate-500 mt-2">
-Give CHAPEX NEXUS a business, software,
-research, marketing or automation command.
-</p>
-
-<textarea
-id="aiPrompt"
-rows="7"
-class="rounded-2xl p-5 mt-6"
-placeholder="Example: Create a complete global B2B sales and automation strategy...">
-</textarea>
-
-<div class="flex flex-wrap gap-3 mt-4">
-
-<button
-onclick="executeAI()"
-class="primary px-6 py-3 rounded-xl">
-
-EXECUTE COMMAND
-
-</button>
-
-<button
-onclick="aiTemplate('business')"
-class="px-4 py-3 rounded-xl border border-indigo-500/30">
-
-BUSINESS
-
-</button>
-
-<button
-onclick="aiTemplate('software')"
-class="px-4 py-3 rounded-xl border border-indigo-500/30">
-
-SOFTWARE
-
-</button>
-
-<button
-onclick="aiTemplate('marketing')"
-class="px-4 py-3 rounded-xl border border-indigo-500/30">
-
-MARKETING
-
-</button>
-
-</div>
-
-<div id="aiOutput"
-class="terminal bg-black/50 rounded-2xl p-5 mt-6 min-h-[220px] whitespace-pre-wrap">
-
-&gt; AI COMMAND CENTER READY
-
-</div>
-
-</div>
-
-
-<!-- AGENTS -->
-
-<div class="grid md:grid-cols-3 gap-4 mt-5">
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Planner Agent
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Break complex objectives into executable tasks.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Agent Router
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Select specialist agents according to task type.
-</p>
-</div>
-
-<div class="card rounded-2xl p-5">
-<div class="text-xl font-bold">
-Memory / RAG
-</div>
-<p class="text-slate-500 text-sm mt-2">
-Foundation for persistent AI knowledge and retrieval.
-</p>
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     CRM
-====================================================== -->
-
-<section id="view-crm" class="view-hidden">
-
-<div class="mb-6">
-
-<div class="text-xs tracking-widest cyan">
-BUSINESS OPERATIONS
-</div>
-
-<h2 class="text-3xl font-black">
-AI CRM COMMAND
-</h2>
-
-</div>
-
-<div class="grid md:grid-cols-4 gap-4">
-
-<div class="card rounded-2xl p-6">
-<div class="text-xs text-slate-500">
-NEW LEADS
-</div>
-<div class="text-4xl font-black cyan mt-2">
-0
-</div>
-</div>
-
-<div class="card rounded-2xl p-6">
-<div class="text-xs text-slate-500">
-QUALIFIED
-</div>
-<div class="text-4xl font-black indigo mt-2">
-0
-</div>
-</div>
-
-<div class="card rounded-2xl p-6">
-<div class="text-xs text-slate-500">
-PROPOSALS
-</div>
-<div class="text-4xl font-black green mt-2">
-0
-</div>
-</div>
-
-<div class="card rounded-2xl p-6">
-<div class="text-xs text-slate-500">
-CLOSED
-</div>
-<div class="text-4xl font-black cyan mt-2">
-0
-</div>
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     MESSAGES
-====================================================== -->
-
-<section id="view-chat" class="view-hidden">
-
-<div class="glass rounded-3xl p-6">
-
-<div class="text-xs tracking-widest green">
-COMMUNICATION LAYER
-</div>
-
-<h2 class="text-3xl font-black mt-2">
-Nexus Messages
-</h2>
-
-<div id="messages"
-class="min-h-[240px] mt-6 space-y-3">
-
-<div class="text-slate-500">
-No messages loaded.
-</div>
-
-</div>
-
-<div class="flex gap-2 mt-5">
-
-<input
-id="messageInput"
-class="rounded-xl px-4 py-3"
-placeholder="Write message...">
-
-<button
-onclick="sendMessage()"
-class="primary px-5 rounded-xl">
-
-SEND
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<!-- =====================================================
- MOBILE NAV
-====================================================== -->
-
-<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 glass border-t border-indigo-500/20">
-
-<div class="grid grid-cols-5 text-[9px]">
-
-<button onclick="openView('home')" class="py-4">
-NEXUS
-</button>
-
-<button onclick="openView('network')" class="py-4">
-NETWORK
-</button>
-
-<button onclick="openView('jobs')" class="py-4">
-JOBS
-</button>
-
-<button onclick="openView('ai')" class="py-4">
-AI
-</button>
-
-<button onclick="openView('chat')" class="py-4">
-CHAT
-</button>
-
-</div>
-
-</nav>
-
-
-<!-- =====================================================
- JAVASCRIPT
-====================================================== -->
-
-<script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-"https://xldpegqeefvgqieibnjk.supabase.co";
-
-/*
-   YOUR SUPABASE ANON/PUBLISHABLE KEY
-
-   Paste the anon key you previously supplied
-   between the quotation marks below.
-
-   DO NOT use a service_role key here.
-*/
-
-const SUPABASE_ANON_KEY =
-"PASTE_YOUR_ANON_KEY_HERE"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZHBlZ3FlZWZ2Z3FpZWlibmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MDA0MzgsImV4cCI6MjEwNjM3NjQzOH0.m14cxVMzyx_J0OCjhiQXmjL6HMdrjscE8d47ZxAu1F0"
-
-let nexus = null;
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-function initNexus(){
-
-const connection =
-document.getElementById("connection");
-
-if(typeof window.supabase==="undefined"){
-
-connection.textContent =
-"SUPABASE LIBRARY ERROR";
-
-return;
-}
-
-if(
-!SUPABASE_ANON_KEY ||
-SUPABASE_ANON_KEY ===
-"PASTE_YOUR_ANON_KEY_HERE"
-){
-
-connection.textContent =
-"ANON KEY REQUIRED";
-
-document.getElementById(
-"supabaseStatus"
-).textContent =
-"KEY REQUIRED";
-
-return;
-}
-
-try{
-
-nexus =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-
-connection.innerHTML =
-'<span class="dot"></span> SUPABASE CONNECTED';
-
-document.getElementById(
-"supabaseStatus"
-).textContent =
-"CONNECTED";
-
-loadAuth();
-
-}catch(error){
-
-console.error(error);
-
-connection.textContent =
-"SUPABASE ERROR";
-
-}
-
-}
-
-
-/* =====================================================
- AUTH
-===================================================== */
-
-async function loadAuth(){
-
-if(!nexus)return;
-
-try{
-
-const {
-data:{session}
-}=await nexus.auth.getSession();
-
-if(session){
-
-document.getElementById(
-"account"
-).textContent =
-session.user.email ||
-"AUTHENTICATED NODE";
-
-document.getElementById(
-"authStatus"
-).textContent =
-"AUTHENTICATED";
-
-}else{
-
-document.getElementById(
-"account"
-).textContent =
-"GUEST NODE";
-
-document.getElementById(
-"authStatus"
-).textContent =
-"GUEST";
-
-}
-
-}catch(error){
-
-console.error(error);
-
-}
-
-}
-
-
-/* =====================================================
- NAVIGATION
-===================================================== */
-
-function openView(name){
-
-const views=[
-"home",
-"network",
-"jobs",
-"ai",
-"crm",
-"chat"
-];
-
-views.forEach(id=>{
-
-const element =
-document.getElementById(
-"view-"+id
-);
-
-if(element){
-
-element.classList.toggle(
-"view-hidden",
-id!==name
-);
-
-}
-
-});
-
-
-document.querySelectorAll(
-"header button"
-).forEach(button=>{
-button.classList.remove(
-"nav-active"
-);
-});
-
-
-const nav =
-document.getElementById(
-"nav-"+name
-);
-
-if(nav)
-nav.classList.add(
-"nav-active"
-);
-
-
-if(name==="network")
-loadFeed();
-
-if(name==="jobs")
-loadJobs();
-
-}
-
-
-/* =====================================================
- FEED
-===================================================== */
-
-async function loadFeed(){
-
-const feed =
-document.getElementById("feed");
-
-if(!nexus){
-
-feed.innerHTML=`
-<div class="glass rounded-2xl p-6">
-<div class="cyan">
-CHAPEX NEXUS
-</div>
-<p class="text-slate-500 mt-2">
-Supabase connection is required for the live feed.
-</p>
-</div>`;
-return;
-
-}
-
-try{
-
-const {
-data,
-error
-}=await nexus
-.from("posts")
-.select("*")
-.order(
-"created_at",
-{ascending:false}
-)
-.limit(30);
-
-if(error)
-throw error;
-
-if(!data || data.length===0){
-
-feed.innerHTML=`
-<div class="glass rounded-2xl p-6 text-slate-500">
-No posts found in Supabase.
-</div>`;
-
-return;
-
-}
-
-feed.innerHTML =
-data.map(post=>`
-
-<article class="card rounded-2xl p-5 mb-4">
-
-<div class="flex justify-between gap-4">
-
-<div>
-
-<b>
-${safe(
-post.author_name ||
-"Verified Nexus Member"
-)}
-</b>
-
-<div class="text-[9px] green">
-GLOBAL NODE
-</div>
-
-</div>
-
-<span class="text-xs text-slate-600">
-${formatDate(post.created_at)}
-</span>
-
-</div>
-
-<p class="text-slate-300 mt-4 leading-7">
-${safe(post.content||"")}
-</p>
-
-<div class="flex gap-5 mt-5 text-xs text-slate-500">
-
-<span>
-LIKE ${post.likes_count||0}
-</span>
-
-<span>
-COMMENTS ${post.comments_count||0}
-</span>
-
-<span>
-SHARES ${post.shares_count||0}
-</span>
-
-</div>
-
-</article>
-
-`).join("");
-
-}catch(error){
-
-console.error(error);
-
-feed.innerHTML=`
-<div class="glass rounded-2xl p-6 text-yellow-400">
-Feed unavailable. Check your Supabase
-posts table and RLS policies.
-</div>`;
-
-}
-
-}
-
-
-/* =====================================================
- CREATE POST
-===================================================== */
-
-async function createPost(){
-
-if(!nexus){
-
-alert(
-"Supabase is not connected."
-);
-
-return;
-}
-
-const {
-data:{user}
-}=await nexus.auth.getUser();
-
-if(!user){
-
-alert(
-"Please authenticate first."
-);
-
-return;
-}
-
-const content =
-prompt(
-"Write your CHAPEX NEXUS post:"
-);
-
-if(!content)
-return;
-
-const {
-error
-}=await nexus
-.from("posts")
-.insert({
-author_id:user.id,
-content:content
-});
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-loadFeed();
-
-}
-
-
-/* =====================================================
- JOBS
-===================================================== */
-
-async function loadJobs(){
-
-const list =
-document.getElementById(
-"jobsList"
-);
-
-if(!nexus){
-
-list.innerHTML=`
-<div class="glass rounded-2xl p-6 text-slate-500">
-Supabase connection is required.
-</div>`;
-return;
-
-}
-
-try{
-
-const {
-data,
-error
-}=await nexus
-.from("jobs")
-.select("*")
-.order(
-"created_at",
-{ascending:false}
-)
-.limit(30);
-
-if(error)
-throw error;
-
-if(!data || data.length===0){
-
-list.innerHTML=`
-<div class="glass rounded-2xl p-6 text-slate-500">
-No jobs found in Supabase.
-</div>`;
-
-return;
-
-}
-
-list.innerHTML =
-data.map(job=>`
-
-<article class="card rounded-2xl p-5">
-
-<div class="text-xs green">
-OPPORTUNITY
-</div>
-
-<h3 class="text-xl font-bold mt-2">
-${safe(job.title||"Untitled Job")}
-</h3>
-
-<p class="text-slate-500 mt-3">
-${safe(job.description||"")}
-</p>
-
-<div class="flex justify-between items-center mt-5">
-
-<span class="cyan">
-${safe(
-String(
-job.budget ||
-"Negotiable"
-)
-)}
-</span>
-
-<button
-onclick="placeBid('${job.id}')"
-class="px-4 py-2 rounded-xl border border-indigo-500/40">
-
-PLACE BID
-
-</button>
-
-</div>
-
-</article>
-
-`).join("");
-
-}catch(error){
-
-console.error(error);
-
-list.innerHTML=`
-<div class="glass rounded-2xl p-6 text-yellow-400">
-Jobs unavailable. Check the jobs table and RLS.
-</div>`;
-
-}
-
-}
-
-
-/* =====================================================
- PLACE BID
-===================================================== */
-
-async function placeBid(jobId){
-
-if(!nexus){
-
-alert(
-"Supabase is not connected."
-);
-
-return;
-}
-
-const {
-data:{user}
-}=await nexus.auth.getUser();
-
-if(!user){
-
-alert(
-"Please authenticate before bidding."
-);
-
-return;
-}
-
-const amount =
-prompt(
-"Enter your bid amount:"
-);
-
-if(!amount)
-return;
-
-const proposal =
-prompt(
-"Enter your proposal:"
-) || "";
-
-const {
-error
-}=await nexus
-.from("bids")
-.insert({
-
-job_id:jobId,
-bidder_id:user.id,
-amount:Number(amount),
-proposal:proposal
-
-});
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-alert(
-"Bid submitted successfully."
-);
-
-}
-
-
-/* =====================================================
- AI TEMPLATES
-===================================================== */
-
-function aiTemplate(type){
-
-const templates={
-
-business:
-"Analyze my business idea and create a global B2B execution plan including target market, offer, sales funnel, automation and KPIs.",
-
-software:
-"Design a production-ready software architecture including frontend, backend, database, authentication, APIs, security, testing and deployment.",
-
-marketing:
-"Create a multilingual global marketing strategy including positioning, content, lead generation, conversion funnel and automation."
-
-};
-
-document.getElementById(
-"aiPrompt"
-).value =
-templates[type];
-
-}
-
-
-/* =====================================================
- AI COMMAND
-===================================================== */
-
-async function executeAI(){
-
-const prompt =
-document.getElementById(
-"aiPrompt"
-).value.trim();
-
-const output =
-document.getElementById(
-"aiOutput"
-);
-
-if(!prompt){
-
-output.textContent =
-"> Enter a command first.";
-
-return;
-
-}
-
-
-/*
-   AI keys must NOT be placed in this browser code.
-
-   Production architecture:
-
-   Browser
-       ↓
-   Supabase Edge Function
-       ↓
-   Secure AI Provider
-       ↓
-   Result
-       ↓
-   Browser
-
-*/
-
-output.textContent =
-`> CHAPEX NEXUS COMMAND RECEIVED
-
-> INTENT ANALYSIS
-> CONTEXT ENGINE
-> MEMORY LAYER
-> TASK PLANNER
-> AGENT ROUTER
-> TOOL PERMISSIONS
-> EXECUTION
-> QUALITY CONTROL
-
-COMMAND:
-
-${prompt}
-
---------------------------------
-
-AI ORCHESTRATOR:
-READY
-
-SECURE BACKEND:
-EDGE FUNCTION REQUIRED
-
-STATUS:
-COMMAND ARCHITECTURE READY`;
-
-}
-
-
-/* =====================================================
- MESSAGES
-===================================================== */
-
-async function sendMessage(){
-
-const input =
-document.getElementById(
-"messageInput"
-);
-
-const text =
-input.value.trim();
-
-if(!text)
-return;
-
-const box =
-document.getElementById(
-"messages"
-);
-
-const element =
-document.createElement(
-"div"
-);
-
-element.className =
-"card rounded-xl p-4";
-
-element.textContent =
-text;
-
-box.appendChild(element);
-
-input.value="";
-
-
-if(!nexus)
-return;
-
-const {
-data:{user}
-}=await nexus.auth.getUser();
-
-if(!user)
-return;
-
-
-/*
- Production message insertion should use:
-
- messages
- conversation_id
- sender_id
- body
-
- with conversation membership RLS.
-*/
-
-}
-
-
-/* =====================================================
- SECURITY HELPERS
-===================================================== */
-
-function safe(value){
-
-return String(value ?? "")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-function formatDate(value){
-
-if(!value)
-return "";
-
-try{
-
-return new Date(value)
-.toLocaleString();
-
-}catch{
-
-return "";
-
-}
-
-}
-
-
-/* =====================================================
- REALTIME FEED
-===================================================== */
-
-function enableRealtime(){
-
-if(!nexus)
-return;
-
-try{
-
-nexus
-.channel("nexus-posts")
-.on(
-"postgres_changes",
-{
-event:"*",
-schema:"public",
-table:"posts"
-},
-payload=>{
-
-if(
-!document
-.getElementById(
-"view-network"
-)
-.classList.contains(
-"view-hidden"
-)
-){
-
-loadFeed();
-
-}
-
-}
-)
-.subscribe();
-
-}catch(error){
-
-console.error(
-"Realtime:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
- BOOT
-===================================================== */
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-initNexus();
-
-openView("home");
-
-setTimeout(
-enableRealtime,
-1500
-);
-
-}
-);
-
-</script>
-
+<body class="min-height: 100vh; overflow-x: hidden; pb-20">
+
+    <!-- 1. پریمیم ٹیکٹیکل نیویگیشن بار -->
+    <nav class="border-b border-[#182017] bg-[#080B09]/90 backdrop-blur-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-black text-[#8EA885] tracking-wider flex items-center gap-2">
+                <span class="animate-pulse">🛡️</span> Velocto Chapex
+            </div>
+            <div class="hidden md:flex space-x-reverse space-x-8 text-sm font-bold text-[#A3AED0]">
+                <a href="#features" class="hover:text-[#8EA885] transition duration-300">کمانڈ فیچرز</a>
+                <a href="#dashboard" class="hover:text-[#8EA885] transition duration-300">کنٹرول پینل</a>
+                <a href="#pricing" class="hover:text-[#8EA885] transition duration-300">پلانز</a>
+                <a href="#founder" class="hover:text-[#8EA885] transition duration-300">ہیڈ کوارٹر</a>
+            </div>
+            <div>
+                <a href="https://wa.me/923269447550" target="_blank" class="bg-[#3B4733] border border-[#5C6E51] text-[#E2E8F0] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#4D5D43] transition duration-300 shadow-lg shadow-black/40">سسٹم ڈیمو لائیو</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. ہیرو کمانڈ سینٹر -->
+    <header class="relative max-w-7xl mx-auto px-6 pt-32 pb-20 text-center overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#4D5D43]/10 blur-[180px] rounded-full pointer-events-none"></div>
+        <span class="inline-flex items-center gap-2 bg-[#141A13] border border-[#3B4733] text-[#8EA885] text-xs font-bold px-4 py-2 rounded-full mb-8 uppercase tracking-widest font-mono">
+            🪖 Tactical Business Core Engine v4.0 • CLOUD SECURE
+        </span>
+        <h1 class="text-5xl md:text-8xl font-black text-white leading-[1.15] tracking-tight max-w-6xl mx-auto">
+            اپنے پورے بزنس مشن کو دیں <span class="bg-gradient-to-r from-[#8EA885] via-[#A6C49B] to-[#C4A468] bg-clip-text text-transparent">ناقابلِ تسخیر خودکاری</span>
+        </h1>
+        <p class="mt-8 text-xl md:text-2xl text-[#A3AED0] max-w-4xl mx-auto leading-relaxed">
+            کاروبار کو سنبھالنا اب کوئی سر درد نہیں رہے گا۔ Velocto Chapex ہائی اسپیڈ ڈیٹا کمانڈ، ملٹری انکرپشن، اور کلاؤڈ آپریشنز کے ساتھ مینوئل غلطیوں کا جڑ سے خاتمہ کرتا ہے۔
+        </p>
+        <div class="mt-14 flex flex-col sm:flex-row justify-center items-center gap-5">
+            <button onclick="syncLiveDatabase()" class="w-full sm:w-auto bg-[#4D5D43] border border-[#6B825E] text-white px-10 py-5 rounded-xl font-black text-xl hover:bg-[#5C6E51] transition duration-300 text-center shadow-2xl shadow-[#3B4733]/30">
+                فری سائن اپ لانچ کریں
+            </button>
+            <a href="tel:+923269447550" class="w-full sm:w-auto bg-[#111412] border border-[#232B20] text-[#E2E8F0] px-10 py-5 rounded-xl font-bold text-xl hover:bg-[#192019] transition duration-300 text-center flex items-center justify-center gap-3">
+                📞 ڈائریکٹ فاؤنڈر لائن
+            </a>
+        </div>
+
+        <!-- 3. لائیو ٹیکٹیکل کمانڈ ڈیش بورڈ پینل -->
+        <div id="dashboard" class="mt-24 bg-[#111512] border border-[#212B1E] rounded-3xl p-5 max-w-6xl mx-auto shadow-2xl tactical-glow transition duration-500 text-right">
+            <div class="bg-[#080B09] rounded-2xl border border-[#161D14] p-6 md:p-8">
+                <div class="flex justify-between items-center border-b border-[#1A2318] pb-5 mb-6">
+                    <div class="flex gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#E57373]"></span>
+                        <span class="w-3 h-3 rounded-full bg-[#FFB74D]"></span>
+                        <span class="w-3 h-3 rounded-full bg-[#8EA885]"></span>
+                    </div>
+                    <div class="text-xs font-bold text-[#64748B] tracking-widest font-mono">SUPABASE CLOUD SYNC ACTIVE</div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
+                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]">
+                        <p class="text-xs font-bold text-[#64748B] uppercase">کمانڈر ان چیف</p>
+                        <p class="text-lg font-black text-white mt-2">Ch Mujahid Hussain</p>
+                    </div>
+                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]">
+                        <p class="text-xs font-bold text-[#64748B] uppercase">نیٹ ورک لیٹنسی</p>
+                        <p class="text-3xl font-black text-[#8EA885] mt-2 font-mono">0.01ms</p>
+                    </div>
+                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]">
+                        <p class="text-xs font-bold text-[#64748B] uppercase">پروٹیکشن لیول</p>
+                        <p class="text-3xl font-black text-[#C4A468] mt-2 font-mono">MIL-SPEC</p>
+                    </div>
+                    <div class="bg-[#0C100D] p-5 rounded-xl border border-[#182017]">
+                        <p class="text-xs font-bold text-[#64748B] uppercase">کلاؤڈ سرور لنک</p>
+                        <p class="text-3xl font-black text-emerald-500 mt-2 font-mono" id="dbStatus">ONLINE</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-[#040605] rounded-xl p-4 border border-[#131A12] font-mono text-xs text-[#6B825E] text-left" dir="ltr">
+                    <p class="text-[#8EA885]">&gt; [INFO] Velocto Chapex Database Connected: xldpegqeefvgqieibnjk.</p>
+                    <p>&gt; [SECURE] AES-256 Firewall tunnel active on server gateway.</p>
+                    <p>&gt; [SYNC] Real-time business logs synced with chmujahid12619@gmail.com.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 4. پریمیم کنٹرول فیچرز گریڈ -->
+    <section id="features" class="max-w-7xl mx-auto px-6 py-28 border-t border-[#151D14]">
+        <div class="text-center max-w-3xl mx-auto mb-24">
+            <h2 class="text-4xl md:text-6xl font-black text-white">ٹیکٹیکل کمانڈ سسٹمز</h2>
+            <p class="mt-4 text-[#A3AED0] text-lg">وہ تمام فیچرز جو آپ کو روایتی مارکیٹ سافٹ ویئرز سے 10 گنا آگے رکھیں گے۔</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition duration-300 text-right">
+                <div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">🤖</div>
+                <h3 class="text-2xl font-bold text-white mb-3">AI اسمارٹ آپریشنز</h3>
+                <p class="text-[#A3AED0] leading-relaxed text-sm">سافٹ ویئر کا اپنا ذہین برین خودکار طور پر ڈیٹا کا تجزیہ کرتا ہے، اور سیلز پائپ لائن کو مینیج کرتا ہے۔</p>
+            </div>
+            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition duration-300 text-right">
+                <div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">🔒</div>
+                <h3 class="text-2xl font-bold text-white mb-3">فولادی ڈیٹا سیکیورٹی</h3>
+                <p class="text-[#A3AED0] leading-relaxed text-sm">کمرشل فائر والز اور ملٹی کلاؤڈ بیک اپ ماڈیولز کی بدولت آپ کی تجارتی معلومات ہمیشہ لاک رہتی ہیں۔</p>
+            </div>
+            <div class="bg-[#0C100D] p-8 rounded-2xl border border-[#182017] military-card transition duration-300 text-right">
+                <div class="bg-[#3B4733]/20 text-[#8EA885] w-14 h-14 rounded-xl flex items-center justify-center text-3xl mb-6">📊</div>
+                <h3 class="text-2xl font-bold text-white mb-3">ریئل ٹائم کمانڈ گراف</h3>
+                <p class="text-[#A3AED0] leading-relaxed text-sm">آمدنی، نقصانات، اخراجات، اور ٹیم کے اہداف کا لائیو گرافکل ویو اب آپ کی انگلیوں پر۔</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. قیمتوں کا پریمیم اور شفاف ماڈل -->
+    <section id="pricing" class="bg-[#050706] border-t border-[#151D14] py-28 text-right">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="text-4xl md:text-6xl font-black text-white">شفاف پلانز، زیرو پوشیدہ فیس</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-[#0C100D] p-10 rounded-2xl border border-[#182017]">
+                    <h4 class="text-2xl font-bold text-white">ٹیکٹیکل اسٹارٹر مشن</h4>
+                    <div class="mt-4 text-5xl font-black text-[#8EA885] font-mono">$19 <span class="text-sm font-normal text-[#64748B]">/ مہینہ</span></div>
+                    <ul class="mt-8 space-y-4 text-sm text-[#A3AED0]">
+                        <li>✔ 5 یوزرز لاگ ان اکاؤنٹس</li>
+                        <li>✔ 50GB انکرپٹڈ کلاؤڈ اسٹوریج</li>
+                        <li>✔ بنیادی کاروباری رپورٹس اور اینالیٹکس</li>
+                    </ul>
+                    <button onclick="alert('Starter Mission Selected!')" class="mt-8 w-full bg-[#182017] border border-[#2A3825] text-white py-4 rounded-xl font-bold hover:bg-[#212B1E] transition duration-300">مشن لانچ کریں</button>
+                </div>
+                <div class="bg-[#0C100D] p-10 rounded-2xl border border-[#3B4733] relative">
+                    <span class="absolute -top-3 right-8 bg-[#8EA885] text-[#080B09] text-xs font-black px-3 py-1 rounded-full uppercase">Most Recommended</span>
+                    <h4 class="text-2xl font-bold text-white">پرو الٹیمیٹ کمانڈ پلس</h4>
+                    <div class="mt-4 text-5xl font-black text-[#C4A468] font-mono">$49 <span class="text-sm font-normal text-[#64748B]">/ مہینہ</span></div>
+                    <ul class="mt-8 space-y-4 text-sm text-[#A3AED0]">
+                        <li>✔ لامحدود یوزرز اکاؤنٹس</li>
+                        <li>✔ 1TB ملٹری گریڈ کلاؤڈ سرور پاتھ</li>
+                        <li>✔ مکمل AI آٹومیشن اور لائیو فلو کنٹرول</li>
+                        <li>✔ 24/7 ڈائریکٹ فاؤنڈر ہاٹ لائن سپورٹ</li>
+                    </ul>
+                    <button onclick="alert('Pro Ultimate Mission Selected!')" class="mt-8 w-full bg-[#4D5D43] text-white py-4 rounded-xl font-bold hover:bg-[#5C6E51] transition duration-300">فوری ٹرائل لانچ کریں</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ہیڈ کوارٹر اور فوٹر -->
+    <footer id="founder" class="border-t border-[#151D14] py-16 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <p class="text-xl font-black text-white">Ch Mujahid Hussain</p>
+            <p class="text-sm text-[#8EA885] mt-1">Founder & Chief Executive Officer</p>
+            <p class="text-sm text-[#A3AED0] mt-3 font-mono">📧 ٹیکٹیکل میل: chmujahid12619@gmail.com</p>
+            <p class="text-sm text-[#A3AED0] mt-1 font-mono">📞 کمانڈ ہاٹ لائن: +92 326 9447550</p>
+            <div class="mt-8 pt-8 border-t border-[#151D14] text-xs text-[#64748B]">
+                © 2026 Velocto Chapex • سی ای او: Ch Mujahid Hussain۔ تمام حقوق محفوظ ہیں۔
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase Core Script Integration -->
+    <script>
+        const SUPABASE_URL = 'https://xldpegqeefvgqieibnjk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZHBlZ3FlZWZ2Z3FpZWlibmprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MDA0MzgsImV4cCI6MjEwNjM3NjQzOH0.m14cxVMzyx_J0OCjhiQXmjL6HMdrjscE8d47ZxAu1F0';
+
+        let supabaseClient = null;
+        try {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Velocto Supabase Connected Successfully!");
+        } catch(e) {
+            console.error("Supabase connection error:", e);
+        }
+
+        async function syncLiveDatabase() {
+            let clientName = prompt('اپنا نام درج کریں:');
+            if(!clientName) return;
+
+            if(supabaseClient) {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('posts')
+                        .insert([{ content: 'New signup mission from: ' + clientName, author: clientName, location: 'Lahore, Pakistan' }]);
+                    
+                    if(error) {
+                        alert('مشن ڈیٹا بیس میں محفوظ کرتے وقت نوٹ: ' + error.message);
+                    } else {
+                        alert('مشن کامیابی کے ساتھ نئے Supabase کلاؤڈ ڈیٹا بیس میں سنک ہو گیا ہے!');
+                    }
+                } catch(err) {
+                    alert('رابطہ میں خامی: ' + err);
+                }
+            } else {
+                alert('ڈیٹا بیس کلائنٹ کنیکٹ نہیں ہو سکا۔');
+            }
+        }
+    </script>
 </body>
 </html>
