@@ -1,998 +1,1095 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080B09" />
+  <title>CHAPEX NEXUS | Velocto Chapex</title>
 
-  <title>Velocto Chapex | CHAPEX NEXUS — Global AI Business Command Center</title>
-
-  <!-- Tailwind CSS -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            tactical: {
-              950: "#050706",
-              900: "#080B09",
-              800: "#0C100D",
-              700: "#141A13",
-              600: "#182017",
-              500: "#3B4733",
-              400: "#4D5D43",
-              300: "#6B825E",
-              200: "#8EA885",
-              100: "#A6C49B"
-            },
-            gold: "#C4A468"
-          },
-          fontFamily: {
-            arabic: ["Noto Sans Arabic", "sans-serif"],
-            display: ["Space Grotesk", "Noto Sans Arabic", "sans-serif"]
-          }
-        }
-      }
-    };
-  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: #080B09;
-      color: #E2E8F0;
-      font-family: "Noto Sans Arabic", sans-serif;
-    }
-
-    .font-display {
-      font-family: "Space Grotesk", "Noto Sans Arabic", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(142,168,133,.12), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(196,164,104,.08), transparent 30%),
+        #080B09;
+      color: #e5e7eb;
+      font-family: Arial, sans-serif;
     }
 
     .glass {
-      background: rgba(12, 16, 13, 0.78);
+      background: rgba(20,26,19,.78);
+      border: 1px solid rgba(142,168,133,.18);
       backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
     }
 
-    .tactical-glow {
+    .gold { color: #C4A468; }
+    .green { color: #8EA885; }
+
+    .border-tactical {
+      border-color: rgba(142,168,133,.22);
+    }
+
+    .glow {
       box-shadow:
-        0 0 40px -15px rgba(142, 168, 133, .28),
-        inset 0 0 30px rgba(255,255,255,.015);
+        0 0 35px rgba(142,168,133,.08),
+        inset 0 0 30px rgba(196,164,104,.025);
     }
 
-    .military-card {
-      transition: .3s ease;
-    }
-
-    .military-card:hover {
-      transform: translateY(-3px);
-      border-color: #4D5D43;
-      box-shadow: 0 0 30px -10px rgba(77, 93, 67, .55);
+    .terminal {
+      font-family: monospace;
+      color: #8EA885;
     }
 
     .scanline {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scanline::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
       background:
-        linear-gradient(
-          transparent 0%,
-          rgba(142,168,133,.025) 50%,
-          transparent 100%
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,.012) 4px
         );
-      background-size: 100% 8px;
-      opacity: .4;
     }
 
-    .pulse-dot {
-      animation: pulse 1.8s infinite;
-    }
+    button { transition: .2s; }
+    button:hover { transform: translateY(-1px); }
 
-    @keyframes pulse {
-      0%,100% { opacity: .45; }
-      50% { opacity: 1; }
-    }
-
-    .ticker {
-      animation: ticker 18s linear infinite;
-    }
-
-    @keyframes ticker {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+    .nav-active {
+      color: #C4A468;
+      border-bottom: 1px solid #C4A468;
     }
   </style>
 </head>
 
-<body>
+<body class="scanline">
 
-<!-- ========================================================= -->
-<!-- TOP SYSTEM STATUS -->
-<!-- ========================================================= -->
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-50 glass border-b border-tactical">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
 
-<div class="border-b border-[#182017] bg-[#050706] overflow-hidden">
-  <div class="max-w-7xl mx-auto px-4 py-2">
-    <div class="flex gap-8 whitespace-nowrap text-[11px] font-mono text-[#8EA885] ticker">
+    <div>
+      <div class="text-xs tracking-[.35em] text-gray-500">
+        VELOCTO CHAPEX
+      </div>
 
-      <span>● NEXUS CORE: OPERATIONAL</span>
-      <span>● SUPABASE: CONNECTED</span>
-      <span>● AI ORCHESTRATOR: READY</span>
-      <span>● SECURITY LAYER: MONITORED</span>
-      <span>● GLOBAL NETWORK: ONLINE</span>
+      <div class="font-black text-xl tracking-wider">
+        CHAPEX <span class="gold">NEXUS</span>
+      </div>
 
+      <div class="text-[10px] text-gray-500">
+        GLOBAL AI BUSINESS COMMAND CENTER
+      </div>
     </div>
+
+    <div class="hidden md:flex items-center gap-5 text-xs">
+      <button onclick="showView('home')" id="nav-home">NEXUS</button>
+      <button onclick="showView('feed')" id="nav-feed">NETWORK</button>
+      <button onclick="showView('jobs')" id="nav-jobs">JOBS</button>
+      <button onclick="showView('ai')" id="nav-ai">AI COMMAND</button>
+      <button onclick="showView('crm')" id="nav-crm">CRM</button>
+      <button onclick="showView('messages')" id="nav-messages">MESSAGES</button>
+    </div>
+
+    <div class="text-right">
+      <div id="connection" class="text-[10px] text-yellow-500">
+        CONNECTING...
+      </div>
+      <div id="userEmail" class="text-xs text-gray-500">
+        Guest Node
+      </div>
+    </div>
+
   </div>
-</div>
+</header>
 
 
-<!-- ========================================================= -->
-<!-- NAVIGATION -->
-<!-- ========================================================= -->
+<!-- ================= MAIN ================= -->
+<main class="max-w-7xl mx-auto px-4 py-8">
 
-<nav class="sticky top-0 z-50 border-b border-[#182017] bg-[#080B09]/90 backdrop-blur-xl">
 
-  <div class="max-w-7xl mx-auto px-4 md:px-6 py-4">
+<!-- HOME -->
+<section id="view-home">
 
-    <div class="flex justify-between items-center gap-4">
+  <div class="grid lg:grid-cols-3 gap-5">
 
-      <a href="#top" class="flex items-center gap-3 shrink-0">
+    <div class="lg:col-span-2 glass glow rounded-3xl p-7">
 
-        <div class="w-10 h-10 rounded-xl border border-[#4D5D43]
-                    bg-[#141A13] flex items-center justify-center text-xl">
-          🛡️
+      <div class="text-xs tracking-[.4em] green mb-4">
+        GLOBAL INTELLIGENCE NETWORK
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black leading-tight">
+        BUILD.
+        <span class="gold">CONNECT.</span>
+        <br>
+        AUTOMATE.
+      </h1>
+
+      <p class="text-gray-400 mt-5 max-w-2xl leading-7">
+        CHAPEX NEXUS is an AI-powered B2B command platform
+        connecting businesses, professionals, projects,
+        automation and intelligent agents through a unified
+        Supabase-powered infrastructure.
+      </p>
+
+      <div class="flex flex-wrap gap-3 mt-7">
+        <button
+          onclick="showView('ai')"
+          class="px-5 py-3 rounded-xl bg-[#C4A468] text-black font-bold">
+          OPEN AI COMMAND
+        </button>
+
+        <button
+          onclick="showView('feed')"
+          class="px-5 py-3 rounded-xl border border-tactical">
+          GLOBAL NETWORK
+        </button>
+      </div>
+    </div>
+
+
+    <div class="glass rounded-3xl p-6">
+
+      <div class="text-xs text-gray-500 mb-5">
+        NEXUS SYSTEM STATUS
+      </div>
+
+      <div class="space-y-4">
+
+        <div class="flex justify-between">
+          <span>SUPABASE</span>
+          <span id="statusSupabase" class="green">CHECKING</span>
         </div>
 
-        <div>
-          <div class="font-display font-black text-lg md:text-xl text-[#8EA885]">
-            VELOCTO CHAPEX
-          </div>
-
-          <div class="text-[9px] font-mono text-[#64748B] tracking-widest">
-            CHAPEX NEXUS
-          </div>
+        <div class="flex justify-between">
+          <span>AUTH</span>
+          <span id="statusAuth" class="green">READY</span>
         </div>
 
-      </a>
+        <div class="flex justify-between">
+          <span>AI ORCHESTRATOR</span>
+          <span class="gold">READY</span>
+        </div>
 
+        <div class="flex justify-between">
+          <span>NETWORK</span>
+          <span class="green">ONLINE</span>
+        </div>
 
-      <div class="hidden lg:flex items-center gap-7 text-sm font-bold text-[#A3AED0]">
-
-        <a href="#command" class="hover:text-[#8EA885] transition">
-          کمانڈ
-        </a>
-
-        <a href="#capabilities" class="hover:text-[#8EA885] transition">
-          صلاحیتیں
-        </a>
-
-        <a href="#ecosystem" class="hover:text-[#8EA885] transition">
-          NEXUS
-        </a>
-
-        <a href="#pricing" class="hover:text-[#8EA885] transition">
-          پلانز
-        </a>
-
-        <a href="#founder" class="hover:text-[#8EA885] transition">
-          ہیڈکوارٹر
-        </a>
+        <div class="flex justify-between">
+          <span>SECURITY</span>
+          <span class="green">RLS READY</span>
+        </div>
 
       </div>
 
-
-      <a
-        href="https://wa.me/923269447550"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="bg-[#3B4733] border border-[#5C6E51]
-               px-4 md:px-5 py-2.5 rounded-xl
-               font-bold text-sm hover:bg-[#4D5D43] transition"
-      >
-        ڈیمو رابطہ
-      </a>
+      <div class="mt-7 p-4 rounded-xl bg-black/30 terminal text-xs">
+        > NEXUS_CORE initialized<br>
+        > SUPABASE channel detected<br>
+        > AI command layer ready<br>
+        > awaiting operator...
+      </div>
 
     </div>
+
+  </div>
+
+
+  <div class="grid md:grid-cols-3 gap-4 mt-5">
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-3xl font-black">36+</div>
+      <div class="text-gray-500 text-sm">AI Specialist Agents</div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-3xl font-black">GLOBAL</div>
+      <div class="text-gray-500 text-sm">B2B Network Architecture</div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-3xl font-black">24/7</div>
+      <div class="text-gray-500 text-sm">Automation Layer</div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FEED -->
+<section id="view-feed" class="hidden">
+
+  <div class="flex justify-between items-center mb-5">
+    <div>
+      <div class="text-xs green tracking-widest">
+        GLOBAL NETWORK
+      </div>
+      <h2 class="text-3xl font-black">Live Business Feed</h2>
+    </div>
+
+    <button onclick="createPost()"
+      class="px-4 py-2 rounded-xl bg-[#C4A468] text-black font-bold">
+      + CREATE NODE
+    </button>
+  </div>
+
+  <div id="feedContainer" class="space-y-4"></div>
+
+</section>
+
+
+<!-- JOBS -->
+<section id="view-jobs" class="hidden">
+
+  <div class="mb-6">
+    <div class="text-xs green tracking-widest">
+      OPPORTUNITY EXCHANGE
+    </div>
+    <h2 class="text-3xl font-black">
+      Jobs & Bids
+    </h2>
+  </div>
+
+  <div id="jobsContainer" class="grid lg:grid-cols-2 gap-4"></div>
+
+</section>
+
+
+<!-- AI -->
+<section id="view-ai" class="hidden">
+
+  <div class="glass rounded-3xl p-6">
+
+    <div class="text-xs green tracking-widest">
+      AI COMMAND CENTER
+    </div>
+
+    <h2 class="text-3xl font-black mt-2">
+      Nexus Intelligence
+    </h2>
+
+    <p class="text-gray-500 mt-2">
+      Give the system a business, research, development,
+      marketing or automation instruction.
+    </p>
+
+    <textarea
+      id="aiPrompt"
+      class="w-full mt-6 bg-black/40 border border-tactical rounded-2xl p-5 outline-none min-h-[160px]"
+      placeholder="Example: Analyze this business opportunity and create a complete execution plan..."></textarea>
+
+    <div class="flex flex-wrap gap-3 mt-4">
+
+      <button
+        onclick="runAI()"
+        class="px-5 py-3 bg-[#C4A468] text-black rounded-xl font-bold">
+        EXECUTE
+      </button>
+
+      <button
+        onclick="aiTemplate('business')"
+        class="px-4 py-3 border border-tactical rounded-xl">
+        BUSINESS
+      </button>
+
+      <button
+        onclick="aiTemplate('software')"
+        class="px-4 py-3 border border-tactical rounded-xl">
+        SOFTWARE
+      </button>
+
+      <button
+        onclick="aiTemplate('marketing')"
+        class="px-4 py-3 border border-tactical rounded-xl">
+        MARKETING
+      </button>
+
+    </div>
+
+    <div id="aiOutput"
+      class="terminal mt-6 rounded-2xl bg-black/50 p-5 min-h-[180px] whitespace-pre-wrap">
+      > AI COMMAND CENTER READY
+    </div>
+
+  </div>
+
+
+  <div class="grid md:grid-cols-3 gap-4 mt-5">
+
+    <div class="glass rounded-2xl p-5">
+      <b>Planner</b>
+      <p class="text-gray-500 text-sm mt-2">
+        Break complex objectives into executable tasks.
+      </p>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <b>Agent Router</b>
+      <p class="text-gray-500 text-sm mt-2">
+        Route tasks toward specialist AI agents.
+      </p>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <b>Memory / RAG</b>
+      <p class="text-gray-500 text-sm mt-2">
+        Architecture ready for persistent knowledge.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CRM -->
+<section id="view-crm" class="hidden">
+
+  <div class="mb-6">
+    <div class="text-xs green tracking-widest">
+      BUSINESS OPERATIONS
+    </div>
+    <h2 class="text-3xl font-black">
+      AI CRM Command
+    </h2>
+  </div>
+
+  <div class="grid md:grid-cols-4 gap-4">
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-xs text-gray-500">NEW</div>
+      <div class="text-3xl font-black mt-2">0</div>
+      <div class="text-xs text-gray-500">Leads</div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-xs text-gray-500">QUALIFIED</div>
+      <div class="text-3xl font-black mt-2">0</div>
+      <div class="text-xs text-gray-500">Leads</div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-xs text-gray-500">PROPOSALS</div>
+      <div class="text-3xl font-black mt-2">0</div>
+      <div class="text-xs text-gray-500">Deals</div>
+    </div>
+
+    <div class="glass rounded-2xl p-5">
+      <div class="text-xs text-gray-500">CLOSED</div>
+      <div class="text-3xl font-black mt-2">0</div>
+      <div class="text-xs text-gray-500">Deals</div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MESSAGES -->
+<section id="view-messages" class="hidden">
+
+  <div class="glass rounded-3xl p-6">
+
+    <div class="text-xs green tracking-widest">
+      COMMUNICATION LAYER
+    </div>
+
+    <h2 class="text-3xl font-black">
+      Nexus Messages
+    </h2>
+
+    <div id="messages"
+      class="mt-6 space-y-3 min-h-[220px]">
+      <div class="p-4 rounded-xl bg-black/30 text-gray-500">
+        No messages loaded.
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-5">
+
+      <input
+        id="messageInput"
+        class="flex-1 bg-black/40 border border-tactical rounded-xl px-4 py-3"
+        placeholder="Write message..." />
+
+      <button
+        onclick="sendMessage()"
+        class="px-5 rounded-xl bg-[#C4A468] text-black font-bold">
+        SEND
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= MOBILE NAV ================= -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 glass border-t border-tactical">
+
+  <div class="grid grid-cols-5 text-[10px]">
+
+    <button onclick="showView('home')" class="py-4">
+      NEXUS
+    </button>
+
+    <button onclick="showView('feed')" class="py-4">
+      NETWORK
+    </button>
+
+    <button onclick="showView('jobs')" class="py-4">
+      JOBS
+    </button>
+
+    <button onclick="showView('ai')" class="py-4">
+      AI
+    </button>
+
+    <button onclick="showView('messages')" class="py-4">
+      CHAT
+    </button>
 
   </div>
 
 </nav>
 
 
-<!-- ========================================================= -->
-<!-- HERO -->
-<!-- ========================================================= -->
+<!-- ================= JAVASCRIPT ================= -->
+<script>
 
-<header id="top" class="relative overflow-hidden">
+/* =========================================================
+   CHAPEX NEXUS SUPABASE CONFIG
+   ========================================================= */
 
-  <div class="absolute inset-0 pointer-events-none">
+const SUPABASE_URL =
+  "https://xldpegqeefvgqieibnjk.supabase.co";
 
-    <div class="absolute top-10 left-1/2 -translate-x-1/2
-                w-[700px] h-[700px]
-                bg-[#4D5D43]/10 blur-[180px] rounded-full">
-    </div>
+/*
+  Paste your previously supplied ANON key here only if
+  you are running this as a private/local project.
 
-  </div>
-
-
-  <div class="relative max-w-7xl mx-auto px-5 md:px-6
-              pt-24 md:pt-32 pb-20 text-center">
-
-    <div class="inline-flex items-center gap-2
-                bg-[#141A13] border border-[#3B4733]
-                text-[#8EA885] text-xs font-bold
-                px-4 py-2 rounded-full
-                tracking-widest uppercase font-mono">
-
-      <span class="pulse-dot">●</span>
-
-      GLOBAL AI BUSINESS COMMAND CENTER
-
-    </div>
+  For production, preferably inject it through your
+  build environment.
+*/
+const SUPABASE_ANON_KEY =
+  "PASTE_YOUR_ANON_KEY_HERE";
 
 
-    <h1 class="mt-8 text-5xl md:text-7xl lg:text-8xl
-               font-black text-white leading-tight">
-
-      اپنے پورے بزنس مشن کو
-
-      <span class="block bg-gradient-to-r
-                   from-[#8EA885] via-[#A6C49B] to-[#C4A468]
-                   bg-clip-text text-transparent">
-
-        AI کمانڈ سینٹر دیں
-
-      </span>
-
-    </h1>
+let supabase = null;
 
 
-    <p class="mt-8 max-w-4xl mx-auto
-              text-lg md:text-2xl
-              text-[#A3AED0] leading-relaxed">
+/* =========================================================
+   SUPABASE INITIALIZATION
+   ========================================================= */
 
-      Velocto Chapex اور CHAPEX NEXUS
-      ایک متحد AI-native ecosystem کے ذریعے
-      business، professional networking، projects،
-      talent، automation، software اور AI agents
-      کو ایک command center میں جوڑتے ہیں۔
+function initSupabase() {
 
-    </p>
+  const connection =
+    document.getElementById("connection");
+
+  if (
+    typeof window.supabase === "undefined" ||
+    SUPABASE_ANON_KEY === "PASTE_YOUR_ANON_KEY_HERE"
+  ) {
+    connection.textContent =
+      "SUPABASE KEY REQUIRED";
+
+    connection.className =
+      "text-[10px] text-yellow-500";
+
+    document.getElementById("statusSupabase")
+      .textContent = "CONFIG REQUIRED";
+
+    return;
+  }
+
+  try {
+
+    supabase =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+
+    connection.textContent =
+      "SUPABASE CONNECTED";
+
+    connection.className =
+      "text-[10px] text-green-400";
+
+    document.getElementById("statusSupabase")
+      .textContent = "CONNECTED";
+
+    checkSession();
+
+  } catch(error) {
+
+    console.error(error);
+
+    connection.textContent =
+      "SUPABASE ERROR";
+
+  }
+}
 
 
-    <div class="mt-12 flex flex-col sm:flex-row
-                justify-center gap-4">
+/* =========================================================
+   AUTH SESSION
+   ========================================================= */
 
-      <a
-        href="#command"
-        class="bg-[#4D5D43] border border-[#6B825E]
-               text-white px-9 py-4 rounded-xl
-               font-black text-lg
-               hover:bg-[#5C6E51] transition
-               shadow-2xl"
-      >
-        کمانڈ سینٹر کھولیں
-      </a>
+async function checkSession() {
 
+  if (!supabase) return;
 
-      <a
-        href="https://wa.me/923269447550"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="bg-[#111412] border border-[#232B20]
-               text-[#E2E8F0]
-               px-9 py-4 rounded-xl
-               font-bold text-lg
-               hover:bg-[#192019] transition"
-      >
-        فاؤنڈر سے رابطہ
-      </a>
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
 
-    </div>
+  if (session) {
 
-  </div>
+    document.getElementById("userEmail")
+      .textContent =
+      session.user.email || "Authenticated Node";
 
-</header>
+    document.getElementById("statusAuth")
+      .textContent = "AUTHENTICATED";
+
+  } else {
+
+    document.getElementById("userEmail")
+      .textContent = "Guest Node";
+
+    document.getElementById("statusAuth")
+      .textContent = "GUEST";
+  }
+}
 
 
-<!-- ========================================================= -->
-<!-- COMMAND CENTER -->
-<!-- ========================================================= -->
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
-<section id="command" class="max-w-7xl mx-auto px-5 md:px-6 pb-28">
+function showView(view) {
 
-  <div class="glass scanline
-              border border-[#212B1E]
-              rounded-3xl p-4 md:p-6
-              tactical-glow">
+  const views = [
+    "home",
+    "feed",
+    "jobs",
+    "ai",
+    "crm",
+    "messages"
+  ];
 
-    <div class="bg-[#080B09]
-                rounded-2xl border border-[#161D14]
-                p-5 md:p-8">
+  views.forEach(v => {
 
-      <div class="flex flex-col md:flex-row
-                  justify-between gap-4
-                  items-start md:items-center
-                  border-b border-[#1A2318]
-                  pb-5 mb-6">
+    const el =
+      document.getElementById("view-" + v);
 
-        <div>
+    if (el)
+      el.classList.toggle(
+        "hidden",
+        v !== view
+      );
 
-          <div class="text-xs font-mono text-[#64748B]">
-            NEXUS COMMAND INTERFACE
+  });
+
+  if (view === "feed")
+    loadFeed();
+
+  if (view === "jobs")
+    loadJobs();
+}
+
+
+/* =========================================================
+   FEED
+   ========================================================= */
+
+async function loadFeed() {
+
+  const container =
+    document.getElementById("feedContainer");
+
+  container.innerHTML =
+    `<div class="glass rounded-2xl p-5 text-gray-500">
+      Loading network...
+    </div>`;
+
+  if (!supabase) {
+
+    container.innerHTML =
+      demoFeed();
+
+    return;
+  }
+
+  try {
+
+    const { data, error } =
+      await supabase
+        .from("posts")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        })
+        .limit(30);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        `<div class="glass rounded-2xl p-5 text-gray-500">
+          No live posts found in Supabase.
+        </div>`;
+
+      return;
+    }
+
+    container.innerHTML =
+      data.map(post => `
+        <article class="glass rounded-2xl p-5">
+
+          <div class="flex justify-between">
+            <b>${escapeHTML(post.author_name || "Nexus Member")}</b>
+            <span class="text-xs text-gray-600">
+              ${formatDate(post.created_at)}
+            </span>
           </div>
 
-          <h2 class="text-2xl md:text-3xl
-                     font-black text-white mt-1">
+          <p class="text-gray-300 mt-4">
+            ${escapeHTML(post.content || "")}
+          </p>
 
-            Tactical Business Control
+          <div class="mt-4 text-xs text-gray-500">
+            Likes: ${post.likes_count || 0}
+          </div>
 
-          </h2>
+        </article>
+      `).join("");
 
-        </div>
+  } catch(error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      `<div class="glass rounded-2xl p-5 text-yellow-500">
+        Feed table is not available or RLS denied the request.
+      </div>`;
+  }
+}
 
 
-        <div class="flex items-center gap-2
-                    text-xs font-mono text-[#8EA885]">
+function demoFeed() {
 
-          <span class="w-2 h-2 rounded-full
-                       bg-[#8EA885] pulse-dot">
-          </span>
+  return `
+    <article class="glass rounded-2xl p-5">
 
-          SYSTEM READY
-
-        </div>
-
+      <div class="flex justify-between">
+        <b>CHAPEX NEXUS</b>
+        <span class="text-xs text-gray-600">
+          DEMO
+        </span>
       </div>
 
+      <p class="text-gray-300 mt-4">
+        Connect your Supabase posts table to activate the
+        live global network feed.
+      </p>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    </article>
+  `;
+}
 
-        <div class="bg-[#0C100D] p-5 rounded-xl
-                    border border-[#182017]">
 
-          <p class="text-xs text-[#64748B]">
-            COMMANDER
+/* =========================================================
+   JOBS
+   ========================================================= */
+
+async function loadJobs() {
+
+  const container =
+    document.getElementById("jobsContainer");
+
+  container.innerHTML =
+    `<div class="glass rounded-2xl p-5 text-gray-500">
+      Loading opportunities...
+    </div>`;
+
+  if (!supabase) {
+
+    container.innerHTML =
+      demoJobs();
+
+    return;
+  }
+
+  try {
+
+    const { data, error } =
+      await supabase
+        .from("jobs")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        })
+        .limit(30);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        `<div class="glass rounded-2xl p-5 text-gray-500">
+          No jobs found.
+        </div>`;
+
+      return;
+    }
+
+    container.innerHTML =
+      data.map(job => `
+
+        <article class="glass rounded-2xl p-5">
+
+          <div class="text-xs green">
+            OPPORTUNITY
+          </div>
+
+          <h3 class="text-xl font-bold mt-2">
+            ${escapeHTML(job.title || "Untitled Job")}
+          </h3>
+
+          <p class="text-gray-500 mt-3">
+            ${escapeHTML(job.description || "")}
           </p>
 
-          <p class="text-lg font-black text-white mt-2">
-            Ch Mujahid Hussain
-          </p>
+          <div class="flex justify-between mt-5">
 
-        </div>
+            <span class="gold">
+              ${escapeHTML(String(job.budget || "Negotiable"))}
+            </span>
 
+            <button
+              onclick="placeBid('${job.id}')"
+              class="px-4 py-2 rounded-xl border border-tactical">
+              PLACE BID
+            </button>
 
-        <div class="bg-[#0C100D] p-5 rounded-xl
-                    border border-[#182017]">
+          </div>
 
-          <p class="text-xs text-[#64748B]">
-            AI ORCHESTRATOR
-          </p>
+        </article>
 
-          <p class="text-xl font-black
-                    text-[#8EA885] mt-2">
-            READY
-          </p>
+      `).join("");
 
-        </div>
+  } catch(error) {
 
+    console.error(error);
 
-        <div class="bg-[#0C100D] p-5 rounded-xl
-                    border border-[#182017]">
-
-          <p class="text-xs text-[#64748B]">
-            SUPABASE
-          </p>
-
-          <p class="text-xl font-black
-                    text-[#8EA885] mt-2">
-            CONNECTED
-          </p>
-
-        </div>
+    container.innerHTML =
+      `<div class="glass rounded-2xl p-5 text-yellow-500">
+        Jobs table is not available or RLS denied access.
+      </div>`;
+  }
+}
 
 
-        <div class="bg-[#0C100D] p-5 rounded-xl
-                    border border-[#182017]">
+function demoJobs() {
 
-          <p class="text-xs text-[#64748B]">
-            SECURITY
-          </p>
+  return `
+    <article class="glass rounded-2xl p-5">
 
-          <p class="text-xl font-black
-                    text-[#C4A468] mt-2">
-            MONITORED
-          </p>
-
-        </div>
-
+      <div class="text-xs green">
+        DEMO OPPORTUNITY
       </div>
 
-
-      <!-- COMMAND TERMINAL -->
-
-      <div class="mt-6 bg-[#040605]
-                  rounded-xl p-5
-                  border border-[#131A12]
-                  font-mono text-xs text-left"
-           dir="ltr">
-
-        <p class="text-[#8EA885]">
-          &gt; CHAPEX NEXUS AI CORE initialized
-        </p>
-
-        <p class="text-[#6B825E]">
-          &gt; Supabase data layer available
-        </p>
-
-        <p class="text-[#6B825E]">
-          &gt; Agent orchestration layer ready
-        </p>
-
-        <p class="text-[#6B825E]">
-          &gt; Human authorization gates enabled
-        </p>
-
-        <p class="text-[#64748B]">
-          &gt; Awaiting command...
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ========================================================= -->
-<!-- CAPABILITIES -->
-<!-- ========================================================= -->
-
-<section id="capabilities"
-         class="border-t border-[#151D14]
-                max-w-7xl mx-auto px-5 md:px-6 py-28">
-
-  <div class="text-center max-w-3xl mx-auto mb-16">
-
-    <span class="text-xs font-mono
-                 text-[#8EA885] tracking-widest">
-      NEXUS CAPABILITY MATRIX
-    </span>
-
-    <h2 class="mt-4 text-4xl md:text-6xl
-               font-black text-white">
-
-      ایک پلیٹ فارم،
-      متعدد عالمی صلاحیتیں
-
-    </h2>
-
-    <p class="mt-5 text-[#A3AED0] text-lg">
-      CHAPEX NEXUS کا مقصد professional،
-      business اور AI workflows کو ایک connected
-      ecosystem میں لانا ہے۔
-    </p>
-
-  </div>
-
-
-  <div class="grid md:grid-cols-3 gap-6">
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">🤖</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        AI Command Center
+      <h3 class="text-xl font-bold mt-2">
+        AI Supply Chain Automation
       </h3>
 
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        Natural-language commands، AI orchestration،
-        memory، knowledge اور specialist agents۔
+      <p class="text-gray-500 mt-3">
+        Connect the jobs table to Supabase to activate
+        real opportunity records.
       </p>
 
-    </div>
-
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">🌐</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        Global Professional Network
-      </h3>
-
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        Professionals، companies، jobs، projects،
-        services اور business opportunities۔
-      </p>
-
-    </div>
-
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">💼</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        Freelance & Jobs
-      </h3>
-
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        Projects، bids، proposals، contracts،
-        milestones اور delivery workflows۔
-      </p>
-
-    </div>
-
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">🧠</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        AI Agent Network
-      </h3>
-
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        Research، coding، CRM، design، analytics،
-        automation اور enterprise agents۔
-      </p>
-
-    </div>
-
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">🏢</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        Business Operating System
-      </h3>
-
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        CRM، leads، projects، teams، tasks،
-        proposals، analytics اور automation۔
-      </p>
-
-    </div>
-
-
-    <div class="military-card bg-[#0C100D]
-                p-7 rounded-2xl border border-[#182017]">
-
-      <div class="text-3xl mb-5">⚙️</div>
-
-      <h3 class="text-2xl font-bold text-white">
-        AI Software Factory
-      </h3>
-
-      <p class="mt-3 text-sm
-                text-[#A3AED0] leading-relaxed">
-        Idea سے architecture، code، database،
-        testing اور deployment workflow تک۔
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ========================================================= -->
-<!-- NEXUS ECOSYSTEM -->
-<!-- ========================================================= -->
-
-<section id="ecosystem"
-         class="bg-[#050706]
-                border-y border-[#151D14]
-                py-28">
-
-  <div class="max-w-7xl mx-auto px-5 md:px-6">
-
-    <div class="text-center mb-16">
-
-      <span class="text-xs font-mono text-[#C4A468] tracking-widest">
-        NEXUS GRAPH
-      </span>
-
-      <h2 class="mt-4 text-4xl md:text-6xl
-                 font-black text-white">
-        ہر چیز ایک دوسرے سے منسلک
-      </h2>
-
-    </div>
-
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        👤
-        <div class="mt-3 font-bold">People</div>
+      <div class="mt-5 gold">
+        Budget: $5,000 – $10,000
       </div>
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        🏢
-        <div class="mt-3 font-bold">Companies</div>
-      </div>
+    </article>
+  `;
+}
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        💼
-        <div class="mt-3 font-bold">Projects</div>
-      </div>
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        🧑‍💻
-        <div class="mt-3 font-bold">Talent</div>
-      </div>
-
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        🤖
-        <div class="mt-3 font-bold">AI Agents</div>
-      </div>
+async function placeBid(jobId) {
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        📚
-        <div class="mt-3 font-bold">Knowledge</div>
-      </div>
+  if (!supabase) {
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        📈
-        <div class="mt-3 font-bold">Opportunities</div>
-      </div>
+    alert(
+      "Connect Supabase authentication and bids table first."
+    );
 
-      <div class="p-6 rounded-xl border border-[#182017]
-                  bg-[#0C100D] text-center">
-        ⚡
-        <div class="mt-3 font-bold">Automation</div>
-      </div>
+    return;
+  }
 
-    </div>
+  const amount =
+    prompt("Enter your bid amount:");
 
-  </div>
+  if (!amount) return;
 
-</section>
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
+  if (!user) {
 
-<!-- ========================================================= -->
-<!-- SECURITY -->
-<!-- ========================================================= -->
+    alert(
+      "Please authenticate before placing a bid."
+    );
 
-<section class="max-w-7xl mx-auto px-5 md:px-6 py-28">
+    return;
+  }
 
-  <div class="grid lg:grid-cols-2 gap-12 items-center">
+  const { error } =
+    await supabase
+      .from("bids")
+      .insert({
+        job_id: jobId,
+        bidder_id: user.id,
+        amount: Number(amount)
+      });
 
-    <div>
+  if (error) {
 
-      <span class="text-xs font-mono text-[#8EA885] tracking-widest">
-        TRUST & GOVERNANCE
-      </span>
+    alert(error.message);
 
-      <h2 class="mt-4 text-4xl md:text-6xl
-                 font-black text-white">
+    return;
+  }
 
-        Security by Architecture
+  alert("Bid submitted.");
+}
 
-      </h2>
 
-      <p class="mt-6 text-[#A3AED0] leading-relaxed">
+/* =========================================================
+   CREATE POST
+   ========================================================= */
 
-        Security کو صرف screen پر دکھانے کے بجائے
-        backend authorization، database policies،
-        audit logging اور human approval workflows
-        کے ذریعے architecture کا حصہ بنایا جائے۔
+async function createPost() {
 
-      </p>
+  const content =
+    prompt("Write your Nexus post:");
 
-    </div>
+  if (!content) return;
 
+  if (!supabase) {
 
-    <div class="grid sm:grid-cols-2 gap-4">
+    alert(
+      "Supabase is not connected."
+    );
 
-      <div class="bg-[#0C100D] border border-[#182017]
-                  rounded-xl p-6">
-        🔐
-        <h3 class="font-bold text-white mt-3">
-          Authentication
-        </h3>
-      </div>
+    return;
+  }
 
-      <div class="bg-[#0C100D] border border-[#182017]
-                  rounded-xl p-6">
-        🛡️
-        <h3 class="font-bold text-white mt-3">
-          RLS & Authorization
-        </h3>
-      </div>
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-      <div class="bg-[#0C100D] border border-[#182017]
-                  rounded-xl p-6">
-        📋
-        <h3 class="font-bold text-white mt-3">
-          Audit Logs
-        </h3>
-      </div>
+  if (!user) {
 
-      <div class="bg-[#0C100D] border border-[#182017]
-                  rounded-xl p-6">
-        👤
-        <h3 class="font-bold text-white mt-3">
-          Human Approval
-        </h3>
-      </div>
+    alert(
+      "Please sign in before publishing."
+    );
 
-    </div>
-
-  </div>
-
-</section>
-
+    return;
+  }
 
-<!-- ========================================================= -->
-<!-- PRICING -->
-<!-- ========================================================= -->
-
-<section id="pricing"
-         class="bg-[#050706]
-                border-y border-[#151D14]
-                py-28">
-
-  <div class="max-w-6xl mx-auto px-5 md:px-6">
-
-    <div class="text-center mb-16">
+  const { error } =
+    await supabase
+      .from("posts")
+      .insert({
+        author_id: user.id,
+        content: content
+      });
 
-      <h2 class="text-4xl md:text-6xl
-                 font-black text-white">
-        شفاف اور قابلِ توسیع پلانز
-      </h2>
+  if (error) {
 
-      <p class="mt-4 text-[#A3AED0]">
-        اصل billing integration فعال ہونے کے بعد
-        plans کو production subscriptions سے connect کیا جا سکتا ہے۔
-      </p>
+    alert(error.message);
 
-    </div>
+    return;
+  }
 
+  loadFeed();
+}
 
-    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
-      <div class="bg-[#0C100D]
-                  border border-[#182017]
-                  rounded-2xl p-8">
+/* =========================================================
+   AI COMMAND CENTER
+   ========================================================= */
 
-        <h3 class="text-2xl font-bold text-white">
-          Tactical Starter
-        </h3>
+function aiTemplate(type) {
 
-        <div class="mt-5 text-5xl
-                    font-black text-[#8EA885] font-display">
-          $19
-          <span class="text-sm text-[#64748B]">
-            / month
-          </span>
-        </div>
+  const templates = {
 
-        <ul class="mt-8 space-y-3
-                   text-sm text-[#A3AED0]">
+    business:
+      "Analyze my business idea and create a global B2B execution plan with market segments, offer structure, sales funnel, automation and KPIs.",
 
-          <li>✓ Core workspace</li>
-          <li>✓ Basic analytics</li>
-          <li>✓ Professional profile</li>
-          <li>✓ Selected AI capabilities</li>
-          <li>✓ Secure account controls</li>
+    software:
+      "Design a production-ready software architecture for my idea including frontend, backend, database, authentication, APIs, security, testing and deployment.",
 
-        </ul>
+    marketing:
+      "Create a multilingual global marketing strategy including positioning, content, lead generation, conversion funnel and automation."
+  };
 
-        <a href="#founder"
-           class="block text-center mt-8
-                  border border-[#3B4733]
-                  rounded-xl py-3
-                  font-bold hover:bg-[#141A13]">
-          مشن شروع کریں
-        </a>
+  document.getElementById("aiPrompt")
+    .value = templates[type];
+}
 
-      </div>
 
+async function runAI() {
 
-      <div class="bg-[#0C100D]
-                  border border-[#4D5D43]
-                  rounded-2xl p-8
-                  tactical-glow">
+  const prompt =
+    document.getElementById("aiPrompt")
+      .value.trim();
 
-        <div class="text-xs text-[#C4A468]
-                    font-bold tracking-widest">
-          PROFESSIONAL
-        </div>
+  const output =
+    document.getElementById("aiOutput");
 
-        <h3 class="text-2xl font-bold text-white mt-2">
-          Ultimate Command
-        </h3>
+  if (!prompt) {
 
-        <div class="mt-5 text-5xl
-                    font-black text-[#C4A468] font-display">
-          $49
-          <span class="text-sm text-[#64748B]">
-            / month
-          </span>
-        </div>
+    output.textContent =
+      "> Enter a command first.";
 
-        <ul class="mt-8 space-y-3
-                   text-sm text-[#A3AED0]">
+    return;
+  }
 
-          <li>✓ Advanced AI workspace</li>
-          <li>✓ AI agent capabilities</li>
-          <li>✓ Business workflows</li>
-          <li>✓ Advanced analytics</li>
-          <li>✓ Priority support</li>
+  output.textContent =
+`> NEXUS COMMAND RECEIVED
+> INTENT ANALYSIS
+> CONTEXT ENGINE
+> TASK PLANNER
+> AGENT ROUTER
+> TOOL PERMISSIONS
+> EXECUTION
+> QUALITY CHECK
 
-        </ul>
+AI provider is not hard-coded into the browser.
 
-        <a href="#founder"
-           class="block text-center mt-8
-                  bg-[#4D5D43]
-                  rounded-xl py-3
-                  font-bold hover:bg-[#5C6E51]">
-          Command Trial
-        </a>
+Connect your approved AI provider through a
+Supabase Edge Function / secure server layer.
 
-      </div>
+Command:
+${prompt}
 
-    </div>
+STATUS:
+ARCHITECTURE READY`;
+}
 
-  </div>
 
-</section>
+/* =========================================================
+   MESSAGES
+   ========================================================= */
 
+async function sendMessage() {
 
-<!-- ========================================================= -->
-<!-- FOUNDER -->
-<!-- ========================================================= -->
+  const input =
+    document.getElementById("messageInput");
 
-<section id="founder"
-         class="max-w-5xl mx-auto px-5 md:px-6
-                py-28 text-center">
+  const value =
+    input.value.trim();
 
-  <div class="w-20 h-20 mx-auto rounded-2xl
-              bg-[#141A13]
-              border border-[#4D5D43]
-              flex items-center justify-center
-              text-3xl">
-    👤
-  </div>
+  if (!value) return;
 
-  <h2 class="mt-6 text-3xl md:text-5xl
-             font-black text-white">
+  const box =
+    document.getElementById("messages");
 
-    Ch Mujahid Hussain
+  const item =
+    document.createElement("div");
 
-  </h2>
+  item.className =
+    "p-4 rounded-xl bg-black/30 border border-tactical";
 
-  <p class="mt-3 text-[#8EA885]
-            font-bold">
+  item.textContent = value;
 
-    Founder & Chief Executive Officer
+  box.appendChild(item);
 
-  </p>
+  input.value = "";
 
-  <div class="mt-8 space-y-3
-              text-[#A3AED0]">
+  if (!supabase) return;
 
-    <p>
-      📧 chmujahid12619@gmail.com
-    </p>
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-    <p>
-      📞 +92 326 9447550
-    </p>
+  if (!user) return;
 
-    <a
-      href="https://wa.me/923269447550"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-block mt-4
-             bg-[#3B4733]
-             border border-[#5C6E51]
-             px-7 py-3
-             rounded-xl font-bold
-             hover:bg-[#4D5D43]"
-    >
-      WhatsApp Headquarters
-    </a>
+  /*
+    Your production messages table should contain:
+    sender_id
+    receiver_id / conversation_id
+    body
+    created_at
+  */
+}
 
-  </div>
 
-</section>
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
+function escapeHTML(value) {
 
-<!-- ========================================================= -->
-<!-- FOOTER -->
-<!-- ========================================================= -->
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
-<footer class="border-t border-[#182017]
-               bg-[#050706]">
 
-  <div class="max-w-7xl mx-auto
-              px-5 md:px-6 py-10">
+function formatDate(value) {
 
-    <div class="flex flex-col md:flex-row
-                justify-between gap-6">
+  if (!value) return "";
 
-      <div>
+  try {
 
-        <div class="font-display
-                    font-black text-xl
-                    text-[#8EA885]">
+    return new Date(value)
+      .toLocaleString();
 
-          🛡️ VELOCTO CHAPEX
+  } catch {
 
-        </div>
+    return "";
+  }
+}
 
-        <p class="text-xs text-[#64748B] mt-2">
-          CHAPEX NEXUS Global AI Business Ecosystem
-        </p>
 
-      </div>
+/* =========================================================
+   BOOT
+   ========================================================= */
 
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-      <div class="text-xs text-[#64748B] md:text-right">
+    initSupabase();
+    showView("home");
 
-        <p>
-          AI-native • Secure • Scalable • Global
-        </p>
+  }
+);
 
-        <p class="mt-2">
-          © 2026 Velocto Chapex / CHAPEX NEXUS
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</footer>
+</script>
 
 </body>
 </html>
