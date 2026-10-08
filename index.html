@@ -3,1130 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-en="Velocto Chapex | Business Automation" data-ur="ویلوکٹو چیپیکس | کاروباری خودکاری">Velocto Chapex | Business Automation</title>
+<title>Velocto Chapex | Tactical Business OS</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-/* ========== RESET ========== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
 html{scroll-behavior:smooth}
-body{
-  background:#0a0e1a;
-  color:#f1f5f9;
-  min-height:100vh;
-  overflow-x:hidden;
-  transition:background .3s,color .3s;
-}
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%,rgba(22,163,74,.08),transparent 60%),
-    radial-gradient(ellipse 60% 40% at 100% 100%,rgba(14,165,233,.06),transparent 60%);
-  pointer-events:none;
-  z-index:0;
-}
+body{background:#0D0E10;color:#E2E8F0;min-height:100vh;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(139,92,246,.08),transparent 60%);pointer-events:none;z-index:0}
 body>*{position:relative;z-index:1}
-
-/* ========== COLORS ========== */
-
-  :root{
-  --bg: #0D0E10;
-  --bg2: #16191E;
-  --bg3: #1C1F26;
-  --card: rgba(22,25,30,.9);
-  --border: #242830;
-  --border-hi: rgba(139,92,246,.4);
-  --primary: #8B5CF6;
-  --primary-hi: #A78BFA;
-  --primary-dark: #7C3AED;
-  --secondary: #8B5CF6;
-  --accent: #A78BFA;
-  --danger: #EF4444;
-  --text: #E2E8F0;
-  --muted: #94A3B8;
-  --muted2: #64748B;
-  --grid: rgba(148,163,184,.06);
-  --success: #10B981;
+:root{
+  --bg:#0D0E10;--bg2:#16191E;--bg3:#1C1F26;
+  --card:rgba(22,25,30,.9);--border:#242830;--border-hi:rgba(139,92,246,.4);
+  --primary:#8B5CF6;--primary-hi:#A78BFA;--primary-dark:#7C3AED;
+  --secondary:#8B5CF6;--accent:#A78BFA;--danger:#EF4444;
+  --text:#E2E8F0;--muted:#94A3B8;--muted2:#64748B;
+  --grid:rgba(148,163,184,.06);--success:#10B981;
 }
-/* ========== SCROLLBAR ========== */
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:#0a0e1a}
-::-webkit-scrollbar-thumb{
-  background:linear-gradient(180deg,#16a34a,#15803d);
-  border-radius:6px;
-  border:2px solid #0a0e1a;
-}
-::-webkit-scrollbar-thumb:hover{background:#22c55e}
-
-/* ========== UTILITIES ========== */
+::-webkit-scrollbar-track{background:#0D0E10}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#8B5CF6,#7C3AED);border-radius:6px;border:2px solid #0D0E10}
+::-webkit-scrollbar-thumb:hover{background:#A78BFA}
 .hidden{display:none!important}
 .fade-in{animation:fadeIn .5s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-.glass{
-  background:var(--card);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid var(--border);
-  border-radius:16px;
-  transition:border-color .25s,box-shadow .25s,transform .25s;
-}
-.glass-hover:hover{
-  border-color:var(--border-hi);
-  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(22,163,74,.1) inset;
-}
-.gradient-text{
-  background:linear-gradient(135deg,#22c55e 0%,#0ea5e9 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
+.glass{background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:16px;transition:border-color .25s,box-shadow .25s,transform .25s}
+.glass-hover:hover{border-color:var(--border-hi);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.gradient-text{background:linear-gradient(135deg,#A78BFA 0%,#8B5CF6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .mono{font-family:'Courier New',monospace;letter-spacing:.5px}
-
-/* ========== TOP STATUS BAR ========== */
-.top-status{
-  background:linear-gradient(90deg,#0a0e1a,#0f1729,#0a0e1a);
-  border-bottom:1px solid var(--border);
-  padding:6px 24px;
-  font-size:11px;
-  font-family:'Courier New',monospace;
-  color:var(--muted);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-  letter-spacing:.5px;
-}
+.top-status{background:linear-gradient(90deg,#0D0E10,#16191E,#0D0E10);border-bottom:1px solid var(--border);padding:6px 24px;font-size:11px;font-family:'Courier New',monospace;color:var(--muted);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;letter-spacing:.5px}
 .top-status .status-left{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.top-status .live-dot{
-  display:inline-block;
-  width:8px;height:8px;
-  background:var(--success);
-  border-radius:50%;
-  margin-inline-end:6px;
-  animation:pulse 2s infinite;
-  box-shadow:0 0 8px var(--success);
-}
+.top-status .live-dot{display:inline-block;width:8px;height:8px;background:var(--success);border-radius:50%;margin-inline-end:6px;animation:pulse 2s infinite;box-shadow:0 0 8px var(--success)}
 .top-status .sep{color:#334155}
-
-/* ========== NAVBAR ========== */
-nav{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(10,14,26,.9);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:14px 24px;
-}
-.nav-inner{
-  max-width:1400px;
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:18px;
-  font-weight:800;
-  letter-spacing:.5px;
-  cursor:pointer;
-  user-select:none;
-}
-.logo-badge{
-  width:34px;height:34px;
-  border-radius:8px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:16px;
-  box-shadow:0 0 20px rgba(22,163,74,.4);
-  border:1px solid rgba(34,197,94,.5);
-}
+nav{position:sticky;top:0;z-index:100;background:rgba(13,14,16,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:14px 24px}
+.nav-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:.5px;cursor:pointer;user-select:none}
+.logo-badge{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 20px rgba(139,92,246,.5);border:1px solid rgba(167,139,250,.5);color:#fff}
 .logo-text{color:var(--text)}
-.logo-sub{
-  font-size:9px;
-  color:var(--muted);
-  font-family:'Courier New',monospace;
-  letter-spacing:2px;
-  display:block;
-  margin-top:1px;
-}
-.nav-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-/* ========== LANGUAGE TOGGLE ========== */
-.lang-toggle{
-  display:flex;
-  background:rgba(15,23,41,.9);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:3px;
-  gap:2px;
-}
-.lang-btn{
-  background:transparent;
-  border:none;
-  color:var(--muted);
-  padding:7px 14px;
-  border-radius:7px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-  transition:all .25s;
-  font-family:inherit;
-  letter-spacing:.5px;
-}
+.logo-sub{font-size:9px;color:var(--muted);font-family:'Courier New',monospace;letter-spacing:2px;display:block;margin-top:1px}
+.nav-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.lang-toggle{display:flex;background:rgba(22,25,30,.9);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+.lang-btn{background:transparent;border:none;color:var(--muted);padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.5px}
 .lang-btn:hover{color:var(--text)}
-.lang-btn.active{
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:white;
-  box-shadow:0 4px 12px rgba(22,163,74,.35);
-}
-
-/* ========== BUTTONS ========== */
+.lang-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 12px rgba(139,92,246,.4)}
 button{cursor:pointer;font-family:inherit;border:none;transition:all .25s}
-.btn{
-  padding:11px 22px;
-  border-radius:10px;
-  font-weight:600;
-  font-size:14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  white-space:nowrap;
-}
-.btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:white;
-  border:1px solid rgba(34,197,94,.4);
-  box-shadow:0 4px 16px rgba(22,163,74,.25);
-}
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 28px rgba(22,163,74,.45);
-  border-color:var(--primary-hi);
-}
-.btn-outline{
-  background:rgba(15,23,41,.6);
-  border:1px solid var(--border);
-  color:var(--text);
-}
-.btn-outline:hover{
-  border-color:var(--primary);
-  color:var(--primary-hi);
-  background:rgba(22,163,74,.08);
-}
-.btn-danger{
-  background:rgba(220,38,38,.1);
-  border:1px solid rgba(220,38,38,.4);
-  color:#fca5a5;
-}
-.btn-danger:hover{
-  background:rgba(220,38,38,.2);
-  border-color:var(--danger);
-}
-.btn-ghost{
-  background:transparent;
-  color:var(--muted);
-  padding:8px 14px;
-}
+.btn{padding:11px 22px;border-radius:10px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;min-height:42px}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border:1px solid rgba(167,139,250,.4);box-shadow:0 4px 16px rgba(139,92,246,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(139,92,246,.5);border-color:var(--primary-hi)}
+.btn-outline{background:rgba(22,25,30,.6);border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary-hi);background:rgba(139,92,246,.08)}
+.btn-danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);color:#fca5a5}
+.btn-danger:hover{background:rgba(239,68,68,.2);border-color:var(--danger)}
+.btn-ghost{background:transparent;color:var(--muted);padding:8px 14px}
 .btn-ghost:hover{color:var(--text);background:rgba(255,255,255,.05)}
-.btn-sm{padding:7px 13px;font-size:12px;border-radius:8px}
-.btn-icon{
-  width:36px;height:36px;
-  padding:0;
-  border-radius:8px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
+.btn-sm{padding:7px 13px;font-size:12px;border-radius:8px;min-height:auto}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:8px;display:inline-flex;align-items:center;justify-content:center}
 .btn-block{width:100%}
-
-/* ========== INPUTS ========== */
-input,textarea,select{
-  width:100%;
-  padding:12px 15px;
-  background:rgba(10,14,26,.75);
-  border:1px solid var(--border);
-  border-radius:10px;
-  color:var(--text);
-  font-family:inherit;
-  font-size:14px;
-  outline:none;
-  transition:border-color .25s,box-shadow .25s,background .25s;
-}
-input:focus,textarea:focus,select:focus{
-  border-color:var(--primary);
-  background:rgba(10,14,26,.95);
-  box-shadow:0 0 0 3px rgba(22,163,74,.15);
-}
+input,textarea,select{width:100%;padding:12px 15px;background:rgba(13,14,16,.75);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .25s,box-shadow .25s,background .25s}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);background:rgba(13,14,16,.95);box-shadow:0 0 0 3px rgba(139,92,246,.15)}
 input::placeholder,textarea::placeholder{color:var(--muted2)}
 textarea{resize:vertical;min-height:70px;line-height:1.6}
-select{cursor:pointer;appearance:none;
-  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-  background-repeat:no-repeat;
-  background-position:right 12px center;
-  background-size:16px;
-  padding-right:40px;
-}
-[dir="rtl"] select{
-  background-position:left 12px center;
-  padding-right:15px;
-  padding-left:40px;
-}
-label{
-  display:block;
-  margin-bottom:6px;
-  font-size:12px;
-  color:var(--muted);
-  font-weight:500;
-  letter-spacing:.3px;
-}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:40px}
+[dir="rtl"] select{background-position:left 12px center;padding-right:15px;padding-left:40px}
+label{display:block;margin-bottom:6px;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.3px}
 .form-group{margin-bottom:16px}
-
-/* ========== HERO ========== */
-.hero{
-  padding:80px 24px 60px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-.hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(22,163,74,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(22,163,74,.04) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);
-  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);
-  pointer-events:none;
-}
+.hero{padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);pointer-events:none}
 .hero-content{max-width:920px;margin:0 auto;position:relative}
-.hero-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:7px 16px;
-  background:rgba(22,163,74,.1);
-  border:1px solid rgba(34,197,94,.4);
-  border-radius:50px;
-  color:#4ade80;
-  font-size:11px;
-  font-family:'Courier New',monospace;
-  letter-spacing:1px;
-  margin-bottom:28px;
-  text-transform:uppercase;
-}
-.hero h1{
-  font-size:clamp(30px,5.5vw,58px);
-  font-weight:800;
-  line-height:1.25;
-  margin-bottom:22px;
-  letter-spacing:-.5px;
-}
-.hero p{
-  font-size:clamp(15px,2vw,17px);
-  color:var(--muted);
-  max-width:680px;
-  margin:0 auto 36px;
-  line-height:1.9;
-}
-.hero-cta{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:32px;
-}
-.hero-metrics{
-  display:flex;
-  justify-content:center;
-  gap:24px;
-  flex-wrap:wrap;
-  font-size:11px;
-  color:var(--muted);
-  font-family:'Courier New',monospace;
-  letter-spacing:.5px;
-}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:rgba(139,92,246,.1);border:1px solid rgba(167,139,250,.4);border-radius:50px;color:#A78BFA;font-size:11px;font-family:'Courier New',monospace;letter-spacing:1px;margin-bottom:28px;text-transform:uppercase}
+.hero h1{font-size:clamp(30px,5.5vw,58px);font-weight:800;line-height:1.25;margin-bottom:22px;letter-spacing:-.5px}
+.hero p{font-size:clamp(15px,2vw,17px);color:var(--muted);max-width:680px;margin:0 auto 36px;line-height:1.9}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.hero-metrics{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:11px;color:var(--muted);font-family:'Courier New',monospace;letter-spacing:.5px}
 .hero-metrics span{display:flex;align-items:center;gap:6px}
-
-/* ========== STATS BAR ========== */
-.stats-bar{
-  background:rgba(15,23,41,.5);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:44px 24px;
-}
-.stats-grid{
-  max-width:1200px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:28px;
-  text-align:center;
-}
-.stat-num{
-  font-size:34px;
-  font-weight:800;
-  color:var(--primary-hi);
-  font-family:'Courier New',monospace;
-  letter-spacing:-1px;
-  margin-bottom:4px;
-  text-shadow:0 0 30px rgba(34,197,94,.3);
-}
-.stat-lbl{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  font-family:'Courier New',monospace;
-}
-
-/* ========== SECTIONS ========== */
+.bento-container{max-width:1200px;margin:60px auto;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;box-sizing:border-box}
+.bento-item{background-color:#16191E;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:30px;color:#E2E8F0;transition:all .3s ease;display:flex;flex-direction:column;justify-content:space-between}
+.bento-item:hover{transform:translateY(-5px);border-color:#8B5CF6;box-shadow:0 10px 30px rgba(139,92,246,.15)}
+.bento-item h2,.bento-item h3{margin:10px 0;color:#FFF;font-weight:600}
+.bento-item h2{font-size:24px}
+.bento-item h3{font-size:18px}
+.bento-item p{color:#94A3B8;font-size:14px;line-height:1.7;margin:0}
+.status-indicator{font-size:11px;letter-spacing:1px;color:#10B981;font-weight:bold;margin-bottom:15px;font-family:'Courier New',monospace}
+.icon-wrap{font-size:28px;margin-bottom:15px;display:block}
+.bento-large{grid-column:span 2;grid-row:span 2}
+.bento-medium{grid-column:span 1}
+.card-graphic{margin-top:25px;background:#0D0E10;padding:20px;border-radius:10px;border:1px solid rgba(255,255,255,.03)}
+.mock-bar{height:8px;background:linear-gradient(90deg,#8B5CF6,transparent);margin-bottom:10px;border-radius:4px}
+.mock-bar:last-child{margin-bottom:0}
+.stats-bar{background:rgba(22,25,30,.5);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px 24px}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px;text-align:center}
+.stat-num{font-size:34px;font-weight:800;color:var(--primary-hi);font-family:'Courier New',monospace;letter-spacing:-1px;margin-bottom:4px;text-shadow:0 0 30px rgba(139,92,246,.4)}
+.stat-lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-family:'Courier New',monospace}
 section{padding:80px 24px}
 .container{max-width:1200px;margin:0 auto}
-.section-title{
-  text-align:center;
-  font-size:clamp(26px,3.5vw,40px);
-  font-weight:800;
-  margin-bottom:12px;
-  letter-spacing:-.5px;
-}
-.section-sub{
-  text-align:center;
-  color:var(--muted);
-  margin-bottom:56px;
-  max-width:600px;
-  margin-inline:auto;
-  line-height:1.9;
-  font-size:15px;
-}
-
-/* ========== FEATURES ========== */
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-.feature-card{
-  padding:32px 26px;
-  position:relative;
-  overflow:hidden;
-}
-.feature-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:3px;
-  background:linear-gradient(90deg,var(--primary),var(--secondary));
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform .35s;
-}
+.section-title{text-align:center;font-size:clamp(26px,3.5vw,40px);font-weight:800;margin-bottom:12px;letter-spacing:-.5px}
+.section-sub{text-align:center;color:var(--muted);margin-bottom:56px;max-width:600px;margin-inline:auto;line-height:1.9;font-size:15px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.feature-card{padding:32px 26px;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-hi));transform:scaleX(0);transform-origin:left;transition:transform .35s}
 [dir="rtl"] .feature-card::before{transform-origin:right}
 .feature-card:hover::before{transform:scaleX(1)}
 .feature-card:hover{transform:translateY(-6px)}
-.feature-icon{
-  font-size:36px;
-  margin-bottom:18px;
-  display:block;
-  filter:drop-shadow(0 0 20px rgba(22,163,74,.3));
-}
+.feature-icon{font-size:36px;margin-bottom:18px;display:block;filter:drop-shadow(0 0 20px rgba(139,92,246,.4))}
 .feature-card h3{font-size:17px;margin-bottom:10px;font-weight:700}
 .feature-card p{color:var(--muted);font-size:13.5px;line-height:1.9}
-
-/* ========== PRICING ========== */
-.pricing-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
-  gap:24px;
-  max-width:820px;
-  margin:0 auto;
-}
-.price-card{
-  padding:36px 28px;
-  position:relative;
-  transition:all .3s;
-}
-.price-card.featured{
-  border-color:var(--primary);
-  background:linear-gradient(160deg,rgba(22,163,74,.08),var(--card) 60%);
-  box-shadow:0 0 40px rgba(22,163,74,.15);
-}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;max-width:820px;margin:0 auto}
+.price-card{padding:36px 28px;position:relative;transition:all .3s}
+.price-card.featured{border-color:var(--primary);background:linear-gradient(160deg,rgba(139,92,246,.08),var(--card) 60%);box-shadow:0 0 40px rgba(139,92,246,.15)}
 .price-card:hover{transform:translateY(-6px)}
 .price-card h3{font-size:19px;margin-bottom:14px;font-weight:700}
-.price-amt{
-  font-size:44px;
-  font-weight:800;
-  color:var(--primary-hi);
-  font-family:'Courier New',monospace;
-  margin-bottom:6px;
-  letter-spacing:-2px;
-}
-.price-amt span{
-  font-size:14px;
-  color:var(--muted);
-  font-weight:400;
-  font-family:inherit;
-  letter-spacing:0;
-}
-.price-desc{
-  color:var(--muted);
-  padding-bottom:22px;
-  margin-bottom:22px;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-  line-height:1.7;
-}
+.price-amt{font-size:44px;font-weight:800;color:var(--primary-hi);font-family:'Courier New',monospace;margin-bottom:6px;letter-spacing:-2px}
+.price-amt span{font-size:14px;color:var(--muted);font-weight:400;font-family:inherit;letter-spacing:0}
+.price-desc{color:var(--muted);padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.7}
 .price-features{list-style:none;margin-bottom:26px}
-.price-features li{
-  padding:7px 0;
-  color:#cbd5e1;
-  font-size:13.5px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-.price-features li::before{
-  content:'✓';
-  color:var(--success);
-  font-weight:bold;
-  font-size:14px;
-}
-.recommended-tag{
-  position:absolute;
-  top:-11px;
-  inset-inline-end:26px;
-  padding:5px 14px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  border-radius:50px;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  box-shadow:0 4px 14px rgba(22,163,74,.4);
-  border:1px solid rgba(34,197,94,.5);
-}
-
-/* ========== AUTH ========== */
-.auth-wrap{
-  min-height:calc(100vh - 120px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px 24px;
-}
-.auth-box{
-  padding:44px 36px;
-  width:100%;
-  max-width:440px;
-  position:relative;
-}
-.auth-box::before{
-  content:'';
-  position:absolute;
-  top:0;left:50%;
-  transform:translateX(-50%);
-  width:60%;
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--primary),transparent);
-}
-.auth-logo{
-  text-align:center;
-  margin-bottom:28px;
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-.auth-box h1{
-  font-size:22px;
-  text-align:center;
-  margin-bottom:28px;
-  font-weight:700;
-}
-.auth-footer{
-  text-align:center;
-  margin-top:22px;
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.9;
-}
-.auth-footer a{
-  color:var(--primary-hi);
-  text-decoration:none;
-  font-weight:600;
-}
+.price-features li{padding:7px 0;color:#cbd5e1;font-size:13.5px;display:flex;align-items:center;gap:9px}
+.price-features li::before{content:'✓';color:var(--success);font-weight:bold;font-size:14px}
+.recommended-tag{position:absolute;top:-11px;inset-inline-end:26px;padding:5px 14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:50px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;box-shadow:0 4px 14px rgba(139,92,246,.4);border:1px solid rgba(167,139,250,.5)}
+.auth-wrap{min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.auth-box{padding:44px 36px;width:100%;max-width:440px;position:relative}
+.auth-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent)}
+.auth-logo{text-align:center;margin-bottom:28px;font-size:22px;font-weight:800;letter-spacing:1px}
+.auth-box h1{font-size:22px;text-align:center;margin-bottom:28px;font-weight:700}
+.auth-footer{text-align:center;margin-top:22px;font-size:13px;color:var(--muted);line-height:1.9}
+.auth-footer a{color:var(--primary-hi);text-decoration:none;font-weight:600}
 .auth-footer a:hover{text-decoration:underline}
-.error-msg{
-  background:rgba(220,38,38,.1);
-  border:1px solid rgba(220,38,38,.4);
-  color:#fca5a5;
-  padding:12px 14px;
-  border-radius:10px;
-  font-size:13px;
-  margin-bottom:18px;
-  line-height:1.6;
-}
-.success-msg{
-  background:rgba(22,163,74,.1);
-  border:1px solid rgba(22,163,74,.4);
-  color:#86efac;
-  padding:12px 14px;
-  border-radius:10px;
-  font-size:13px;
-  margin-bottom:18px;
-}
-
-/* ========== DASHBOARD ========== */
-.dashboard-wrap{
-  padding:36px 24px 60px;
-  max-width:1400px;
-  margin:0 auto;
-}
-.dash-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:32px;
-  flex-wrap:wrap;
-  gap:16px;
-}
+.error-msg{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:18px;line-height:1.6}
+.dashboard-wrap{padding:36px 24px 60px;max-width:1400px;margin:0 auto}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px}
 .dash-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px}
 .dash-header p{color:var(--muted);font-size:13.5px;margin-top:4px}
-.dash-header .meta{
-  display:flex;
-  gap:16px;
-  font-size:11px;
-  color:var(--muted);
-  font-family:'Courier New',monospace;
-  letter-spacing:.5px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.dash-header .meta .live{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  color:var(--success);
-}
-.dash-header .meta .live::before{
-  content:'';
-  width:7px;height:7px;
-  background:var(--success);
-  border-radius:50%;
-  animation:pulse 2s infinite;
-  box-shadow:0 0 8px var(--success);
-}
-
-.dash-stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-  margin-bottom:26px;
-}
-.dash-stat{
-  padding:22px 22px 20px;
-  position:relative;
-  overflow:hidden;
-}
-.dash-stat::after{
-  content:'';
-  position:absolute;
-  top:0;
-  inset-inline-start:0;
-  width:3px;
-  height:100%;
-  background:linear-gradient(180deg,var(--primary),var(--primary-dark));
-}
-.dash-stat:nth-child(2)::after{background:linear-gradient(180deg,var(--secondary),#0284c7)}
-.dash-stat:nth-child(3)::after{background:linear-gradient(180deg,var(--accent),#d97706)}
-.dash-stat:nth-child(4)::after{background:linear-gradient(180deg,#a855f7,#7c3aed)}
+.dash-header .meta{display:flex;gap:16px;font-size:11px;color:var(--muted);font-family:'Courier New',monospace;letter-spacing:.5px;align-items:center;flex-wrap:wrap}
+.dash-header .meta .live{display:inline-flex;align-items:center;gap:6px;color:var(--success)}
+.dash-header .meta .live::before{content:'';width:7px;height:7px;background:var(--success);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 8px var(--success)}
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:26px}
+.dash-stat{padding:22px 22px 20px;position:relative;overflow:hidden}
+.dash-stat::after{content:'';position:absolute;top:0;inset-inline-start:0;width:3px;height:100%;background:linear-gradient(180deg,var(--primary),var(--primary-dark))}
+.dash-stat:nth-child(2)::after{background:linear-gradient(180deg,#A78BFA,#7C3AED)}
+.dash-stat:nth-child(3)::after{background:linear-gradient(180deg,#C4B5FD,#A78BFA)}
+.dash-stat:nth-child(4)::after{background:linear-gradient(180deg,#8B5CF6,#6D28D9)}
 .dash-stat-icon{font-size:26px;margin-bottom:10px;display:block}
-.dash-stat-lbl{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  font-family:'Courier New',monospace;
-  margin-bottom:6px;
-}
-.dash-stat-val{
-  font-size:28px;
-  font-weight:800;
-  font-family:'Courier New',monospace;
-  letter-spacing:-.5px;
-}
-
-/* ========== CHART ========== */
-.chart-box{
-  padding:26px;
-  margin-bottom:26px;
-}
-.chart-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-  flex-wrap:wrap;
-  gap:12px;
-}
+.dash-stat-lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-family:'Courier New',monospace;margin-bottom:6px}
+.dash-stat-val{font-size:28px;font-weight:800;font-family:'Courier New',monospace;letter-spacing:-.5px}
+.chart-box{padding:26px;margin-bottom:26px}
+.chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .chart-head h3{font-size:16px;font-weight:700}
-.chart-head .legend{
-  font-size:11px;
-  color:var(--muted);
-  font-family:'Courier New',monospace;
-  letter-spacing:.5px;
-  display:flex;
-  gap:16px;
-}
+.chart-head .legend{font-size:11px;color:var(--muted);font-family:'Courier New',monospace;letter-spacing:.5px;display:flex;gap:16px}
 .chart-legend-item{display:inline-flex;align-items:center;gap:6px}
-.chart-legend-dot{
-  width:10px;height:3px;border-radius:2px;background:var(--primary);
-}
-
-/* ========== TABS ========== */
-.tabs{
-  display:flex;
-  gap:6px;
-  margin-bottom:22px;
-  flex-wrap:wrap;
-  background:rgba(15,23,41,.6);
-  padding:6px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  width:fit-content;
-  max-width:100%;
-  overflow-x:auto;
-}
-.tab-btn{
-  padding:10px 18px;
-  border-radius:8px;
-  background:transparent;
-  color:var(--muted);
-  font-size:13px;
-  font-weight:600;
-  white-space:nowrap;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-}
+.chart-legend-dot{width:10px;height:3px;border-radius:2px;background:var(--primary)}
+.tabs{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap;background:rgba(22,25,30,.6);padding:6px;border-radius:12px;border:1px solid var(--border);width:fit-content;max-width:100%;overflow-x:auto}
+.tab-btn{padding:10px 18px;border-radius:8px;background:transparent;color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
 .tab-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.tab-btn.active{
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:white;
-  box-shadow:0 4px 14px rgba(22,163,74,.35);
-}
-
-/* ========== TABLES ========== */
-.table-wrap{
-  overflow-x:auto;
-  border-radius:14px;
-}
+.tab-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 14px rgba(139,92,246,.4)}
+.table-wrap{overflow-x:auto;border-radius:14px}
 table{width:100%;border-collapse:collapse;min-width:600px}
-th{
-  text-align:start;
-  padding:14px 14px;
-  background:rgba(10,14,26,.7);
-  color:var(--muted);
-  font-size:10.5px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  font-family:'Courier New',monospace;
-  border-bottom:1px solid var(--border);
-}
-td{
-  padding:14px 14px;
-  border-top:1px solid rgba(148,163,184,.06);
-  font-size:13.5px;
-  vertical-align:middle;
-}
-tr:hover td{background:rgba(22,163,74,.03)}
-
-.status-badge{
-  padding:4px 11px;
-  border-radius:50px;
-  font-size:10.5px;
-  font-weight:700;
-  letter-spacing:.5px;
-  text-transform:uppercase;
-  display:inline-block;
-  font-family:'Courier New',monospace;
-  border:1px solid transparent;
-}
+th{text-align:start;padding:14px 14px;background:rgba(13,14,16,.7);color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;font-family:'Courier New',monospace;border-bottom:1px solid var(--border)}
+td{padding:14px 14px;border-top:1px solid rgba(148,163,184,.06);font-size:13.5px;vertical-align:middle}
+tr:hover td{background:rgba(139,92,246,.03)}
+.status-badge{padding:4px 11px;border-radius:50px;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;display:inline-block;font-family:'Courier New',monospace;border:1px solid transparent}
 .status-pending{background:rgba(245,158,11,.15);color:#fbbf24;border-color:rgba(245,158,11,.3)}
-.status-processing{background:rgba(14,165,233,.15);color:#38bdf8;border-color:rgba(14,165,233,.3)}
-.status-completed,
-.status-paid{background:rgba(22,163,74,.15);color:#4ade80;border-color:rgba(22,163,74,.3)}
-.status-cancelled,
-.status-failed{background:rgba(220,38,38,.15);color:#f87171;border-color:rgba(220,38,38,.3)}
+.status-processing{background:rgba(139,92,246,.15);color:#A78BFA;border-color:rgba(139,92,246,.3)}
+.status-completed,.status-paid{background:rgba(16,185,129,.15);color:#34d399;border-color:rgba(16,185,129,.3)}
+.status-cancelled,.status-failed{background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.3)}
 .status-unpaid{background:rgba(148,163,184,.15);color:#cbd5e1;border-color:rgba(148,163,184,.25)}
-.status-refunded{background:rgba(168,85,247,.15);color:#c084fc;border-color:rgba(168,85,247,.3)}
+.status-refunded{background:rgba(139,92,246,.15);color:#C4B5FD;border-color:rgba(139,92,246,.3)}
 .status-partial{background:rgba(245,158,11,.15);color:#fbbf24;border-color:rgba(245,158,11,.3)}
-
-/* ========== ITEM CARDS ========== */
-.grid-cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:16px;
-}
-.item-card{
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  transition:all .3s;
-}
-.item-card:hover{
-  transform:translateY(-4px);
-  border-color:var(--border-hi);
-}
-.item-card-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-.item-card h3{
-  font-size:16px;
-  font-weight:700;
-  margin-bottom:4px;
-  line-height:1.4;
-  word-break:break-word;
-}
-.item-card .cat{
-  color:var(--secondary);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  font-family:'Courier New',monospace;
-}
-.item-card .item-icon{
-  width:44px;height:44px;
-  border-radius:10px;
-  background:rgba(22,163,74,.1);
-  border:1px solid rgba(22,163,74,.25);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  flex-shrink:0;
-}
-.item-card .desc{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
-  min-height:44px;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.item-card-foot{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-top:14px;
-  border-top:1px solid var(--border);
-  margin-top:auto;
-  gap:12px;
-}
-.item-price{
-  font-size:22px;
-  font-weight:800;
-  color:var(--primary-hi);
-  font-family:'Courier New',monospace;
-  letter-spacing:-.5px;
-}
-.item-stock{
-  font-size:11px;
-  color:var(--muted);
-  font-family:'Courier New',monospace;
-}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.item-card{padding:22px;display:flex;flex-direction:column;gap:12px;transition:all .3s}
+.item-card:hover{transform:translateY(-4px);border-color:var(--border-hi)}
+.item-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.item-card h3{font-size:16px;font-weight:700;margin-bottom:4px;line-height:1.4;word-break:break-word}
+.item-card .cat{color:var(--secondary);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-family:'Courier New',monospace}
+.item-card .item-icon{width:44px;height:44px;border-radius:10px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.item-card .desc{color:var(--muted);font-size:13px;line-height:1.7;min-height:44px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item-card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border);margin-top:auto;gap:12px}
+.item-price{font-size:22px;font-weight:800;color:var(--primary-hi);font-family:'Courier New',monospace;letter-spacing:-.5px}
+.item-stock{font-size:11px;color:var(--muted);font-family:'Courier New',monospace}
 .item-actions{display:flex;gap:6px}
-
-/* ========== MODAL ========== */
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.8);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:1000;
-  padding:16px;
-  animation:fadeIn .2s ease;
-}
-.modal{
-  background:#0f1729;
-  border:1px solid var(--border-hi);
-  border-radius:16px;
-  width:100%;
-  max-width:580px;
-  max-height:92vh;
-  overflow-y:auto;
-  box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 60px rgba(22,163,74,.1);
-  animation:fadeIn .25s ease;
-}
-.modal-head{
-  padding:20px 24px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  background:#0f1729;
-  z-index:10;
-}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;animation:fadeIn .2s ease}
+.modal{background:#16191E;border:1px solid var(--border-hi);border-radius:16px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 60px rgba(139,92,246,.1);animation:fadeIn .25s ease}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#16191E;z-index:10}
 .modal-head h3{font-size:17px;font-weight:700}
-.modal-close{
-  background:transparent;
-  color:var(--muted);
-  font-size:22px;
-  width:34px;height:34px;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+.modal-close{background:transparent;color:var(--muted);font-size:22px;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .modal-close:hover{background:rgba(255,255,255,.08);color:var(--text)}
 .modal-body{padding:24px}
-.modal-actions{
-  display:flex;
-  gap:12px;
-  margin-top:24px;
-  padding-top:20px;
-  border-top:1px solid var(--border);
-}
+.modal-actions{display:flex;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 .modal-actions button{flex:1}
-
-/* ========== TOAST ========== */
-.toast{
-  position:fixed;
-  bottom:24px;
-  inset-inline-start:24px;
-  padding:14px 20px;
-  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:white;
-  border-radius:11px;
-  font-weight:600;
-  font-size:13.5px;
-  z-index:2000;
-  animation:slideUp .3s ease;
-  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px rgba(22,163,74,.4);
-  border:1px solid rgba(34,197,94,.5);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  max-width:calc(100vw - 48px);
-}
-.toast.error{
-  background:linear-gradient(135deg,var(--danger),#b91c1c);
-  border-color:rgba(239,68,68,.5);
-  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px rgba(220,38,38,.4);
-}
-.toast::before{
-  content:'✓';
-  font-weight:bold;
-  font-size:16px;
-}
+.toast{position:fixed;bottom:24px;inset-inline-start:24px;padding:14px 20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:11px;font-weight:600;font-size:13.5px;z-index:2000;animation:slideUp .3s ease;box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px rgba(139,92,246,.4);border:1px solid rgba(167,139,250,.5);display:flex;align-items:center;gap:10px;max-width:calc(100vw - 48px)}
+.toast.error{background:linear-gradient(135deg,var(--danger),#b91c1c);border-color:rgba(239,68,68,.5);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px rgba(239,68,68,.4)}
+.toast::before{content:'✓';font-weight:bold;font-size:16px}
 .toast.error::before{content:'⚠'}
-
-/* ========== EMPTY STATE ========== */
-.empty{
-  text-align:center;
-  padding:70px 20px;
-  color:var(--muted);
-  grid-column:1/-1;
-}
-.empty-icon{
-  font-size:56px;
-  margin-bottom:16px;
-  opacity:.5;
-  display:block;
-}
+.empty{text-align:center;padding:70px 20px;color:var(--muted);grid-column:1/-1}
+.empty-icon{font-size:56px;margin-bottom:16px;opacity:.5;display:block}
 .empty p{font-size:14px;line-height:1.9}
-.empty .hint{font-size:12px;color:var(--muted2);margin-top:6px;font-family:'Courier New',monospace}
-
-/* ========== LOADING ========== */
-.loading{
-  text-align:center;
-  padding:80px 24px;
-  color:var(--primary-hi);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-}
-.spinner{
-  width:36px;height:36px;
-  border:3px solid rgba(22,163,74,.2);
-  border-top-color:var(--primary);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-/* ========== SECTION HEAD ========== */
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-  gap:16px;
-  flex-wrap:wrap;
-}
-.search-input{
-  max-width:320px;
-  background:rgba(10,14,26,.7);
-}
-
-/* ========== TX STATS ========== */
-.tx-stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:16px;
-  margin-bottom:22px;
-}
+.loading{text-align:center;padding:80px 24px;color:var(--primary-hi);display:flex;flex-direction:column;align-items:center;gap:16px}
+.spinner{width:36px;height:36px;border:3px solid rgba(139,92,246,.2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.search-input{max-width:320px;background:rgba(13,14,16,.7)}
+.tx-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:22px}
 .tx-stat{padding:22px}
-.tx-stat-lbl{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  font-family:'Courier New',monospace;
-  margin-bottom:6px;
-}
-.tx-stat-val{
-  font-size:26px;
-  font-weight:800;
-  font-family:'Courier New',monospace;
-  letter-spacing:-.5px;
-}
-.tx-stat.income .tx-stat-val{color:#4ade80}
+.tx-stat-lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.2px;font-family:'Courier New',monospace;margin-bottom:6px}
+.tx-stat-val{font-size:26px;font-weight:800;font-family:'Courier New',monospace;letter-spacing:-.5px}
+.tx-stat.income .tx-stat-val{color:#34d399}
 .tx-stat.expense .tx-stat-val{color:#f87171}
-.tx-stat.balance .tx-stat-val{color:var(--secondary)}
-
-/* ========== FOOTER ========== */
-footer{
-  padding:36px 24px;
-  border-top:1px solid var(--border);
-  text-align:center;
-  color:var(--muted);
-  font-size:12.5px;
-  background:rgba(10,14,26,.5);
-}
-footer .footer-meta{
-  font-family:'Courier New',monospace;
-  font-size:10.5px;
-  color:var(--muted2);
-  letter-spacing:1px;
-  margin-top:8px;
-  text-transform:uppercase;
-}
-
-/* ========== USER CHIP ========== */
-.user-chip{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 12px;
-  background:rgba(15,23,41,.8);
-  border:1px solid var(--border);
-  border-radius:50px;
-  font-size:12px;
-  font-family:'Courier New',monospace;
-  color:var(--muted);
-  max-width:220px;
-}
-.user-chip .dot{
-  width:8px;height:8px;
-  background:var(--success);
-  border-radius:50%;
-  box-shadow:0 0 8px var(--success);
-  flex-shrink:0;
-}
-.user-chip .email{
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-/* ========== RESPONSIVE ========== */
+.tx-stat.balance .tx-stat-val{color:var(--primary-hi)}
+footer{padding:36px 24px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:12.5px;background:rgba(13,14,16,.5)}
+footer .footer-meta{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted2);letter-spacing:1px;margin-top:8px;text-transform:uppercase}
+.user-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(22,25,30,.8);border:1px solid var(--border);border-radius:50px;font-size:12px;font-family:'Courier New',monospace;color:var(--muted);max-width:220px}
+.user-chip .dot{width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 8px var(--success);flex-shrink:0}
+.user-chip .email{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:900px){.bento-container{grid-template-columns:1fr;margin:40px auto}.bento-large,.bento-medium{grid-column:span 1;grid-row:span 1}}
 @media(max-width:768px){
-  .top-status{font-size:10px;padding:5px 12px}
-  .top-status .status-left{gap:10px}
-  nav{padding:10px 14px}
-  .logo-text{font-size:15px}
-  .logo-sub{display:none}
-  .nav-right{gap:8px}
-  .lang-btn{padding:6px 10px;font-size:11px}
-  .btn{padding:9px 16px;font-size:13px}
-  .hero{padding:50px 18px 40px}
-  .hero-cta{flex-direction:column;align-items:stretch}
-  .hero-cta .btn{width:100%}
-  section{padding:56px 18px}
-  .stats-bar{padding:32px 18px}
-  .stat-num{font-size:26px}
-  .auth-box{padding:32px 22px}
-  .dashboard-wrap{padding:24px 14px 40px}
-  .dash-header h1{font-size:22px}
-  .dash-stats{grid-template-columns:repeat(2,1fr);gap:12px}
-  .dash-stat{padding:18px 16px}
-  .dash-stat-val{font-size:20px}
-  .tabs{width:100%}
-  .grid-cards{grid-template-columns:1fr}
-  .modal-body{padding:20px}
-  .modal-head{padding:16px 20px}
-  .item-card-foot{flex-direction:column;align-items:stretch}
-  .item-actions{justify-content:flex-end}
-  .toast{inset-inline-start:12px;inset-inline-end:12px;bottom:12px}
-  .user-chip{max-width:140px}
-}
-
-@media(max -width:420px){
-  .hero-metrics{flex-direction:column;gap:8px}
-  .dash-stats{grid-template-columns:1fr}
-  .tx-stats{grid-template-columns:1fr}
-}
-
-/* ========== UTILS ========== */
-.text-center{text-align:center}
-.mb-0{margin-bottom:0}
-.mt-4{margin-top:16px}
-.mt-6{margin-top:24px}
-.w-full{width:100%}
-.flex{display:flex}
-.flex-between{display:flex;justify-content:space-between;align-items:center}
-.gap-2{gap:8px}
-.gap-3{gap:12px}
+.top-status{font-size:10px;padding:5px 12px}.top-status .status-left{gap:10px}
+nav{padding:10px 14px}.logo-text{font-size:15px}.logo-sub{display:none}
+.nav-right{gap:8px}.lang-btn{padding:6px 10px;font-size:11px}
+.btn{padding:9px 16px;font-size:13px;min-height:38px}
+.hero{padding:50px 18px 40px}.hero-cta{flex-direction:column;align-items:stretch}.hero-cta .btn{width:100%}
+section{padding:56px 18px}.stats-bar{padding:32px 18px}.stat-num{font-size:26px}
+.auth-box{padding:32px 22px}.dashboard-wrap{padding:24px 14px 40px}
+.dash-header h1{font-size:22px}.dash-stats{grid-template-columns:repeat(2,1fr);gap:12px}
+.dash-stat{padding:18px 16px}.dash-stat-val{font-size:20px}
+.tabs{width:100%}.grid-cards{grid-template-columns:1fr}
+.modal-body{padding:20px}.modal-head{padding:16px 20px}
+.item-card-foot{flex-direction:column;align-items:stretch}.item-actions{justify-content:flex-end}
+.toast{inset-inline-start:12px;inset-inline-end:12px;bottom:12px}
+.user-chip{max-width:140px}}
+@media(max-width:420px){.hero-metrics{flex-direction:column;gap:8px}.dash-stats{grid-template-columns:1fr}.tx-stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- ==================== TOP STATUS BAR ==================== -->
 <div class="top-status">
   <div class="status-left">
     <span><span class="live-dot"></span><span data-en="SYSTEM ONLINE" data-ur="سسٹم آن لائن">SYSTEM ONLINE</span></span>
@@ -1135,629 +243,309 @@ footer .footer-meta{
     <span class="sep">|</span>
     <span data-en="ENCRYPTION: AES-256" data-ur="انکرپشن: AES-256">ENCRYPTION: AES-256</span>
   </div>
-  <div class="status-right">
-    <span id="top-status-clock">--:--:--</span>
-  </div>
+  <div class="status-right"><span id="top-status-clock">--:--:--</span></div>
 </div>
 
-<!-- ==================== LANDING PAGE ==================== -->
 <div id="landing-page">
 
-  <!-- NAVBAR -->
-  <nav>
-    <div class="nav-inner">
-      <div class="logo" onclick="showPage('landing')">
-        <div class="logo-badge">⚡</div>
-        <div>
-          <div class="logo-text">VELOCTO CHAPEX</div>
-          <span class="logo-sub">TACTICAL BUSINESS OS</span>
-        </div>
-      </div>
-      <div class="nav-right">
-        <div class="lang-toggle">
-          <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-          <button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
-        </div>
-        <button class="btn btn-outline" onclick="showPage('login')" data-en="Login" data-ur="لاگ ان">Login</button>
-        <button class="btn btn-primary" onclick="showPage('signup')" data-en="Get Started" data-ur="مفت شروع کریں">Get Started</button>
-      </div>
-    </div>
-  </nav>
+<nav>
+<div class="nav-inner">
+<div class="logo" onclick="showPage('landing')">
+<div class="logo-badge">⚡</div>
+<div><div class="logo-text">VELOCTO CHAPEX</div><span class="logo-sub">TACTICAL BUSINESS OS</span></div>
+</div>
+<div class="nav-right">
+<div class="lang-toggle">
+<button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+<button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
+</div>
+<button class="btn btn-outline" onclick="showPage('login')" data-en="Login" data-ur="لاگ ان">Login</button>
+<button class="btn btn-primary" onclick="showPage('signup')" data-en="Get Started" data-ur="مفت شروع کریں">Get Started</button>
+</div>
+</div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        <span data-en="TACTICAL SYSTEM READY" data-ur="ٹیکٹیکل سسٹم تیار">TACTICAL SYSTEM READY</span>
-      </div>
-      <h1>
-        <span class="gradient-text" data-en="Empower Your Business With Invincible Automation" data-ur="اپنے کاروبار کو ناقابلِ تسخیر خودکاری سے مضبوط بنائیں">Empower Your Business With Invincible Automation</span>
-      </h1>
-      <p data-en="Velocto Chapex is a next-generation business management platform delivering high-speed data processing, military-grade security, and seamless cloud operations." data-ur="ویلوکٹو چیپیکس ایک جدید کاروباری مینجمنٹ پلیٹ فارم ہے جو تیز رفتار ڈیٹا پروسیسنگ، اعلیٰ درجے کی سیکیورٹی، اور بغیر رکاوٹ کلاؤڈ آپریشنز فراہم کرتا ہے۔">Velocto Chapex is a next-generation business management platform delivering high-speed data processing, military-grade security, and seamless cloud operations.</p>
-      <div class="hero-cta">
-        <button class="btn btn-primary" onclick="showPage('signup')" data-en="Start Free Trial" data-ur="مفت ٹرائل شروع کریں">Start Free Trial</button>
-        <a href="#features" class="btn btn-outline" style="text-decoration:none" data-en="Learn More" data-ur="مزید جانیں">Learn More</a>
-      </div>
-      <div class="hero-metrics">
-        <span>⚡ <span data-en="DEPLOYED IN 60 SECONDS" data-ur="60 سیکنڈ میں تیار">DEPLOYED IN 60 SECONDS</span></span>
-        <span>🛡️ <span data-en="NO CREDIT CARD REQUIRED" data-ur="کریڈٹ کارڈ کی ضرورت نہیں">NO CREDIT CARD REQUIRED</span></span>
-        <span>🔒 <span data-en="ENTERPRISE SECURITY" data-ur="انٹرپرائز سیکیورٹی">ENTERPRISE SECURITY</span></span>
-      </div>
-    </div>
-  </section>
+<section class="hero">
+<div class="hero-content">
+<div class="hero-badge"><span class="live-dot"></span><span data-en="TACTICAL SYSTEM READY" data-ur="ٹیکٹیکل سسٹم تیار">TACTICAL SYSTEM READY</span></div>
+<h1><span class="gradient-text" data-en="Empower Your Business With Invincible Automation" data-ur="اپنے کاروبار کو ناقابلِ تسخیر خودکاری سے مضبوط بنائیں">Empower Your Business With Invincible Automation</span></h1>
+<p data-en="Velocto Chapex is a next-generation business management platform delivering high-speed data processing, military-grade security, and seamless cloud operations." data-ur="ویلوکٹو چیپیکس ایک جدید کاروباری مینجمنٹ پلیٹ فارم ہے جو تیز رفتار ڈیٹا پروسیسنگ، اعلیٰ درجے کی سیکیورٹی، اور بغیر رکاوٹ کلاؤڈ آپریشنز فراہم کرتا ہے۔">Velocto Chapex is a next-generation business management platform delivering high-speed data processing, military-grade security, and seamless cloud operations.</p>
+<div class="hero-cta">
+<button class="btn btn-primary" onclick="showPage('signup')" data-en="Start Free Trial" data-ur="مفت ٹرائل شروع کریں">Start Free Trial</button>
+<a href="#features" class="btn btn-outline" style="text-decoration:none" data-en="Learn More" data-ur="مزید جانیں">Learn More</a>
+</div>
+<div class="hero-metrics">
+<span>⚡ <span data-en="DEPLOYED IN 60 SECONDS" data-ur="60 سیکنڈ میں تیار">DEPLOYED IN 60 SECONDS</span></span>
+<span>🛡️ <span data-en="NO CREDIT CARD REQUIRED" data-ur="کریڈٹ کارڈ کی ضرورت نہیں">NO CREDIT CARD REQUIRED</span></span>
+<span>🔒 <span data-en="ENTERPRISE SECURITY" data-ur="انٹرپرائز سیکیورٹی">ENTERPRISE SECURITY</span></span>
+</div>
+</div>
+</section>
 
-  <!-- STATS BAR -->
-  <div class="stats-bar">
-    <div class="stats-grid">
-      <div>
-        <div class="stat-num">99.9%</div>
-        <div class="stat-lbl" data-en="Uptime SLA" data-ur="اپ ٹائم گارنٹی">Uptime SLA</div>
-      </div>
-      <div>
-        <div class="stat-num">256-bit</div>
-        <div class="stat-lbl" data-en="AES Encryption" data-ur="AES انکرپشن">AES Encryption</div>
-      </div>
-      <div>
-        <div class="stat-num">24/7</div>
-        <div class="stat-lbl" data-en="Founder Support" data-ur="فاؤنڈر سپورٹ">Founder Support</div>
-      </div>
-      <div>
-        <div class="stat-num">10x</div>
-        <div class="stat-lbl" data-en="Faster Performance" data-ur="تیز کارکردگی">Faster Performance</div>
-      </div>
-    </div>
-  </div>
+<section class="bento-container">
+<div class="bento-item bento-large">
+<div>
+<div class="status-indicator">⚡ HIGH-SPEED CORE</div>
+<h2 data-en="Advanced AI Automation" data-ur="جدید AI آٹومیشن">Advanced AI Automation</h2>
+<p data-en="Velocto Chapex automates complex workflows with military-grade speed and precision, reducing human error to absolute zero." data-ur="ویلوکٹو چیپیکس پیچیدہ کاموں کو ملٹری گریڈ رفتار اور درستگی سے خودکار بناتا ہے، انسانی غلطی کو صفر تک کم کرتا ہے۔">Velocto Chapex automates complex workflows with military-grade speed and precision, reducing human error to absolute zero.</p>
+</div>
+<div class="card-graphic">
+<div class="mock-bar" style="width:80%"></div>
+<div class="mock-bar" style="width:60%"></div>
+<div class="mock-bar" style="width:45%"></div>
+</div>
+</div>
+<div class="bento-item bento-small">
+<div class="icon-wrap">🔒</div>
+<h3 data-en="AES-256 Security" data-ur="AES-256 سیکیورٹی">AES-256 Security</h3>
+<p data-en="Your business data is protected by the world's most resilient encryption standards." data-ur="آپ کے کاروباری ڈیٹا کو دنیا کے مضبوط ترین انکرپشن اسٹینڈرڈز سے محفوظ رکھا گیا ہے۔">Your business data is protected by the world's most resilient encryption standards.</p>
+</div>
+<div class="bento-item bento-small">
+<div class="icon-wrap">☁️</div>
+<h3 data-en="Cloud Sync" data-ur="کلاؤڈ سنک">Cloud Sync</h3>
+<p data-en="Real-time data synchronization backed by Supabase cloud infrastructure." data-ur="سپابیس کلاؤڈ انفراسٹرکچر کے ذریعے ریئل ٹائم ڈیٹا سنک۔">Real-time data synchronization backed by Supabase cloud infrastructure.</p>
+</div>
+<div class="bento-item bento-medium">
+<div>
+<div class="status-indicator">📊 LIVE METRICS</div>
+<h3 data-en="Invincible Analytics" data-ur="ناقابلِ تسخیر اینالیٹکس">Invincible Analytics</h3>
+<p data-en="Track business health, process efficiencies, and speed optimization indexes in a unified professional dashboard." data-ur="ایک متحد پروفیشنل ڈیش بورڈ میں کاروباری صحت، کارکردگی اور رفتار کے اشاریے ٹریک کریں۔">Track business health, process efficiencies, and speed optimization indexes in a unified professional dashboard.</p>
+</div>
+</div>
+</section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="container">
-      <h2 class="section-title" data-en="Modern Technology, Simple Experience" data-ur="جدید ٹیکنالوجی، سادہ تجربہ">Modern Technology, Simple Experience</h2>
-      <p class="section-sub" data-en="All the advanced features that will put your business 10 steps ahead" data-ur="وہ تمام جدید فیچرز جو آپ کے کاروبار کو 10 گنا آگے لے جائیں">All the advanced features that will put your business 10 steps ahead</p>
-      <div class="features-grid">
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">🤖</span>
-          <h3 data-en="AI Smart Operations" data-ur="AI اسمارٹ آپریشنز">AI Smart Operations</h3>
-          <p data-en="Intelligent automation that analyzes your data and improves business decisions." data-ur="ذہین خودکار نظام جو آپ کے ڈیٹا کا تجزیہ کرتا ہے اور کاروباری فیصلوں کو بہتر بناتا ہے۔">Intelligent automation that analyzes your data and improves business decisions.</p>
-        </div>
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">🔒</span>
-          <h3 data-en="Military-Grade Security" data-ur="اعلیٰ درجے کی سیکیورٹی">Military-Grade Security</h3>
-          <p data-en="Steel-grade security, end-to-end encryption, and multi-cloud backup." data-ur="فولادی سیکیورٹی، اینڈ ٹو اینڈ انکرپشن، اور ملٹی کلاؤڈ بیک اپ۔">Steel-grade security, end-to-end encryption, and multi-cloud backup.</p>
-        </div>
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">📊</span>
-          <h3 data-en="Real-Time Analytics" data-ur="ریئل ٹائم اینالیٹکس">Real-Time Analytics</h3>
-          <p data-en="Live graphs for income and expenses with detailed reports." data-ur="آمدنی اور اخراجات کے لائیو گراف اور تفصیلی رپورٹس۔">Live graphs for income and expenses with detailed reports.</p>
-        </div>
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">☁️</span>
-          <h3 data-en="Cloud Sync" data-ur="کلاؤڈ سنک">Cloud Sync</h3>
-          <p data-en="Complete sync with Supabase cloud — available on every device." data-ur="سپابیس کلاؤڈ کے ساتھ مکمل سنک — ہر ڈیوائس پر دستیاب۔">Complete sync with Supabase cloud — available on every device.</p>
-        </div>
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">⚡</span>
-          <h3 data-en="High-Speed Performance" data-ur="تیز رفتار کارکردگی">High-Speed Performance</h3>
-          <p data-en="Work without delay with better algorithms and modern infrastructure." data-ur="بہتر الگورتھم اور ماڈرن انفراسٹرکچر کے ساتھ بغیر تاخیر کام کریں۔">Work without delay with better algorithms and modern infrastructure.</p>
-        </div>
-        <div class="feature-card glass glass-hover">
-          <span class="feature-icon">👥</span>
-          <h3 data-en="Team Management" data-ur="ٹیم مینجمنٹ">Team Management</h3>
-          <p data-en="Add team members, assign permissions, and monitor work." data-ur="اپنی ٹیم کے اراکین کو شامل کریں، اجازتیں دیں، اور کام کی نگرانی کریں۔">Add team members, assign permissions, and monitor work.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="stats-bar">
+<div class="stats-grid">
+<div><div class="stat-num">99.9%</div><div class="stat-lbl" data-en="Uptime SLA" data-ur="اپ ٹائم گارنٹی">Uptime SLA</div></div>
+<div><div class="stat-num">256-bit</div><div class="stat-lbl" data-en="AES Encryption" data-ur="AES انکرپشن">AES Encryption</div></div>
+<div><div class="stat-num">24/7</div><div class="stat-lbl" data-en="Founder Support" data-ur="فاؤنڈر سپورٹ">Founder Support</div></div>
+<div><div class="stat-num">10x</div><div class="stat-lbl" data-en="Faster Performance" data-ur="تیز کارکردگی">Faster Performance</div></div>
+</div>
+</div>
 
-  <!-- PRICING -->
-  <section style="background:rgba(15,23,41,.4)">
-    <div class="container">
-      <h2 class="section-title" data-en="Simple & Transparent Pricing" data-ur="سادہ اور شفاف قیمتیں">Simple & Transparent Pricing</h2>
-      <p class="section-sub" data-en="Choose the plan that fits your needs" data-ur="اپنی ضرورت کے مطابق پلان منتخب کریں">Choose the plan that fits your needs</p>
-      <div class="pricing-grid">
-        <div class="price-card glass">
-          <h3>Tactical Starter</h3>
-          <div class="price-amt">$19<span>/<span data-en="mo" data-ur="ماہ">mo</span></span></div>
-          <p class="price-desc" data-en="Perfect start for small businesses" data-ur="چھوٹے کاروبار کے لیے بہترین آغاز">Perfect start for small businesses</p>
-          <ul class="price-features">
-            <li data-en="5 User Accounts" data-ur="5 یوزر اکاؤنٹس">5 User Accounts</li>
-            <li data-en="50GB Encrypted Storage" data-ur="50GB انکرپٹڈ اسٹوریج">50GB Encrypted Storage</li>
-            <li data-en="Basic Reports" data-ur="بنیادی رپورٹس">Basic Reports</li>
-            <li data-en="Email Support" data-ur="ای میل سپورٹ">Email Support</li>
-          </ul>
-          <button class="btn btn-outline btn-block" onclick="showPage('signup')" data-en="Get Started" data-ur="شروع کریں">Get Started</button>
-        </div>
-        <div class="price-card glass featured">
-          <span class="recommended-tag" data-en="Recommended" data-ur="تجویز کردہ">Recommended</span>
-          <h3>Pro Ultimate</h3>
-          <div class="price-amt">$49<span>/<span data-en="mo" data-ur="ماہ">mo</span></span></div>
-          <p class="price-desc" data-en="Full power for growing businesses" data-ur="بڑھتے کاروبار کے لیے مکمل طاقت">Full power for growing businesses</p>
-          <ul class="price-features">
-            <li data-en="Unlimited Users" data-ur="لامحدود یوزرز">Unlimited Users</li>
-            <li data-en="1TB Storage" data-ur="1TB اسٹوریج">1TB Storage</li>
-            <li data-en="Full AI Automation" data-ur="مکمل AI آٹومیشن">Full AI Automation</li>
-            <li data-en="Real-Time Analytics" data-ur="ریئل ٹائم اینالیٹکس">Real-Time Analytics</li>
-            <li data-en="24/7 Support" data-ur="24/7 سپورٹ">24/7 Support</li>
-          </ul>
-          <button class="btn btn-primary btn-block" onclick="showPage('signup')" data-en="Upgrade Now" data-ur="ابھی اپ گریڈ کریں">Upgrade Now</button>
-        </div>
-      </div>
-    </div>
-  </section>
+<section id="features">
+<div class="container">
+<h2 class="section-title" data-en="Modern Technology, Simple Experience" data-ur="جدید ٹیکنالوجی، سادہ تجربہ">Modern Technology, Simple Experience</h2>
+<p class="section-sub" data-en="All the advanced features that will put your business 10 steps ahead" data-ur="وہ تمام جدید فیچرز جو آپ کے کاروبار کو 10 گنا آگے لے جائیں">All the advanced features that will put your business 10 steps ahead</p>
+<div class="features-grid">
+<div class="feature-card glass glass-hover"><span class="feature-icon">🤖</span><h3 data-en="AI Smart Operations" data-ur="AI اسمارٹ آپریشنز">AI Smart Operations</h3><p data-en="Intelligent automation that analyzes your data and improves business decisions." data-ur="ذہین خودکار نظام جو آپ کے ڈیٹا کا تجزیہ کرتا ہے اور کاروباری فیصلوں کو بہتر بناتا ہے۔">Intelligent automation that analyzes your data and improves business decisions.</p></div>
+<div class="feature-card glass glass-hover"><span class="feature-icon">🔒</span><h3 data-en="Military-Grade Security" data-ur="اعلیٰ درجے کی سیکیورٹی">Military-Grade Security</h3><p data-en="Steel-grade security, end-to-end encryption, and multi-cloud backup." data-ur="فولادی سیکیورٹی، اینڈ ٹو اینڈ انکرپشن، اور ملٹی کلاؤڈ بیک اپ۔">Steel-grade security, end-to-end encryption, and multi-cloud backup.</p></div>
+<div class="feature-card glass glass-hover"><span class="feature-icon">📊</span><h3 data-en="Real-Time Analytics" data-ur="ریئل ٹائم اینالیٹکس">Real-Time Analytics</h3><p data-en="Live graphs for income and expenses with detailed reports." data-ur="آمدنی اور اخراجات کے لائیو گراف اور تفصیلی رپورٹس۔">Live graphs for income and expenses with detailed reports.</p></div>
+<div class="feature-card glass glass-hover"><span class="feature-icon">☁️</span><h3 data-en="Cloud Sync" data-ur="کلاؤڈ سنک">Cloud Sync</h3><p data-en="Complete sync with Supabase cloud — available on every device." data-ur="سپابیس کلاؤڈ کے ساتھ مکمل سنک — ہر ڈیوائس پر دستیاب۔">Complete sync with Supabase cloud — available on every device.</p></div>
+<div class="feature-card glass glass-hover"><span class="feature-icon">⚡</span><h3 data-en="High-Speed Performance" data-ur="تیز رفتار کارکردگی">High-Speed Performance</h3><p data-en="Work without delay with better algorithms and modern infrastructure." data-ur="بہتر الگورتھم اور ماڈرن انفراسٹرکچر کے ساتھ بغیر تاخیر کام کریں۔">Work without delay with better algorithms and modern infrastructure.</p></div>
+<div class="feature-card glass glass-hover"><span class="feature-icon">👥</span><h3 data-en="Team Management" data-ur="ٹیم مینجمنٹ">Team Management</h3><p data-en="Add team members, assign permissions, and monitor work." data-ur="اپنی ٹیم کے اراکین کو شامل کریں، اجازتیں دیں، اور کام کی نگرانی کریں۔">Add team members, assign permissions, and monitor work.</p></div>
+</div>
+</div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div data-en="© 2026 Velocto Chapex. All rights reserved." data-ur="© 2026 ویلوکٹو چیپیکس۔ جملہ حقوق محفوظ ہیں۔">© 2026 Velocto Chapex. All rights reserved.</div>
-    <div class="footer-meta">CEO: CH MUJAHID HUSSAIN · EST. 2026 · TACTICAL BUSINESS OS</div>
-  </footer>
+<section style="background:rgba(22,25,30,.4)">
+<div class="container">
+<h2 class="section-title" data-en="Simple & Transparent Pricing" data-ur="سادہ اور شفاف قیمتیں">Simple & Transparent Pricing</h2>
+<p class="section-sub" data-en="Choose the plan that fits your needs" data-ur="اپنی ضرورت کے مطابق پلان منتخب کریں">Choose the plan that fits your needs</p>
+<div class="pricing-grid">
+<div class="price-card glass">
+<h3>Tactical Starter</h3>
+<div class="price-amt">$19<span>/<span data-en="mo" data-ur="ماہ">mo</span></span></div>
+<p class="price-desc" data-en="Perfect start for small businesses" data-ur="چھوٹے کاروبار کے لیے بہترین آغاز">Perfect start for small businesses</p>
+<ul class="price-features">
+<li data-en="5 User Accounts" data-ur="5 یوزر اکاؤنٹس">5 User Accounts</li>
+<li data-en="50GB Encrypted Storage" data-ur="50GB انکرپٹڈ اسٹوریج">50GB Encrypted Storage</li>
+<li data-en="Basic Reports" data-ur="بنیادی رپورٹس">Basic Reports</li>
+<li data-en="Email Support" data-ur="ای میل سپورٹ">Email Support</li>
+</ul>
+<button class="btn btn-outline btn-block" onclick="showPage('signup')" data-en="Get Started" data-ur="شروع کریں">Get Started</button>
+</div>
+<div class="price-card glass featured">
+<span class="recommended-tag" data-en="Recommended" data-ur="تجویز کردہ">Recommended</span>
+<h3>Pro Ultimate</h3>
+<div class="price-amt">$49<span>/<span data-en="mo" data-ur="ماہ">mo</span></span></div>
+<p class="price-desc" data-en="Full power for growing businesses" data-ur="بڑھتے کاروبار کے لیے مکمل طاقت">Full power for growing businesses</p>
+<ul class="price-features">
+<li data-en="Unlimited Users" data-ur="لامحدود یوزرز">Unlimited Users</li>
+<li data-en="1TB Storage" data-ur="1TB اسٹوریج">1TB Storage</li>
+<li data-en="Full AI Automation" data-ur="مکمل AI آٹومیشن">Full AI Automation</li>
+<li data-en="Real-Time Analytics" data-ur="ریئل ٹائم اینالیٹکس">Real-Time Analytics</li>
+<li data-en="24/7 Support" data-ur="24/7 سپورٹ">24/7 Support</li>
+</ul>
+<button class="btn btn-primary btn-block" onclick="showPage('signup')" data-en="Upgrade Now" data-ur="ابھی اپ گریڈ کریں">Upgrade Now</button>
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div data-en="© 2026 Velocto Chapex. All rights reserved." data-ur="© 2026 ویلوکٹو چیپیکس۔ جملہ حقوق محفوظ ہیں۔">© 2026 Velocto Chapex. All rights reserved.</div>
+<div class="footer-meta">CEO: CH MUJAHID HUSSAIN · EST. 2026 · TACTICAL BUSINESS OS</div>
+</footer>
 
 </div>
 
-<!-- ==================== LOGIN PAGE ==================== -->
 <div id="login-page" class="hidden">
-  <nav>
-    <div class="nav-inner">
-      <div class="logo" onclick="showPage('landing')">
-        <div class="logo-badge">⚡</div>
-        <div>
-          <div class="logo-text">VELOCTO CHAPEX</div>
-          <span class="logo-sub">TACTICAL BUSINESS OS</span>
-        </div>
-      </div>
-      <div class="nav-right">
-        <div class="lang-toggle">
-          <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-          <button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
-        </div>
-        <button class="btn btn-outline" onclick="showPage('signup')" data-en="Sign Up" data-ur="سائن اپ">Sign Up</button>
-      </div>
-    </div>
-  </nav>
-
-  <div class="auth-wrap">
-    <div class="auth-box glass">
-      <div class="auth-logo gradient-text">VELOCTO CHAPEX</div>
-      <h1 data-en="Sign In to Your Account" data-ur="اپنے اکاؤنٹ میں لاگ ان کریں">Sign In to Your Account</h1>
-      <div id="login-error"></div>
-      <div class="form-group">
-        <label data-en="Email Address" data-ur="ای میل ایڈریس">Email Address</label>
-        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label data-en="Password" data-ur="پاس ورڈ">Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
-      </div>
-      <button class="btn btn-primary btn-block" id="login-btn" onclick="handleLogin()" data-en="Sign In" data-ur="لاگ ان">Sign In</button>
-      <div class="auth-footer">
-        <span data-en="Don't have an account?" data-ur="اکاؤنٹ نہیں ہے؟">Don't have an account?</span>
-        <a href="#" onclick="showPage('signup');return false;" data-en="Create one" data-ur="نیا بنائیں">Create one</a>
-      </div>
-      <div class="auth-footer" style="margin-top:6px">
-        <a href="#" onclick="showPage('landing');return false;" data-en="← Back to Home" data-ur="← واپس ہوم پیج">← Back to Home</a>
-      </div>
-    </div>
-  </div>
+<nav>
+<div class="nav-inner">
+<div class="logo" onclick="showPage('landing')">
+<div class="logo-badge">⚡</div>
+<div><div class="logo-text">VELOCTO CHAPEX</div><span class="logo-sub">TACTICAL BUSINESS OS</span></div>
+</div>
+<div class="nav-right">
+<div class="lang-toggle">
+<button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+<button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
+</div>
+<button class="btn btn-outline" onclick="showPage('signup')" data-en="Sign Up" data-ur="سائن اپ">Sign Up</button>
+</div>
+</div>
+</nav>
+<div class="auth-wrap">
+<div class="auth-box glass">
+<div class="auth-logo gradient-text">VELOCTO CHAPEX</div>
+<h1 data-en="Sign In to Your Account" data-ur="اپنے اکاؤنٹ میں لاگ ان کریں">Sign In to Your Account</h1>
+<div id="login-error"></div>
+<div class="form-group"><label data-en="Email Address" data-ur="ای میل ایڈریس">Email Address</label><input type="email" id="login-email" placeholder="you@example.com" autocomplete="email"></div>
+<div class="form-group"><label data-en="Password" data-ur="پاس ورڈ">Password</label><input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"></div>
+<button class="btn btn-primary btn-block" id="login-btn" onclick="handleLogin()" data-en="Sign In" data-ur="لاگ ان">Sign In</button>
+<div class="auth-footer"><span data-en="Don't have an account?" data-ur="اکاؤنٹ نہیں ہے؟">Don't have an account?</span> <a href="#" onclick="showPage('signup');return false;" data-en="Create one" data-ur="نیا بنائیں">Create one</a></div>
+<div class="auth-footer" style="margin-top:6px"><a href="#" onclick="showPage('landing');return false;" data-en="← Back to Home" data-ur="← واپس ہوم پیج">← Back to Home</a></div>
+</div>
+</div>
 </div>
 
-<!-- ==================== SIGNUP PAGE ==================== -->
 <div id="signup-page" class="hidden">
-  <nav>
-    <div class="nav-inner">
-      <div class="logo" onclick="showPage('landing')">
-        <div class="logo-badge">⚡</div>
-        <div>
-          <div class="logo-text">VELOCTO CHAPEX</div>
-          <span class="logo-sub">TACTICAL BUSINESS OS</span>
-        </div>
-      </div>
-      <div class="nav-right">
-        <div class="lang-toggle">
-          <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-          <button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
-        </div>
-        <button class="btn btn-outline" onclick="showPage('login')" data-en="Login" data-ur="لاگ ان">Login</button>
-      </div>
-    </div>
-  </nav>
-
-  <div class="auth-wrap">
-    <div class="auth-box glass">
-      <div class="auth-logo gradient-text">VELOCTO CHAPEX</div>
-      <h1 data-en="Create Your Account" data-ur="نیا اکاؤنٹ بنائیں">Create Your Account</h1>
-      <div id="signup-error"></div>
-      <div class="form-group">
-        <label data-en="Full Name" data-ur="پورا نام">Full Name</label>
-        <input type="text" id="signup-name" placeholder="John Doe" autocomplete="name">
-      </div>
-      <div class="form-group">
-        <label data-en="Company Name" data-ur="کمپنی کا نام">Company Name</label>
-        <input type="text" id="signup-company" placeholder="Acme Corp" autocomplete="organization">
-      </div>
-      <div class="form-group">
-        <label data-en="Email Address" data-ur="ای میل ایڈریس">Email Address</label>
-        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label data-en="Password (min 6 characters)" data-ur="پاس ورڈ (کم از کم 6 حروف)">Password (min 6 characters)</label>
-        <input type="password" id="signup-password" placeholder="••••••••" autocomplete="new-password">
-      </div>
-      <button class="btn btn-primary btn-block" id="signup-btn" onclick="handleSignup()" data-en="Create Account" data-ur="اکاؤنٹ بنائیں">Create Account</button>
-      <div class="auth-footer">
-        <span data-en="Already have an account?" data-ur="پہلے سے اکاؤنٹ ہے؟">Already have an account?</span>
-        <a href="#" onclick="showPage('login');return false;" data-en="Sign In" data-ur="لاگ ان کریں">Sign In</a>
-      </div>
-      <div class="auth-footer" style="margin-top:6px">
-        <a href="#" onclick="showPage('landing');return false;" data-en="← Back to Home" data-ur="← واپس ہوم پیج">← Back to Home</a>
-      </div>
-    </div>
-  </div>
+<nav>
+<div class="nav-inner">
+<div class="logo" onclick="showPage('landing')">
+<div class="logo-badge">⚡</div>
+<div><div class="logo-text">VELOCTO CHAPEX</div><span class="logo-sub">TACTICAL BUSINESS OS</span></div>
+</div>
+<div class="nav-right">
+<div class="lang-toggle">
+<button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+<button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
+</div>
+<button class="btn btn-outline" onclick="showPage('login')" data-en="Login" data-ur="لاگ ان">Login</button>
+</div>
+</div>
+</nav>
+<div class="auth-wrap">
+<div class="auth-box glass">
+<div class="auth-logo gradient-text">VELOCTO CHAPEX</div>
+<h1 data-en="Create Your Account" data-ur="نیا اکاؤنٹ بنائیں">Create Your Account</h1>
+<div id="signup-error"></div>
+<div class="form-group"><label data-en="Full Name" data-ur="پورا نام">Full Name</label><input type="text" id="signup-name" placeholder="John Doe" autocomplete="name"></div>
+<div class="form-group"><label data-en="Company Name" data-ur="کمپنی کا نام">Company Name</label><input type="text" id="signup-company" placeholder="Acme Corp" autocomplete="organization"></div>
+<div class="form-group"><label data-en="Email Address" data-ur="ای میل ایڈریس">Email Address</label><input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email"></div>
+<div class="form-group"><label data-en="Password (min 6 characters)" data-ur="پاس ورڈ (کم از کم 6 حروف)">Password (min 6 characters)</label><input type="password" id="signup-password" placeholder="••••••••" autocomplete="new-password"></div>
+<button class="btn btn-primary btn-block" id="signup-btn" onclick="handleSignup()" data-en="Create Account" data-ur="اکاؤنٹ بنائیں">Create Account</button>
+<div class="auth-footer"><span data-en="Already have an account?" data-ur="پہلے سے اکاؤنٹ ہے؟">Already have an account?</span> <a href="#" onclick="showPage('login');return false;" data-en="Sign In" data-ur="لاگ ان کریں">Sign In</a></div>
+<div class="auth-footer" style="margin-top:6px"><a href="#" onclick="showPage('landing');return false;" data-en="← Back to Home" data-ur="← واپس ہوم پیج">← Back to Home</a></div>
+</div>
+</div>
 </div>
 
-<!-- ==================== DASHBOARD ==================== -->
 <div id="dashboard-page" class="hidden">
-  <nav>
-    <div class="nav-inner">
-      <div class="logo" onclick="showPage('dashboard')">
-        <div class="logo-badge">⚡</div>
-        <div>
-          <div class="logo-text">VELOCTO CHAPEX</div>
-          <span class="logo-sub">TACTICAL BUSINESS OS</span>
-        </div>
-      </div>
-      <div class="nav-right">
-        <div class="lang-toggle">
-          <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-          <button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
-        </div>
-        <div class="user-chip">
-          <span class="dot"></span>
-          <span class="email" id="user-email">user@example.com</span>
-        </div>
-        <button class="btn btn-danger btn-sm" onclick="handleLogout()" data-en="Logout" data-ur="لاگ آؤٹ">Logout</button>
-      </div>
-    </div>
-  </nav>
-
-  <div class="dashboard-wrap">
-
-    <!-- DASH HEADER -->
-    <div class="dash-header">
-      <div>
-        <h1 data-en="Command Center" data-ur="کمانڈ سینٹر">Command Center</h1>
-        <p data-en="Complete overview of your business operations" data-ur="آپ کے کاروبار کا مکمل جائزہ">Complete overview of your business operations</p>
-      </div>
-      <div class="meta">
-        <span class="live" data-en="LIVE DATA" data-ur="لائیو ڈیٹا">LIVE DATA</span>
-        <span id="dash-clock">--:--:--</span>
-      </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="dash-stats">
-      <div class="dash-stat glass">
-        <span class="dash-stat-icon">📦</span>
-        <div class="dash-stat-lbl" data-en="Total Products" data-ur="کل مصنوعات">Total Products</div>
-        <div class="dash-stat-val" id="stat-products">0</div>
-      </div>
-      <div class="dash-stat glass">
-        <span class="dash-stat-icon">👥</span>
-        <div class="dash-stat-lbl" data-en="Total Customers" data-ur="کل گاہک">Total Customers</div>
-        <div class="dash-stat-val" id="stat-customers">0</div>
-      </div>
-      <div class="dash-stat glass">
-        <span class="dash-stat-icon">📋</span>
-        <div class="dash-stat-lbl" data-en="Total Orders" data-ur="کل آرڈرز">Total Orders</div>
-        <div class="dash-stat-val" id="stat-orders">0</div>
-      </div>
-      <div class="dash-stat glass">
-        <span class="dash-stat-icon">💰</span>
-        <div class="dash-stat-lbl" data-en="Total Revenue" data-ur="کل آمدنی">Total Revenue</div>
-        <div class="dash-stat-val" id="stat-revenue">$0</div>
-      </div>
-    </div>
-
-    <!-- CHART -->
-    <div class="chart-box glass">
-      <div class="chart-head">
-        <h3 data-en="Weekly Revenue Trend" data-ur="ہفتہ وار آمدنی کا رجحان">Weekly Revenue Trend</h3>
-        <div class="legend">
-          <span class="chart-legend-item"><span class="chart-legend-dot"></span><span data-en="Revenue ($)" data-ur="آمدنی ($)">Revenue ($)</span></span>
-        </div>
-      </div>
-      <canvas id="revenueChart" height="80"></canvas>
-    </div>
-
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="products" onclick="switchTab('products')">
-        <span>📦</span>
-        <span data-en="Products" data-ur="مصنوعات">Products</span>
-      </button>
-      <button class="tab-btn" data-tab="customers" onclick="switchTab('customers')">
-        <span>👥</span>
-        <span data-en="Customers" data-ur="گاہک">Customers</span>
-      </button>
-      <button class="tab-btn" data-tab="orders" onclick="switchTab('orders')">
-        <span>📋</span>
-        <span data-en="Orders" data-ur="آرڈرز">Orders</span>
-      </button>
-      <button class="tab-btn" data-tab="transactions" onclick="switchTab('transactions')">
-        <span>💰</span>
-        <span data-en="Income / Expenses" data-ur="آمدنی / اخراجات">Income / Expenses</span>
-      </button>
-    </div>
-
-    <!-- ===== TAB: PRODUCTS ===== -->
-    <div id="tab-products" class="tab-content">
-      <div class="section-head">
-        <input type="text" id="product-search" class="search-input" placeholder="🔍 Search products..." oninput="renderProducts()">
-        <button class="btn btn-primary" onclick="openProductModal()">
-          <span>+</span>
-          <span data-en="New Product" data-ur="نئی مصنوعات">New Product</span>
-        </button>
-      </div>
-      <div id="products-list" class="grid-cards"></div>
-    </div>
-
-    <!-- ===== TAB: CUSTOMERS ===== -->
-    <div id="tab-customers" class="tab-content hidden">
-      <div class="section-head">
-        <input type="text" id="customer-search" class="search-input" placeholder="🔍 Search customers..." oninput="renderCustomers()">
-        <button class="btn btn-primary" onclick="openCustomerModal()">
-          <span>+</span>
-          <span data-en="New Customer" data-ur="نیا گاہک">New Customer</span>
-        </button>
-      </div>
-      <div class="table-wrap glass">
-        <table>
-          <thead>
-            <tr>
-              <th data-en="Name" data-ur="نام">Name</th>
-              <th data-en="Email" data-ur="ای میل">Email</th>
-              <th data-en="Phone" data-ur="فون">Phone</th>
-              <th data-en="City" data-ur="شہر">City</th>
-              <th data-en="Actions" data-ur="اقدامات">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="customers-list"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ===== TAB: ORDERS ===== -->
-    <div id="tab-orders" class="tab-content hidden">
-      <div class="section-head">
-        <h3 style="color:var(--muted);font-size:13px;font-family:'Courier New',monospace;letter-spacing:1px" data-en="ALL ORDERS" data-ur="تمام آرڈرز">ALL ORDERS</h3>
-        <button class="btn btn-primary" onclick="openOrderModal()">
-          <span>+</span>
-          <span data-en="New Order" data-ur="نیا آرڈر">New Order</span>
-        </button>
-      </div>
-      <div class="table-wrap glass">
-        <table>
-          <thead>
-            <tr>
-              <th data-en="Order #" data-ur="نمبر">Order #</th>
-              <th data-en="Customer" data-ur="گاہک">Customer</th>
-              <th data-en="Amount" data-ur="رقم">Amount</th>
-              <th data-en="Status" data-ur="حالت">Status</th>
-              <th data-en="Payment" data-ur="ادائیگی">Payment</th>
-              <th data-en="Actions" data-ur="اقدامات">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="orders-list"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ===== TAB: TRANSACTIONS ===== -->
-    <div id="tab-transactions" class="tab-content hidden">
-      <div class="tx-stats">
-        <div class="tx-stat income glass">
-          <div class="tx-stat-lbl" data-en="Total Income" data-ur="کل آمدنی">Total Income</div>
-          <div class="tx-stat-val" id="tx-income">$0</div>
-        </div>
-        <div class="tx-stat expense glass">
-          <div class="tx-stat-lbl" data-en="Total Expenses" data-ur="کل اخراجات">Total Expenses</div>
-          <div class="tx-stat-val" id="tx-expense">$0</div>
-        </div>
-        <div class="tx-stat balance glass">
-          <div class="tx-stat-lbl" data-en="Net Balance" data-ur="خالص بیلنس">Net Balance</div>
-          <div class="tx-stat-val" id="tx-balance">$0</div>
-        </div>
-      </div>
-      <div class="section-head">
-        <h3 style="color:var(--muted);font-size:13px;font-family:'Courier New',monospace;letter-spacing:1px" data-en="ALL TRANSACTIONS" data-ur="تمام لین دین">ALL TRANSACTIONS</h3>
-        <button class="btn btn-primary" onclick="openTransactionModal()">
-          <span>+</span>
-          <span data-en="New Transaction" data-ur="نیا لین دین">New Transaction</span>
-        </button>
-      </div>
-      <div class="table-wrap glass">
-        <table>
-          <thead>
-            <tr>
-              <th data-en="Type" data-ur="قسم">Type</th>
-              <th data-en="Amount" data-ur="رقم">Amount</th>
-              <th data-en="Category" data-ur="زمرہ">Category</th>
-              <th data-en="Description" data-ur="تفصیل">Description</th>
-              <th data-en="Date" data-ur="تاریخ">Date</th>
-              <th data-en="Actions" data-ur="اقدامات">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="transactions-list"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
+<nav>
+<div class="nav-inner">
+<div class="logo" onclick="showPage('dashboard')">
+<div class="logo-badge">⚡</div>
+<div><div class="logo-text">VELOCTO CHAPEX</div><span class="logo-sub">TACTICAL BUSINESS OS</span></div>
+</div>
+<div class="nav-right">
+<div class="lang-toggle">
+<button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+<button class="lang-btn" data-lang="ur" onclick="setLanguage('ur')">اردو</button>
+</div>
+<div class="user-chip"><span class="dot"></span><span class="email" id="user-email">user@example.com</span></div>
+<button class="btn btn-danger btn-sm" onclick="handleLogout()" data-en="Logout" data-ur="لاگ آؤٹ">Logout</button>
+</div>
+</div>
+</nav>
+<div class="dashboard-wrap">
+<div class="dash-header">
+<div><h1 data-en="Command Center" data-ur="کمانڈ سینٹر">Command Center</h1><p data-en="Complete overview of your business operations" data-ur="آپ کے کاروبار کا مکمل جائزہ">Complete overview of your business operations</p></div>
+<div class="meta"><span class="live" data-en="LIVE DATA" data-ur="لائیو ڈیٹا">LIVE DATA</span><span id="dash-clock">--:--:--</span></div>
+</div>
+<div class="dash-stats">
+<div class="dash-stat glass"><span class="dash-stat-icon">📦</span><div class="dash-stat-lbl" data-en="Total Products" data-ur="کل مصنوعات">Total Products</div><div class="dash-stat-val" id="stat-products">0</div></div>
+<div class="dash-stat glass"><span class="dash-stat-icon">👥</span><div class="dash-stat-lbl" data-en="Total Customers" data-ur="کل گاہک">Total Customers</div><div class="dash-stat-val" id="stat-customers">0</div></div>
+<div class="dash-stat glass"><span class="dash-stat-icon">📋</span><div class="dash-stat-lbl" data-en="Total Orders" data-ur="کل آرڈرز">Total Orders</div><div class="dash-stat-val" id="stat-orders">0</div></div>
+<div class="dash-stat glass"><span class="dash-stat-icon">💰</span><div class="dash-stat-lbl" data-en="Total Revenue" data-ur="کل آمدنی">Total Revenue</div><div class="dash-stat-val" id="stat-revenue">$0</div></div>
+</div>
+<div class="chart-box glass">
+<div class="chart-head"><h3 data-en="Weekly Revenue Trend" data-ur="ہفتہ وار آمدنی کا رجحان">Weekly Revenue Trend</h3><div class="legend"><span class="chart-legend-item"><span class="chart-legend-dot"></span><span data-en="Revenue ($)" data-ur="آمدنی ($)">Revenue ($)</span></span></div></div>
+<canvas id="revenueChart" height="80"></canvas>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="products" onclick="switchTab('products')"><span>📦</span><span data-en="Products" data-ur="مصنوعات">Products</span></button>
+<button class="tab-btn" data-tab="customers" onclick="switchTab('customers')"><span>👥</span><span data-en="Customers" data-ur="گاہک">Customers</span></button>
+<button class="tab-btn" data-tab="orders" onclick="switchTab('orders')"><span>📋</span><span data-en="Orders" data-ur="آرڈرز">Orders</span></button>
+<button class="tab-btn" data-tab="transactions" onclick="switchTab('transactions')"><span>💰</span><span data-en="Income / Expenses" data-ur="آمدنی / اخراجات">Income / Expenses</span></button>
+</div>
+<div id="tab-products" class="tab-content">
+<div class="section-head"><input type="text" id="product-search" class="search-input" placeholder="🔍 Search products..." oninput="renderProducts()"><button class="btn btn-primary" onclick="openProductModal()"><span>+</span><span data-en="New Product" data-ur="نئی مصنوعات">New Product</span></button></div>
+<div id="products-list" class="grid-cards"></div>
+</div>
+<div id="tab-customers" class="tab-content hidden">
+<div class="section-head"><input type="text" id="customer-search" class="search-input" placeholder="🔍 Search customers..." oninput="renderCustomers()"><button class="btn btn-primary" onclick="openCustomerModal()"><span>+</span><span data-en="New Customer" data-ur="نیا گاہک">New Customer</span></button></div>
+<div class="table-wrap glass"><table><thead><tr><th data-en="Name" data-ur="نام">Name</th><th data-en="Email" data-ur="ای میل">Email</th><th data-en="Phone" data-ur="فون">Phone</th><th data-en="City" data-ur="شہر">City</th><th data-en="Actions" data-ur="اقدامات">Actions</th></tr></thead><tbody id="customers-list"></tbody></table></div>
+</div>
+<div id="tab-orders" class="tab-content hidden">
+<div class="section-head"><h3 style="color:var(--muted);font-size:13px;font-family:'Courier New',monospace;letter-spacing:1px" data-en="ALL ORDERS" data-ur="تمام آرڈرز">ALL ORDERS</h3><button class="btn btn-primary" onclick="openOrderModal()"><span>+</span><span data-en="New Order" data-ur="نیا آرڈر">New Order</span></button></div>
+<div class="table-wrap glass"><table><thead><tr><th data-en="Order #" data-ur="نمبر">Order #</th><th data-en="Customer" data-ur="گاہک">Customer</th><th data-en="Amount" data-ur="رقم">Amount</th><th data-en="Status" data-ur="حالت">Status</th><th data-en="Payment" data-ur="ادائیگی">Payment</th><th data-en="Actions" data-ur="اقدامات">Actions</th></tr></thead><tbody id="orders-list"></tbody></table></div>
+</div>
+<div id="tab-transactions" class="tab-content hidden">
+<div class="tx-stats">
+<div class="tx-stat income glass"><div class="tx-stat-lbl" data-en="Total Income" data-ur="کل آمدنی">Total Income</div><div class="tx-stat-val" id="tx-income">$0</div></div>
+<div class="tx-stat expense glass"><div class="tx-stat-lbl" data-en="Total Expenses" data-ur="کل اخراجات">Total Expenses</div><div class="tx-stat-val" id="tx-expense">$0</div></div>
+<div class="tx-stat balance glass"><div class="tx-stat-lbl" data-en="Net Balance" data-ur="خالص بیلنس">Net Balance</div><div class="tx-stat-val" id="tx-balance">$0</div></div>
+</div>
+<div class="section-head"><h3 style="color:var(--muted);font-size:13px;font-family:'Courier New',monospace;letter-spacing:1px" data-en="ALL TRANSACTIONS" data-ur="تمام لین دین">ALL TRANSACTIONS</h3><button class="btn btn-primary" onclick="openTransactionModal()"><span>+</span><span data-en="New Transaction" data-ur="نیا لین دین">New Transaction</span></button></div>
+<div class="table-wrap glass"><table><thead><tr><th data-en="Type" data-ur="قسم">Type</th><th data-en="Amount" data-ur="رقم">Amount</th><th data-en="Category" data-ur="زمرہ">Category</th><th data-en="Description" data-ur="تفصیل">Description</th><th data-en="Date" data-ur="تاریخ">Date</th><th data-en="Actions" data-ur="اقدامات">Actions</th></tr></thead><tbody id="transactions-list"></tbody></table></div>
+</div>
+</div>
 </div>
 
-<!-- ==================== MODAL ROOT ==================== -->
 <div id="modal-root"></div>
-
-<!-- ==================== TOAST ROOT ==================== -->
 <div id="toast-root"></div>
-
-<!-- ==================== LOADING OVERLAY ==================== -->
-<div id="loading-overlay" class="hidden" style="position:fixed;inset:0;background:rgba(10,14,26,.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:3000">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div style="font-family:'Courier New',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase" data-en="LOADING..." data-ur="لوڈ ہو رہا ہے...">LOADING...</div>
-  </div>
+<div id="loading-overlay" class="hidden" style="position:fixed;inset:0;background:rgba(13,14,16,.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:3000">
+<div class="loading"><div class="spinner"></div><div style="font-family:'Courier New',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase" data-en="LOADING..." data-ur="لوڈ ہو رہا ہے...">LOADING...</div></div>
 </div>
-<script>
-/* ============================================================
-   VELOCTO CHAPEX - Application Script
-   ============================================================ */
 
-// ========== SUPABASE CONFIG ==========
+<script>
 const SUPABASE_URL = 'https://vkckdgxwrcwxctypxtms.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrY2tkZ3h3cmN3eGN0eXB4dG1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0MjA0MjgsImV4cCI6MjEwNjk5NjQyOH0.4KRbCz2-bjX_NtrRV0t67FrvpnbmIQWWX4jWwxye7nI';
-
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ========== STATE ==========
 let currentUser = null;
 let currentLang = localStorage.getItem('velocto_lang') || 'en';
 let currentTab = 'products';
-let productsData = [];
-let customersData = [];
-let ordersData = [];
-let transactionsData = [];
+let productsData = [], customersData = [], ordersData = [], transactionsData = [];
 let revenueChartInstance = null;
 
-// ========== I18N ==========
 const I18N = {
-  en: {
-    confirmDelete: 'Are you sure you want to delete this?',
-    saved: 'Saved successfully',
-    updated: 'Updated successfully',
-    deleted: 'Deleted successfully',
-    errorRequired: 'Please fill all required fields',
-    errorPassword: 'Password must be at least 6 characters',
-    loginSuccess: 'Login successful',
-    signupSuccess: 'Account created successfully',
-    logoutSuccess: 'Logged out',
-    orderStatusUpdated: 'Order status updated',
-    loading: 'Loading...',
-    none: '—',
-    noProducts: 'No products yet',
-    noCustomers: 'No customers yet',
-    noOrders: 'No orders yet',
-    noTransactions: 'No transactions yet',
-    addProduct: 'New Product',
-    editProduct: 'Edit Product',
-    addCustomer: 'New Customer',
-    editCustomer: 'Edit Customer',
-    addOrder: 'New Order',
-    editOrder: 'Edit Order',
-    addTransaction: 'New Transaction',
-    save: 'Save',
-    cancel: 'Cancel',
-    name: 'Name',
-    description: 'Description',
-    category: 'Category',
-    price: 'Price',
-    cost: 'Cost',
-    stock: 'Stock',
-    email: 'Email',
-    phone: 'Phone',
-    city: 'City',
-    address: 'Address',
-    customer: 'Customer',
-    amount: 'Amount',
-    status: 'Status',
-    payment: 'Payment',
-    notes: 'Notes',
-    type: 'Type',
-    income: 'Income',
-    expense: 'Expense',
-    selectCustomer: '— Select Customer —',
-    noCustomer: '— None —',
-  },
-  ur: {
-    confirmDelete: 'کیا آپ واقعی ڈیلیٹ کرنا چاہتے ہیں؟',
-    saved: 'کامیابی سے محفوظ ہو گیا',
-    updated: 'کامیابی سے اپ ڈیٹ ہو گیا',
-    deleted: 'ڈیلیٹ ہو گیا',
-    errorRequired: 'تمام ضروری خانے پُر کریں',
-    errorPassword: 'پاس ورڈ کم از کم 6 حروف کا ہو',
-    loginSuccess: 'کامیابی سے لاگ ان ہو گئے',
-    signupSuccess: 'اکاؤنٹ کامیابی سے بن گیا',
-    logoutSuccess: 'لاگ آؤٹ ہو گئے',
-    orderStatusUpdated: 'حالت اپ ڈیٹ ہو گئی',
-    loading: 'لوڈ ہو رہا ہے...',
-    none: '—',
-    noProducts: 'ابھی کوئی مصنوعات نہیں',
-    noCustomers: 'ابھی کوئی گاہک نہیں',
-    noOrders: 'ابھی کوئی آرڈر نہیں',
-    noTransactions: 'ابھی کوئی لین دین نہیں',
-    addProduct: 'نئی مصنوعات',
-    editProduct: 'مصنوعات میں ترمیم',
-    addCustomer: 'نیا گاہک',
-    editCustomer: 'گاہک میں ترمیم',
-    addOrder: 'نیا آرڈر',
-    editOrder: 'آرڈر میں ترمیم',
-    addTransaction: 'نیا لین دین',
-    save: 'محفوظ کریں',
-    cancel: 'منسوخ کریں',
-    name: 'نام',
-    description: 'تفصیل',
-    category: 'زمرہ',
-    price: 'قیمت',
-    cost: 'لاگت',
-    stock: 'اسٹاک',
-    email: 'ای میل',
-    phone: 'فون',
-    city: 'شہر',
-    address: 'پتہ',
-    customer: 'گاہک',
-    amount: 'رقم',
-    status: 'حالت',
-    payment: 'ادائیگی',
-    notes: 'نوٹس',
-    type: 'قسم',
-    income: 'آمدنی',
-    expense: 'خرچ',
-    selectCustomer: '— گاہک منتخب کریں —',
-    noCustomer: '— کوئی نہیں —',
-  }
+  en: {confirmDelete:'Are you sure you want to delete this?',saved:'Saved successfully',updated:'Updated successfully',deleted:'Deleted successfully',errorRequired:'Please fill all required fields',errorPassword:'Password must be at least 6 characters',loginSuccess:'Login successful',signupSuccess:'Account created successfully',logoutSuccess:'Logged out',orderStatusUpdated:'Order status updated',loading:'Loading...',none:'—',noProducts:'No products yet',noCustomers:'No customers yet',noOrders:'No orders yet',noTransactions:'No transactions yet',addProduct:'New Product',editProduct:'Edit Product',addCustomer:'New Customer',editCustomer:'Edit Customer',addOrder:'New Order',editOrder:'Edit Order',addTransaction:'New Transaction',save:'Save',cancel:'Cancel',name:'Name',description:'Description',category:'Category',price:'Price',cost:'Cost',stock:'Stock',email:'Email',phone:'Phone',city:'City',address:'Address',customer:'Customer',amount:'Amount',status:'Status',payment:'Payment',notes:'Notes',type:'Type',income:'Income',expense:'Expense',selectCustomer:'— Select Customer —',noCustomer:'— None —'},
+  ur: {confirmDelete:'کیا آپ واقعی ڈیلیٹ کرنا چاہتے ہیں؟',saved:'کامیابی سے محفوظ ہو گیا',updated:'کامیابی سے اپ ڈیٹ ہو گیا',deleted:'ڈیلیٹ ہو گیا',errorRequired:'تمام ضروری خانے پُر کریں',errorPassword:'پاس ورڈ کم از کم 6 حروف کا ہو',loginSuccess:'کامیابی سے لاگ ان ہو گئے',signupSuccess:'اکاؤنٹ کامیابی سے بن گیا',logoutSuccess:'لاگ آؤٹ ہو گئے',orderStatusUpdated:'حالت اپ ڈیٹ ہو گئی',loading:'لوڈ ہو رہا ہے...',none:'—',noProducts:'ابھی کوئی مصنوعات نہیں',noCustomers:'ابھی کوئی گاہک نہیں',noOrders:'ابھی کوئی آرڈر نہیں',noTransactions:'ابھی کوئی لین دین نہیں',addProduct:'نئی مصنوعات',editProduct:'مصنوعات میں ترمیم',addCustomer:'نیا گاہک',editCustomer:'گاہک میں ترمیم',addOrder:'نیا آرڈر',editOrder:'آرڈر میں ترمیم',addTransaction:'نیا لین دین',save:'محفوظ کریں',cancel:'منسوخ کریں',name:'نام',description:'تفصیل',category:'زمرہ',price:'قیمت',cost:'لاگت',stock:'اسٹاک',email:'ای میل',phone:'فون',city:'شہر',address:'پتہ',customer:'گاہک',amount:'رقم',status:'حالت',payment:'ادائیگی',notes:'نوٹس',type:'قسم',income:'آمدنی',expense:'خرچ',selectCustomer:'— گاہک منتخب کریں —',noCustomer:'— کوئی نہیں —'}
 };
+function t(key){return I18N[currentLang][key] || key}
 
-function t(key) {
-  return I18N[currentLang][key] || key;
-}
-
-// ========== LANGUAGE ==========
-function setLanguage(lang) {
+function setLanguage(lang){
   currentLang = lang;
   localStorage.setItem('velocto_lang', lang);
-
   const html = document.getElementById('html-root');
   html.lang = lang;
   html.dir = lang === 'ur' ? 'rtl' : 'ltr';
-
-  document.querySelectorAll('[data-en][data-ur]').forEach(el => {
+  document.querySelectorAll('[data-en][data-ur]').forEach(el=>{
     const text = el.getAttribute('data-' + lang);
     if (text !== null) el.textContent = text;
   });
-
-  document.querySelectorAll('.lang-btn').forEach(b => {
+  document.querySelectorAll('.lang-btn').forEach(b=>{
     b.classList.toggle('active', b.dataset.lang === lang);
   });
-
   if (currentUser) {
-    renderProducts();
-    renderCustomers();
-    renderOrders();
-    renderTransactions();
+    renderProducts(); renderCustomers(); renderOrders(); renderTransactions();
   }
 }
 
-// ========== NAVIGATION ==========
-function showPage(page) {
-  ['landing', 'login', 'signup', 'dashboard'].forEach(p => {
+function showPage(page){
+  ['landing', 'login', 'signup', 'dashboard'].forEach(p=>{
     const el = document.getElementById(p + '-page');
     if (el) el.classList.add('hidden');
   });
@@ -1765,774 +553,348 @@ function showPage(page) {
   if (target) {
     target.classList.remove('hidden');
     target.classList.add('fade-in');
-    setTimeout(() => target.classList.remove('fade-in'), 500);
+    setTimeout(()=>target.classList.remove('fade-in'), 500);
   }
   window.scrollTo(0, 0);
-
   const loginErr = document.getElementById('login-error');
   const signupErr = document.getElementById('signup-error');
   if (loginErr) loginErr.innerHTML = '';
   if (signupErr) signupErr.innerHTML = '';
 }
 
-// ========== TOAST ==========
-function showToast(msg, type = 'success') {
+function showToast(msg, type='success'){
   const toast = document.createElement('div');
   toast.className = 'toast' + (type === 'error' ? ' error' : '');
   toast.textContent = msg;
   document.getElementById('toast-root').appendChild(toast);
-  setTimeout(() => {
+  setTimeout(()=>{
     toast.style.animation = 'slideUp .3s ease reverse';
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(()=>toast.remove(), 300);
   }, 3000);
 }
 
-// ========== LOADING ==========
-function showLoading(show) {
+function showLoading(show){
   const el = document.getElementById('loading-overlay');
   if (el) el.classList.toggle('hidden', !show);
 }
 
-// ========== SIGNUP ==========
-async function handleSignup() {
+async function handleSignup(){
   const name = document.getElementById('signup-name').value.trim();
   const company = document.getElementById('signup-company').value.trim();
   const email = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
   const errEl = document.getElementById('signup-error');
   errEl.innerHTML = '';
-
-  if (!name || !email || !password) {
-    errEl.innerHTML = '<div class="error-msg">' + t('errorRequired') + '</div>';
-    return;
-  }
-  if (password.length < 6) {
-    errEl.innerHTML = '<div class="error-msg">' + t('errorPassword') + '</div>';
-    return;
-  }
-
+  if (!name || !email || !password) {errEl.innerHTML = '<div class="error-msg">' + t('errorRequired') + '</div>'; return;}
+  if (password.length < 6) {errEl.innerHTML = '<div class="error-msg">' + t('errorPassword') + '</div>'; return;}
   const btn = document.getElementById('signup-btn');
   btn.disabled = true;
   const originalText = btn.textContent;
   btn.textContent = t('loading');
-
-  const { data, error } = await sb.auth.signUp({
-    email, password,
-    options: { data: { full_name: name, company_name: company } }
-  });
-
+  const {data, error} = await sb.auth.signUp({email, password, options:{data:{full_name:name, company_name:company}}});
   btn.disabled = false;
   btn.textContent = originalText;
-
-  if (error) {
-    errEl.innerHTML = '<div class="error-msg">' + error.message + '</div>';
-    return;
-  }
-
-  if (data.user) {
-    showToast(t('signupSuccess'));
-    setTimeout(() => loadDashboard(), 600);
-  }
+  if (error) {errEl.innerHTML = '<div class="error-msg">' + error.message + '</div>'; return;}
+  if (data.user) {showToast(t('signupSuccess')); setTimeout(()=>loadDashboard(), 600);}
 }
 
-// ========== LOGIN ==========
-async function handleLogin() {
+async function handleLogin(){
   const email = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
   const errEl = document.getElementById('login-error');
   errEl.innerHTML = '';
-
-  if (!email || !password) {
-    errEl.innerHTML = '<div class="error-msg">' + t('errorRequired') + '</div>';
-    return;
-  }
-
+  if (!email || !password) {errEl.innerHTML = '<div class="error-msg">' + t('errorRequired') + '</div>'; return;}
   const btn = document.getElementById('login-btn');
   btn.disabled = true;
   const originalText = btn.textContent;
   btn.textContent = t('loading');
-
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
-
+  const {data, error} = await sb.auth.signInWithPassword({email, password});
   btn.disabled = false;
   btn.textContent = originalText;
-
-  if (error) {
-    errEl.innerHTML = '<div class="error-msg">' + error.message + '</div>';
-    return;
-  }
-
+  if (error) {errEl.innerHTML = '<div class="error-msg">' + error.message + '</div>'; return;}
   showToast(t('loginSuccess'));
-  setTimeout(() => loadDashboard(), 500);
+  setTimeout(()=>loadDashboard(), 500);
 }
 
-// ========== LOGOUT ==========
-async function handleLogout() {
+async function handleLogout(){
   await sb.auth.signOut();
   currentUser = null;
-  productsData = [];
-  customersData = [];
-  ordersData = [];
-  transactionsData = [];
+  productsData = []; customersData = []; ordersData = []; transactionsData = [];
   showPage('landing');
   showToast(t('logoutSuccess'));
 }
 
-// ========== SESSION ==========
-async function checkSession() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session?.user) {
-    loadDashboard();
-  } else {
-    showPage('landing');
-  }
+async function checkSession(){
+  const {data:{session}} = await sb.auth.getSession();
+  if (session?.user) loadDashboard();
+  else showPage('landing');
 }
 
-// ========== DASHBOARD ==========
-async function loadDashboard() {
-  const { data: { user } } = await sb.auth.getUser();
-  if (!user) { showPage('login'); return; }
+async function loadDashboard(){
+  const {data:{user}} = await sb.auth.getUser();
+  if (!user) {showPage('login'); return;}
   currentUser = user;
-
   const userEmailEl = document.getElementById('user-email');
   if (userEmailEl) userEmailEl.textContent = user.email;
-
   showPage('dashboard');
   showLoading(true);
-
-  await Promise.all([
-    loadProducts(),
-    loadCustomers(),
-    loadOrders(),
-    loadTransactions()
-  ]);
-
+  await Promise.all([loadProducts(), loadCustomers(), loadOrders(), loadTransactions()]);
   updateStats();
   renderChart();
   showLoading(false);
 }
 
-// ========== LOAD DATA ==========
-async function loadProducts() {
-  const { data } = await sb.from('products')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
-  productsData = data || [];
-  renderProducts();
-}
+async function loadProducts(){const {data} = await sb.from('products').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}); productsData = data || []; renderProducts();}
+async function loadCustomers(){const {data} = await sb.from('customers').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}); customersData = data || []; renderCustomers();}
+async function loadOrders(){const {data} = await sb.from('orders').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}); ordersData = data || []; renderOrders();}
+async function loadTransactions(){const {data} = await sb.from('transactions').select('*').eq('user_id', currentUser.id).order('transaction_date', {ascending:false}); transactionsData = data || []; renderTransactions();}
 
-async function loadCustomers() {
-  const { data } = await sb.from('customers')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
-  customersData = data || [];
-  renderCustomers();
-}
-
-async function loadOrders() {
-  const { data } = await sb.from('orders')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
-  ordersData = data || [];
-  renderOrders();
-}
-
-async function loadTransactions() {
-  const { data } = await sb.from('transactions')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('transaction_date', { ascending: false });
-  transactionsData = data || [];
-  renderTransactions();
-}
-
-// ========== STATS ==========
-function updateStats() {
-  const set = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  };
-
+function updateStats(){
+  const set = (id, val)=>{const el = document.getElementById(id); if (el) el.textContent = val;};
   set('stat-products', productsData.length);
   set('stat-customers', customersData.length);
   set('stat-orders', ordersData.length);
-
-  const revenue = ordersData
-    .filter(o => o.payment_status === 'paid')
-    .reduce((s, o) => s + Number(o.total || 0), 0);
+  const revenue = ordersData.filter(o=>o.payment_status === 'paid').reduce((s,o)=>s + Number(o.total || 0), 0);
   set('stat-revenue', '$' + revenue.toFixed(2));
-
-  const income = transactionsData
-    .filter(t => t.type === 'income')
-    .reduce((s, t) => s + Number(t.amount), 0);
-  const expense = transactionsData
-    .filter(t => t.type === 'expense')
-    .reduce((s, t) => s + Number(t.amount), 0);
-
+  const income = transactionsData.filter(t=>t.type === 'income').reduce((s,t)=>s + Number(t.amount), 0);
+  const expense = transactionsData.filter(t=>t.type === 'expense').reduce((s,t)=>s + Number(t.amount), 0);
   set('tx-income', '$' + income.toFixed(2));
   set('tx-expense', '$' + expense.toFixed(2));
   set('tx-balance', '$' + (income - expense).toFixed(2));
 }
 
-// ========== CHART ==========
-function renderChart() {
+function renderChart(){
   const daysEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const daysUr = ['اتوار', 'پیر', 'منگل', 'بدھ', 'جمعرات', 'جمعہ', 'ہفتہ'];
   const days = currentLang === 'ur' ? daysUr : daysEn;
-
   const now = new Date();
-  const labels = [];
-  const values = [];
-
+  const labels = [], values = [];
   for (let i = 6; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
+    const d = new Date(now); d.setDate(d.getDate() - i);
     labels.push(days[d.getDay()]);
-
-    const dayTotal = ordersData
-      .filter(o =>
-        new Date(o.created_at).toDateString() === d.toDateString() &&
-        o.payment_status === 'paid'
-      )
-      .reduce((s, o) => s + Number(o.total || 0), 0);
+    const dayTotal = ordersData.filter(o=>new Date(o.created_at).toDateString() === d.toDateString() && o.payment_status === 'paid').reduce((s,o)=>s + Number(o.total || 0), 0);
     values.push(dayTotal);
   }
-
   const canvas = document.getElementById('revenueChart');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-
   if (revenueChartInstance) revenueChartInstance.destroy();
-
   const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-  gradient.addColorStop(0, 'rgba(22, 163, 74, 0.4)');
-  gradient.addColorStop(1, 'rgba(22, 163, 74, 0)');
-
+  gradient.addColorStop(0, 'rgba(139, 92, 246, 0.4)');
+  gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
   revenueChartInstance = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: currentLang === 'ur' ? 'آمدنی ($)' : 'Revenue ($)',
-        data: values,
-        borderColor: '#22c55e',
-        backgroundColor: gradient,
-        fill: true,
-        tension: 0.4,
-        borderWidth: 2.5,
-        pointBackgroundColor: '#22c55e',
-        pointBorderColor: '#0a0e1a',
-        pointBorderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#0f1729',
-          borderColor: '#16a34a',
-          borderWidth: 1,
-          titleColor: '#f1f5f9',
-          bodyColor: '#94a3b8',
-          padding: 12,
-          cornerRadius: 8,
-          displayColors: false
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#64748b', font: { size: 11, family: 'Courier New' } },
-          grid: { color: 'rgba(148, 163, 184, 0.08)' }
-        },
-        y: {
-          ticks: {
-            color: '#64748b',
-            font: { size: 11, family: 'Courier New' },
-            callback: (v) => '$' + v
-          },
-          grid: { color: 'rgba(148, 163, 184, 0.08)' },
-          beginAtZero: true
-        }
-      }
-    }
+    type:'line',
+    data:{labels, datasets:[{label:currentLang === 'ur' ? 'آمدنی ($)' : 'Revenue ($)', data:values, borderColor:'#8B5CF6', backgroundColor:gradient, fill:true, tension:0.4, borderWidth:2.5, pointBackgroundColor:'#8B5CF6', pointBorderColor:'#0D0E10', pointBorderWidth:2, pointRadius:5, pointHoverRadius:7}]},
+    options:{responsive:true, maintainAspectRatio:true, plugins:{legend:{display:false}, tooltip:{backgroundColor:'#16191E', borderColor:'#8B5CF6', borderWidth:1, titleColor:'#E2E8F0', bodyColor:'#94A3B8', padding:12, cornerRadius:8, displayColors:false}}, scales:{x:{ticks:{color:'#64748B', font:{size:11, family:'Courier New'}}, grid:{color:'rgba(148, 163, 184, 0.08)'}}, y:{ticks:{color:'#64748B', font:{size:11, family:'Courier New'}, callback:v=>'$' + v}, grid:{color:'rgba(148, 163, 184, 0.08)'}, beginAtZero:true}}}
   });
 }
 
-// ========== TABS ==========
-function switchTab(tab) {
+function switchTab(tab){
   currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.tab === tab);
-  });
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.add('hidden'));
   const target = document.getElementById('tab-' + tab);
   if (target) target.classList.remove('hidden');
 }
 
-// ========== HELPERS ==========
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
-  );
-}
-function escapeAttr(s) { return escapeHtml(s); }
+function escapeHtml(s){return String(s || '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
+function escapeAttr(s){return escapeHtml(s)}
+function fmtDate(d){return new Date(d).toLocaleDateString(currentLang === 'ur' ? 'ur-PK' : 'en-US')}
+function fmtStatus(s){return `<span class="status-badge status-${s}">${s}</span>`}
 
-function fmtDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString(currentLang === 'ur' ? 'ur-PK' : 'en-US');
-}
-
-function fmtStatus(s) {
-  return `<span class="status-badge status-${s}">${s}</span>`;
-}
-
-// ========== PRODUCTS ==========
-function renderProducts() {
-  const searchEl = document.getElementById('product-search');
-  const search = (searchEl?.value || '').toLowerCase();
-  const filtered = productsData.filter(p =>
-    p.name.toLowerCase().includes(search) ||
-    (p.category || '').toLowerCase().includes(search)
-  );
+function renderProducts(){
+  const search = (document.getElementById('product-search')?.value || '').toLowerCase();
+  const filtered = productsData.filter(p=>p.name.toLowerCase().includes(search) || (p.category || '').toLowerCase().includes(search));
   const list = document.getElementById('products-list');
   if (!list) return;
-
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty glass">
-        <span class="empty-icon">📦</span>
-        <p>${t('noProducts')}</p>
-      </div>`;
-    return;
-  }
-
-  list.innerHTML = filtered.map(p => `
+  if (filtered.length === 0) {list.innerHTML = `<div class="empty glass"><span class="empty-icon">📦</span><p>${t('noProducts')}</p></div>`; return;}
+  list.innerHTML = filtered.map(p=>`
     <div class="item-card glass">
-      <div class="item-card-head">
-        <div>
-          <h3>${escapeHtml(p.name)}</h3>
-          ${p.category ? `<div class="cat">${escapeHtml(p.category)}</div>` : ''}
-        </div>
-        <div class="item-icon">📦</div>
-      </div>
+      <div class="item-card-head"><div><h3>${escapeHtml(p.name)}</h3>${p.category ? `<div class="cat">${escapeHtml(p.category)}</div>` : ''}</div><div class="item-icon">📦</div></div>
       <p class="desc">${escapeHtml(p.description || 'No description')}</p>
       <div class="item-card-foot">
-        <div>
-          <div class="item-price">$${Number(p.price).toFixed(2)}</div>
-          <div class="item-stock">STOCK: ${p.stock || 0}</div>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-outline btn-sm btn-icon" onclick="editProduct('${p.id}')">✏️</button>
-          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteProduct('${p.id}')">🗑️</button>
-        </div>
+        <div><div class="item-price">$${Number(p.price).toFixed(2)}</div><div class="item-stock">STOCK: ${p.stock || 0}</div></div>
+        <div class="item-actions"><button class="btn btn-outline btn-sm btn-icon" onclick="editProduct('${p.id}')">✏️</button><button class="btn btn-danger btn-sm btn-icon" onclick="deleteProduct('${p.id}')">🗑️</button></div>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function openProductModal(id) {
-  const p = id ? productsData.find(x => x.id === id) : null;
-  showModal(
-    p ? t('editProduct') : t('addProduct'),
-    `
-      <div class="form-group">
-        <label>${t('name')} *</label>
-        <input id="p-name" value="${p ? escapeAttr(p.name) : ''}">
-      </div>
-      <div class="form-group">
-        <label>${t('description')}</label>
-        <textarea id="p-desc" rows="3">${p ? escapeHtml(p.description || '') : ''}</textarea>
-      </div>
-      <div class="form-group">
-        <label>${t('category')}</label>
-        <input id="p-cat" value="${p ? escapeAttr(p.category || '') : ''}">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-        <div class="form-group">
-          <label>${t('price')} *</label>
-          <input type="number" step="0.01" id="p-price" value="${p ? p.price : ''}">
-        </div>
-        <div class="form-group">
-          <label>${t('cost')}</label>
-          <input type="number" step="0.01" id="p-cost" value="${p ? p.cost || '' : ''}">
-        </div>
-        <div class="form-group">
-          <label>${t('stock')}</label>
-          <input type="number" id="p-stock" value="${p ? p.stock || '' : ''}">
-        </div>
-      </div>
-    `,
-    async () => {
-      const name = document.getElementById('p-name').value.trim();
-      const price = Number(document.getElementById('p-price').value);
-      if (!name || !price) { showToast(t('errorRequired'), 'error'); return; }
-
-      const payload = {
-        user_id: currentUser.id,
-        name,
-        description: document.getElementById('p-desc').value.trim(),
-        category: document.getElementById('p-cat').value.trim(),
-        price,
-        cost: Number(document.getElementById('p-cost').value) || 0,
-        stock: Number(document.getElementById('p-stock').value) || 0
-      };
-
-      let error;
-      if (p) ({ error } = await sb.from('products').update(payload).eq('id', p.id));
-      else ({ error } = await sb.from('products').insert(payload));
-
-      if (error) { showToast(error.message, 'error'); return; }
-      showToast(p ? t('updated') : t('saved'));
-      closeModal();
-      await loadProducts();
-      updateStats();
-    }
-  );
+function openProductModal(id){
+  const p = id ? productsData.find(x=>x.id === id) : null;
+  showModal(p ? t('editProduct') : t('addProduct'), `
+    <div class="form-group"><label>${t('name')} *</label><input id="p-name" value="${p ? escapeAttr(p.name) : ''}"></div>
+    <div class="form-group"><label>${t('description')}</label><textarea id="p-desc" rows="3">${p ? escapeHtml(p.description || '') : ''}</textarea></div>
+    <div class="form-group"><label>${t('category')}</label><input id="p-cat" value="${p ? escapeAttr(p.category || '') : ''}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div class="form-group"><label>${t('price')} *</label><input type="number" step="0.01" id="p-price" value="${p ? p.price : ''}"></div>
+      <div class="form-group"><label>${t('cost')}</label><input type="number" step="0.01" id="p-cost" value="${p ? p.cost || '' : ''}"></div>
+      <div class="form-group"><label>${t('stock')}</label><input type="number" id="p-stock" value="${p ? p.stock || '' : ''}"></div>
+    </div>`, async ()=>{
+    const name = document.getElementById('p-name').value.trim();
+    const price = Number(document.getElementById('p-price').value);
+    if (!name || !price) {showToast(t('errorRequired'), 'error'); return;}
+    const payload = {user_id:currentUser.id, name, description:document.getElementById('p-desc').value.trim(), category:document.getElementById('p-cat').value.trim(), price, cost:Number(document.getElementById('p-cost').value) || 0, stock:Number(document.getElementById('p-stock').value) || 0};
+    let error;
+    if (p) ({error} = await sb.from('products').update(payload).eq('id', p.id));
+    else ({error} = await sb.from('products').insert(payload));
+    if (error) {showToast(error.message, 'error'); return;}
+    showToast(p ? t('updated') : t('saved'));
+    closeModal();
+    await loadProducts();
+    updateStats();
+  });
 }
-
-function editProduct(id) { openProductModal(id); }
-
-async function deleteProduct(id) {
+function editProduct(id){openProductModal(id)}
+async function deleteProduct(id){
   if (!confirm(t('confirmDelete'))) return;
-  const { error } = await sb.from('products').delete().eq('id', id);
-  if (error) { showToast(error.message, 'error'); return; }
+  const {error} = await sb.from('products').delete().eq('id', id);
+  if (error) {showToast(error.message, 'error'); return;}
   showToast(t('deleted'));
-  await loadProducts();
-  updateStats();
+  await loadProducts(); updateStats();
 }
 
-// ========== CUSTOMERS ==========
-function renderCustomers() {
-  const searchEl = document.getElementById('customer-search');
-  const search = (searchEl?.value || '').toLowerCase();
-  const filtered = customersData.filter(c =>
-    c.name.toLowerCase().includes(search) ||
-    (c.email || '').toLowerCase().includes(search) ||
-    (c.phone || '').includes(search)
-  );
+function renderCustomers(){
+  const search = (document.getElementById('customer-search')?.value || '').toLowerCase();
+  const filtered = customersData.filter(c=>c.name.toLowerCase().includes(search) || (c.email || '').toLowerCase().includes(search) || (c.phone || '').includes(search));
   const tbody = document.getElementById('customers-list');
   if (!tbody) return;
-
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5">
-      <div class="empty">
-        <span class="empty-icon">👥</span>
-        <p>${t('noCustomers')}</p>
-      </div>
-    </td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = filtered.map(c => `
+  if (filtered.length === 0) {tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><span class="empty-icon">👥</span><p>${t('noCustomers')}</p></div></td></tr>`; return;}
+  tbody.innerHTML = filtered.map(c=>`
     <tr>
       <td><strong>${escapeHtml(c.name)}</strong></td>
       <td style="color:var(--muted)">${escapeHtml(c.email || t('none'))}</td>
       <td style="color:var(--muted)">${escapeHtml(c.phone || t('none'))}</td>
       <td style="color:var(--muted)">${escapeHtml(c.city || t('none'))}</td>
-      <td>
-        <button class="btn btn-outline btn-sm btn-icon" onclick="editCustomer('${c.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteCustomer('${c.id}')">🗑️</button>
-      </td>
-    </tr>
-  `).join('');
+      <td><button class="btn btn-outline btn-sm btn-icon" onclick="editCustomer('${c.id}')">✏️</button><button class="btn btn-danger btn-sm btn-icon" onclick="deleteCustomer('${c.id}')">🗑️</button></td>
+    </tr>`).join('');
 }
-
-function openCustomerModal(id) {
-  const c = id ? customersData.find(x => x.id === id) : null;
-  showModal(
-    c ? t('editCustomer') : t('addCustomer'),
-    `
-      <div class="form-group">
-        <label>${t('name')} *</label>
-        <input id="c-name" value="${c ? escapeAttr(c.name) : ''}">
-      </div>
-      <div class="form-group">
-        <label>${t('email')}</label>
-        <input type="email" id="c-email" value="${c ? escapeAttr(c.email || '') : ''}">
-      </div>
-      <div class="form-group">
-        <label>${t('phone')}</label>
-        <input id="c-phone" value="${c ? escapeAttr(c.phone || '') : ''}">
-      </div>
-      <div class="form-group">
-        <label>${t('city')}</label>
-        <input id="c-city" value="${c ? escapeAttr(c.city || '') : ''}">
-      </div>
-      <div class="form-group">
-        <label>${t('address')}</label>
-        <textarea id="c-addr" rows="2">${c ? escapeHtml(c.address || '') : ''}</textarea>
-      </div>
-    `,
-    async () => {
-      const name = document.getElementById('c-name').value.trim();
-      if (!name) { showToast(t('errorRequired'), 'error'); return; }
-
-      const payload = {
-        user_id: currentUser.id,
-        name,
-        email: document.getElementById('c-email').value.trim(),
-        phone: document.getElementById('c-phone').value.trim(),
-        city: document.getElementById('c-city').value.trim(),
-        address: document.getElementById('c-addr').value.trim()
-      };
-
-      let error;
-      if (c) ({ error } = await sb.from('customers').update(payload).eq('id', c.id));
-      else ({ error } = await sb.from('customers').insert(payload));
-
-      if (error) { showToast(error.message, 'error'); return; }
-      showToast(c ? t('updated') : t('saved'));
-      closeModal();
-      await loadCustomers();
-      updateStats();
-    }
-  );
+function openCustomerModal(id){
+  const c = id ? customersData.find(x=>x.id === id) : null;
+  showModal(c ? t('editCustomer') : t('addCustomer'), `
+    <div class="form-group"><label>${t('name')} *</label><input id="c-name" value="${c ? escapeAttr(c.name) : ''}"></div>
+    <div class="form-group"><label>${t('email')}</label><input type="email" id="c-email" value="${c ? escapeAttr(c.email || '') : ''}"></div>
+    <div class="form-group"><label>${t('phone')}</label><input id="c-phone" value="${c ? escapeAttr(c.phone || '') : ''}"></div>
+    <div class="form-group"><label>${t('city')}</label><input id="c-city" value="${c ? escapeAttr(c.city || '') : ''}"></div>
+    <div class="form-group"><label>${t('address')}</label><textarea id="c-addr" rows="2">${c ? escapeHtml(c.address || '') : ''}</textarea></div>`, async ()=>{
+    const name = document.getElementById('c-name').value.trim();
+    if (!name) {showToast(t('errorRequired'), 'error'); return;}
+    const payload = {user_id:currentUser.id, name, email:document.getElementById('c-email').value.trim(), phone:document.getElementById('c-phone').value.trim(), city:document.getElementById('c-city').value.trim(), address:document.getElementById('c-addr').value.trim()};
+    let error;
+    if (c) ({error} = await sb.from('customers').update(payload).eq('id', c.id));
+    else ({error} = await sb.from('customers').insert(payload));
+    if (error) {showToast(error.message, 'error'); return;}
+    showToast(c ? t('updated') : t('saved'));
+    closeModal();
+    await loadCustomers(); updateStats();
+  });
 }
-
-function editCustomer(id) { openCustomerModal(id); }
-
-async function deleteCustomer(id) {
+function editCustomer(id){openCustomerModal(id)}
+async function deleteCustomer(id){
   if (!confirm(t('confirmDelete'))) return;
-  const { error } = await sb.from('customers').delete().eq('id', id);
-  if (error) { showToast(error.message, 'error'); return; }
+  const {error} = await sb.from('customers').delete().eq('id', id);
+  if (error) {showToast(error.message, 'error'); return;}
   showToast(t('deleted'));
-  await loadCustomers();
-  updateStats();
+  await loadCustomers(); updateStats();
 }
 
-// ========== ORDERS ==========
-function renderOrders() {
+function renderOrders(){
   const tbody = document.getElementById('orders-list');
   if (!tbody) return;
-
-  if (ordersData.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6">
-      <div class="empty">
-        <span class="empty-icon">📋</span>
-        <p>${t('noOrders')}</p>
-      </div>
-    </td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = ordersData.map(o => {
-    const cust = customersData.find(c => c.id === o.customer_id);
-    return `
-      <tr>
-        <td class="mono" style="color:var(--secondary);font-size:12px">${o.order_number || o.id.slice(0, 8)}</td>
-        <td>${cust ? escapeHtml(cust.name) : t('none')}</td>
-        <td><strong>$${Number(o.total || 0).toFixed(2)}</strong></td>
-        <td>
-          <select onchange="updateOrderStatus('${o.id}', this.value)"
-                  style="padding:5px 10px;font-size:11px;width:auto;border-radius:50px;background:rgba(10,14,26,.8)">
-            ${['pending', 'processing', 'completed', 'cancelled', 'refunded'].map(s =>
-              `<option value="${s}" ${o.status === s ? 'selected' : ''}>${s}</option>`
-            ).join('')}
-          </select>
-        </td>
-        <td>${fmtStatus(o.payment_status)}</td>
-        <td>
-          <button class="btn btn-outline btn-sm btn-icon" onclick="editOrder('${o.id}')">✏️</button>
-          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteOrder('${o.id}')">🗑️</button>
-        </td>
-      </tr>
-    `;
+  if (ordersData.length === 0) {tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><span class="empty-icon">📋</span><p>${t('noOrders')}</p></div></td></tr>`; return;}
+  tbody.innerHTML = ordersData.map(o=>{
+    const cust = customersData.find(c=>c.id === o.customer_id);
+    return `<tr>
+      <td class="mono" style="color:var(--secondary);font-size:12px">${o.order_number || o.id.slice(0, 8)}</td>
+      <td>${cust ? escapeHtml(cust.name) : t('none')}</td>
+      <td><strong>$${Number(o.total || 0).toFixed(2)}</strong></td>
+      <td><select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:5px 10px;font-size:11px;width:auto;border-radius:50px;background:rgba(13,14,16,.8)">${['pending','processing','completed','cancelled','refunded'].map(s=>`<option value="${s}" ${o.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
+      <td>${fmtStatus(o.payment_status)}</td>
+      <td><button class="btn btn-outline btn-sm btn-icon" onclick="editOrder('${o.id}')">✏️</button><button class="btn btn-danger btn-sm btn-icon" onclick="deleteOrder('${o.id}')">🗑️</button></td>
+    </tr>`;
   }).join('');
 }
-
-function openOrderModal(id) {
-  const o = id ? ordersData.find(x => x.id === id) : null;
-  const custOptions = customersData.map(c =>
-    `<option value="${c.id}" ${o && o.customer_id === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`
-  ).join('');
-
-  showModal(
-    o ? t('editOrder') : t('addOrder'),
-    `
-      <div class="form-group">
-        <label>${t('customer')}</label>
-        <select id="o-cust">
-          <option value="">${t('noCustomer')}</option>
-          ${custOptions}
-        </select>
-      </div>
-      <div class="form-group">
-        <label>${t('amount')} *</label>
-        <input type="number" step="0.01" id="o-total" value="${o ? o.total : ''}">
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group">
-          <label>${t('status')}</label>
-          <select id="o-status">
-            ${['pending', 'processing', 'completed', 'cancelled', 'refunded'].map(s =>
-              `<option value="${s}" ${o && o.status === s ? 'selected' : ''}>${s}</option>`
-            ).join('')}
-          </select>
-        </div>
-        <div class="form-group">
-          <label>${t('payment')}</label>
-          <select id="o-payment">
-            ${['unpaid', 'paid', 'partial', 'failed'].map(s =>
-              `<option value="${s}" ${o && o.payment_status === s ? 'selected' : ''}>${s}</option>`
-            ).join('')}
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>${t('notes')}</label>
-        <textarea id="o-notes" rows="2">${o ? escapeHtml(o.notes || '') : ''}</textarea>
-      </div>
-    `,
-    async () => {
-      const total = Number(document.getElementById('o-total').value);
-      if (!total) { showToast(t('errorRequired'), 'error'); return; }
-
-      const payload = {
-        user_id: currentUser.id,
-        customer_id: document.getElementById('o-cust').value || null,
-        total,
-        subtotal: total,
-        status: document.getElementById('o-status').value,
-        payment_status: document.getElementById('o-payment').value,
-        notes: document.getElementById('o-notes').value.trim()
-      };
-
-      let error;
-      if (o) ({ error } = await sb.from('orders').update(payload).eq('id', o.id));
-      else ({ error } = await sb.from('orders').insert(payload));
-
-      if (error) { showToast(error.message, 'error'); return; }
-      showToast(o ? t('updated') : t('saved'));
-      closeModal();
-      await loadOrders();
-      updateStats();
-      renderChart();
-    }
-  );
+function openOrderModal(id){
+  const o = id ? ordersData.find(x=>x.id === id) : null;
+  const custOptions = customersData.map(c=>`<option value="${c.id}" ${o && o.customer_id === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`).join('');
+  showModal(o ? t('editOrder') : t('addOrder'), `
+    <div class="form-group"><label>${t('customer')}</label><select id="o-cust"><option value="">${t('noCustomer')}</option>${custOptions}</select></div>
+    <div class="form-group"><label>${t('amount')} *</label><input type="number" step="0.01" id="o-total" value="${o ? o.total : ''}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>${t('status')}</label><select id="o-status">${['pending','processing','completed','cancelled','refunded'].map(s=>`<option value="${s}" ${o && o.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label>${t('payment')}</label><select id="o-payment">${['unpaid','paid','partial','failed'].map(s=>`<option value="${s}" ${o && o.payment_status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label>${t('notes')}</label><textarea id="o-notes" rows="2">${o ? escapeHtml(o.notes || '') : ''}</textarea></div>`, async ()=>{
+    const total = Number(document.getElementById('o-total').value);
+    if (!total) {showToast(t('errorRequired'), 'error'); return;}
+    const payload = {user_id:currentUser.id, customer_id:document.getElementById('o-cust').value || null, total, subtotal:total, status:document.getElementById('o-status').value, payment_status:document.getElementById('o-payment').value, notes:document.getElementById('o-notes').value.trim()};
+    let error;
+    if (o) ({error} = await sb.from('orders').update(payload).eq('id', o.id));
+    else ({error} = await sb.from('orders').insert(payload));
+    if (error) {showToast(error.message, 'error'); return;}
+    showToast(o ? t('updated') : t('saved'));
+    closeModal();
+    await loadOrders(); updateStats(); renderChart();
+  });
 }
-
-function editOrder(id) { openOrderModal(id); }
-
-async function updateOrderStatus(id, status) {
-  const { error } = await sb.from('orders').update({ status }).eq('id', id);
-  if (error) { showToast(error.message, 'error'); return; }
+function editOrder(id){openOrderModal(id)}
+async function updateOrderStatus(id, status){
+  const {error} = await sb.from('orders').update({status}).eq('id', id);
+  if (error) {showToast(error.message, 'error'); return;}
   showToast(t('orderStatusUpdated'));
-  await loadOrders();
-  renderChart();
+  await loadOrders(); renderChart();
 }
-
-async function deleteOrder(id) {
+async function deleteOrder(id){
   if (!confirm(t('confirmDelete'))) return;
-  const { error } = await sb.from('orders').delete().eq('id', id);
-  if (error) { showToast(error.message, 'error'); return; }
+  const {error} = await sb.from('orders').delete().eq('id', id);
+  if (error) {showToast(error.message, 'error'); return;}
   showToast(t('deleted'));
-  await loadOrders();
-  updateStats();
-  renderChart();
+  await loadOrders(); updateStats(); renderChart();
 }
 
-// ========== TRANSACTIONS ==========
-function renderTransactions() {
+function renderTransactions(){
   const tbody = document.getElementById('transactions-list');
   if (!tbody) return;
-
-  if (transactionsData.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6">
-      <div class="empty">
-        <span class="empty-icon">💰</span>
-        <p>${t('noTransactions')}</p>
-      </div>
-    </td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = transactionsData.map(tx => `
+  if (transactionsData.length === 0) {tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><span class="empty-icon">💰</span><p>${t('noTransactions')}</p></div></td></tr>`; return;}
+  tbody.innerHTML = transactionsData.map(tx=>`
     <tr>
       <td>${fmtStatus(tx.type === 'income' ? 'completed' : 'cancelled')}</td>
       <td><strong>$${Number(tx.amount).toFixed(2)}</strong></td>
       <td style="color:var(--muted)">${escapeHtml(tx.category || t('none'))}</td>
       <td style="color:var(--muted)">${escapeHtml(tx.description || t('none'))}</td>
       <td style="color:var(--muted);font-size:12px">${fmtDate(tx.transaction_date)}</td>
-      <td>
-        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteTransaction('${tx.id}')">🗑️</button>
-      </td>
-    </tr>
-  `).join('');
+      <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteTransaction('${tx.id}')">🗑️</button></td>
+    </tr>`).join('');
 }
-
-function openTransactionModal() {
-  showModal(
-    t('addTransaction'),
-    `
-      <div class="form-group">
-        <label>${t('type')} *</label>
-        <select id="t-type">
-          <option value="income">${t('income')}</option>
-          <option value="expense">${t('expense')}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>${t('amount')} *</label>
-        <input type="number" step="0.01" id="t-amt">
-      </div>
-      <div class="form-group">
-        <label>${t('category')}</label>
-        <input id="t-cat">
-      </div>
-      <div class="form-group">
-        <label>${t('description')}</label>
-        <textarea id="t-desc" rows="2"></textarea>
-      </div>
-    `,
-    async () => {
-      const amt = Number(document.getElementById('t-amt').value);
-      if (!amt) { showToast(t('errorRequired'), 'error'); return; }
-
-      const { error } = await sb.from('transactions').insert({
-        user_id: currentUser.id,
-        type: document.getElementById('t-type').value,
-        amount: amt,
-        category: document.getElementById('t-cat').value.trim(),
-        description: document.getElementById('t-desc').value.trim()
-      });
-
-      if (error) { showToast(error.message, 'error'); return; }
-      showToast(t('saved'));
-      closeModal();
-      await loadTransactions();
-      updateStats();
-    }
-  );
+function openTransactionModal(){
+  showModal(t('addTransaction'), `
+    <div class="form-group"><label>${t('type')} *</label><select id="t-type"><option value="income">${t('income')}</option><option value="expense">${t('expense')}</option></select></div>
+    <div class="form-group"><label>${t('amount')} *</label><input type="number" step="0.01" id="t-amt"></div>
+    <div class="form-group"><label>${t('category')}</label><input id="t-cat"></div>
+    <div class="form-group"><label>${t('description')}</label><textarea id="t-desc" rows="2"></textarea></div>`, async ()=>{
+    const amt = Number(document.getElementById('t-amt').value);
+    if (!amt) {showToast(t('errorRequired'), 'error'); return;}
+    const {error} = await sb.from('transactions').insert({user_id:currentUser.id, type:document.getElementById('t-type').value, amount:amt, category:document.getElementById('t-cat').value.trim(), description:document.getElementById('t-desc').value.trim()});
+    if (error) {showToast(error.message, 'error'); return;}
+    showToast(t('saved'));
+    closeModal();
+    await loadTransactions(); updateStats();
+  });
 }
-
-async function deleteTransaction(id) {
+async function deleteTransaction(id){
   if (!confirm(t('confirmDelete'))) return;
-  const { error } = await sb.from('transactions').delete().eq('id', id);
-  if (error) { showToast(error.message, 'error'); return; }
+  const {error} = await sb.from('transactions').delete().eq('id', id);
+  if (error) {showToast(error.message, 'error'); return;}
   showToast(t('deleted'));
-  await loadTransactions();
-  updateStats();
+  await loadTransactions(); updateStats();
 }
 
-// ========== MODAL ==========
 let modalSaveHandler = null;
-
-function showModal(title, bodyHtml, onSave) {
+function showModal(title, bodyHtml, onSave){
   modalSaveHandler = onSave;
   document.getElementById('modal-root').innerHTML = `
     <div class="modal-bg" onclick="if(event.target===this)closeModal()">
       <div class="modal">
-        <div class="modal-head">
-          <h3>${title}</h3>
-          <button class="modal-close" onclick="closeModal()">✕</button>
-        </div>
+        <div class="modal-head"><h3>${title}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
         <div class="modal-body">
           ${bodyHtml}
           <div class="modal-actions">
@@ -2541,52 +903,40 @@ function showModal(title, bodyHtml, onSave) {
           </div>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
   document.body.style.overflow = 'hidden';
 }
-
-function closeModal() {
+function closeModal(){
   document.getElementById('modal-root').innerHTML = '';
   modalSaveHandler = null;
   document.body.style.overflow = '';
 }
 
-// ========== KEYBOARD ==========
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', e=>{
   if (e.key === 'Escape') closeModal();
-  if (e.key === 'Enter' && e.ctrlKey) {
-    if (modalSaveHandler) modalSaveHandler();
-  }
+  if (e.key === 'Enter' && e.ctrlKey) {if (modalSaveHandler) modalSaveHandler();}
 });
 
-// ========== CLOCK ==========
-function updateClock() {
+function updateClock(){
   const now = new Date();
-  const time = now.toLocaleTimeString('en-GB', { hour12: false });
+  const time = now.toLocaleTimeString('en-GB', {hour12:false});
   const topClock = document.getElementById('top-status-clock');
   const dashClock = document.getElementById('dash-clock');
   if (topClock) topClock.textContent = time + ' UTC';
   if (dashClock) dashClock.textContent = time;
 }
 
-// ========== INIT ==========
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', ()=>{
   setLanguage(currentLang);
   setInterval(updateClock, 1000);
   updateClock();
   checkSession();
 });
 
-// ========== AUTH STATE ==========
-sb.auth.onAuthStateChange((event) => {
-  if (event === 'SIGNED_OUT') {
-    currentUser = null;
-    showPage('landing');
-  }
+sb.auth.onAuthStateChange(event=>{
+  if (event === 'SIGNED_OUT') {currentUser = null; showPage('landing');}
 });
-  
-// ========== GLOBAL EXPORTS ==========
+
 window.setLanguage = setLanguage;
 window.showPage = showPage;
 window.handleLogin = handleLogin;
